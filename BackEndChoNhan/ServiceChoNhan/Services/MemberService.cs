@@ -11,7 +11,7 @@ namespace ServiceChoNhan.Services
     {
         bool Insert(Member entity);
         bool Update(Member entity);
-        bool Delete(int Id);
+        //bool Delete(int Id);
         bool Delete(string userName);
 
     }
@@ -27,10 +27,10 @@ namespace ServiceChoNhan.Services
             return true;
         }
 
-        public bool Delete(int Id)
-        {
-            return true;
-        }
+        //public bool Delete(int Id)
+        //{
+        //    return true;
+        //}
 
         public bool Delete(string userName)
         {
