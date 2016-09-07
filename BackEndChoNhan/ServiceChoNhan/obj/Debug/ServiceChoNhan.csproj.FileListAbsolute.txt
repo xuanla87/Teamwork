@@ -8,3 +8,13 @@ F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFra
 F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.csprojResolveAssemblyReference.cache
 F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.dll
 F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.pdb
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.dll.config
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.dll
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.pdb
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.dll
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.SqlServer.dll
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.xml
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.SqlServer.xml
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.csprojResolveAssemblyReference.cache
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.dll
+G:\Teamworks\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.pdb
