@@ -1,0 +1,10 @@
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.dll.config
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.dll
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\ServiceChoNhan.pdb
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.dll
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.SqlServer.dll
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.xml
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\bin\Debug\EntityFramework.SqlServer.xml
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.csprojResolveAssemblyReference.cache
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.dll
+F:\Code\ASP.NET\BackEndChoNhan\BackEndChoNhan\ServiceChoNhan\obj\Debug\ServiceChoNhan.pdb
