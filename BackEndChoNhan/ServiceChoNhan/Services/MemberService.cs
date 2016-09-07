@@ -21,12 +21,16 @@ namespace ServiceChoNhan.Services
         {
             return true;
         }
-
+        /// <summary>
+        /// Nguyễn đức Bắc
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public bool Update(Member entity)
         {
             return true;
         }
-
+        
         //public bool Delete(int Id)
         //{
         //    return true;
