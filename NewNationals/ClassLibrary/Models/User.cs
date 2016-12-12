@@ -26,15 +26,15 @@ namespace ClassLibrary.Models
         [StringLength(50)]
         public string FullName { get; set; }
 
-        [StringLength(50)]
+        [StringLength(500)]
         public string Avatar { get; set; }
 
-        public byte Status { get; set; }
+        public int Status { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
-        public long RoleId { get; set; }
+        public long? RoleId { get; set; }
     }
 }

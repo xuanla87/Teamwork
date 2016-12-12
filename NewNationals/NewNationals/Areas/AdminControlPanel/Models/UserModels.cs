@@ -35,7 +35,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         public string Avatar { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public byte? Status { get; set; }
+        public int Status { get; set; }
 
         [Display(Name = "Ngày tạo")]
         public DateTime? CreateDate { get; set; }

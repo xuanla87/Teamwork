@@ -30,7 +30,7 @@ namespace ClassLibrary.Models
         [StringLength(250)]
         public string Description { get; set; }
 
-        public bool? Status { get; set; }
+        public int Status { get; set; }
 
         public long? ParentId { get; set; }
     }

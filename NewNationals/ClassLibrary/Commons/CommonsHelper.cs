@@ -55,7 +55,33 @@ namespace ClassLibrary.Commons
             };
             return getStatus;
         }
-
+        /// <summary>
+        /// Chọn trang thai tai khoan
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> StatusAccount()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Cho phép", Value = "1"},
+                new SelectListItem { Text = "Không cho phép", Value = "0" },
+            };
+            return getStatus;
+        }
+        /// <summary>
+        /// Chọn trang thai tai khoan
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> TargetDropdown()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Mở cửa sổ mới", Value = "_blank"},
+                new SelectListItem { Text = "Mở trong Tab hiện tại", Value = "_self" },
+                new SelectListItem { Text = "Mở trong cửa sổ cha", Value = "_parent" }
+            };
+            return getStatus;
+        }
         /// <summary>
         /// Chọn vị trí menu
         /// </summary>
@@ -110,7 +136,7 @@ namespace ClassLibrary.Commons
             string vStrFormD = ipStrChange.Normalize(System.Text.NormalizationForm.FormD);
             string rt = vRegRegex.Replace(vStrFormD, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').Replace(" ", "-").Replace("/", "-");
             rt = rt.Replace("\\", "-").Replace("'", "-").Replace(":", "-").Replace("&", "-").Replace(".", "").Replace(":", "-").Replace("%", "phan-tram").Replace("?", "-").Replace("\"", "-");
-            return rt;
+            return rt.ToLower();
         }
 
         /// <summary>

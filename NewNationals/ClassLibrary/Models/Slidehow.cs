@@ -23,16 +23,16 @@ namespace ClassLibrary.Models
         [StringLength(250)]
         public string TargetUrl { get; set; }
 
-        public byte Order { get; set; }
+        public int? Order { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Tanoxomy { get; set; }
 
-        public bool Status { get; set; }
+        public int? Status { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

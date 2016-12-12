@@ -11,7 +11,7 @@ using NewNationals.Areas.AdminControlPanel.Models;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         UserService userService=new UserService();
         // GET: AdminControlPanel/User

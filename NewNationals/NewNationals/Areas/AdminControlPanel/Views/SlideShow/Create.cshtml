@@ -1,0 +1,145 @@
+﻿@model NewNationals.Areas.AdminControlPanel.Models.SlideShowModels
+@using System.Web.UI.WebControls
+@using ClassLibrary.Services
+@using ClassLibrary.Commons
+@{
+    ViewBag.Title = "Thêm mới slide";
+    Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Thêm mới slide
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Slide tin tức</a></li>
+        <li class="active">Thêm mới</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        <a href="/AdminControlPanel/SlideShow/Index" class="btn btn-block btn-info btn-flat">Danh Sách</a>
+                    </h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Name)</label>
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên slide" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.ImageUrl)</label>
+                                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                    <input id="SelectImage" type="button" value="Chọn ảnh" />
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Note)</label>
+                                    @Html.EditorFor(model => model.Note, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập ghi chú"}})
+                                    @Html.ValidationMessageFor(model => model.Note, "", new {@class = "text-danger"})
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Order)</label>
+                                    @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập vị trí hiển thị kiểu số" } })
+                                    @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.TargetUrl)</label>
+                                    @Html.DropDownListFor(x => x.TargetUrl, new SelectList(CommonsHelper.TargetDropdown(), "Value", "Text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TargetUrl, "", new { @class = "text-danger" })
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Tanoxomy)</label>
+                                    @Html.EditorFor(model => model.Tanoxomy, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập loại hiển thị" } })
+                                    @Html.ValidationMessageFor(model => model.Tanoxomy, "", new { @class = "text-danger" })
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Status)</label>
+                                    @Html.DropDownListFor(x => x.Status, new SelectList(CommonsHelper.StatusAccount(), "Value", "Text"), new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>@Html.LabelFor(model => model.StartDate)</label>
+                                        @Html.TextBoxFor(model => model.StartDate, null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "FromDate" })
+                                        <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label>@Html.LabelFor(model => model.EndDate)</label>
+                                        @Html.TextBoxFor(model => model.EndDate, null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "ToDate" })
+                                        <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn bg-maroon">Lưu Thông Tin</button>
+                                    <a class="btn bg-orange" onclick=" BackIndex() ">Hủy Bỏ</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row (main row) -->
+</section>
+<script src="~/Areas/AdminControlPanel/Content/ckeditor/styles.js"></script>
+<script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#FromDate').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#ToDate').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    });
+    $(function () {
+        $("#SelectImage").click(function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $("#ImageUrl").val(fileUrl);
+            };
+            finder.popup();
+        });
+    });
+    function BackIndex() {
+        var url = "/AdminControlPanel/SlideShow/Index";
+        window.location.assign(url);
+    }
+</script>
+

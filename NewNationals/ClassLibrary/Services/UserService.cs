@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using ClassLibrary.Commons;
 using ClassLibrary.Models;
 
 namespace ClassLibrary.Services
@@ -39,6 +41,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService=new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Thêm tài khoản] " +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -63,10 +73,52 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật tài khoản]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
-
+        /// <summary>
+        /// thuc thi update bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateStatus(int userid, int status)
+        {
+            try
+            {
+                var entity = _db.Users.Find(userid);
+                if (entity != null)
+                {
+                    if (status == 0)
+                        entity.Status = 1;
+                    if (status == 1)
+                        entity.Status = 0;
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch(Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật trạng thái tài khoản]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
         /// <summary>
         /// Hàm thực hiện lệnh Delete
         /// </summary>
@@ -79,13 +131,21 @@ namespace ClassLibrary.Services
                 var user = _db.Users.Find(id);
                 if (user != null)
                 {
-                    _db.Users.Remove(user);
+                    user.Status = -1;
                     _db.SaveChanges();
                 }
                 return true;
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Xóa tài khoản] " +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -109,6 +169,30 @@ namespace ClassLibrary.Services
             }
         }
         /// <summary>
+        /// thuc thi update bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool ChangePass(long userid, string password)
+        {
+            try
+            {
+                var entity = _db.Users.Find(userid);
+                if (entity != null)
+                {
+                    entity.UserPassword = password;
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
         ///  Kiểm tra UserName có tồn tại không
         /// </summary>
         /// <param name="input"></param>
@@ -123,7 +207,7 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public List<User> ListAllUser()
         {
-            return _db.Users.ToList();
+            return _db.Users.Where(x => x.Status != -1).ToList();
         }
 
         /// <summary>
