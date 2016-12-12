@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ClassLibrary.Commons;
 
 namespace NewNationals
 {
@@ -16,6 +17,15 @@ namespace NewNationals
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+        protected void Session_Start()
+        {
+            Session["userid"] = null;
+            Session["username"] = null;
+            Session["fullname"] = null;
+            Session["avatar"] = null;
+            Session["email"] = null;
+            Session.Add(CommonsHelper.SessionAdminCp, null);
         }
     }
 }

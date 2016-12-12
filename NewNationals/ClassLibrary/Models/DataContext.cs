@@ -22,6 +22,7 @@ namespace ClassLibrary.Models
         public virtual DbSet<UserMeta> UserMetas { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<LogSystem> LogSystem { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -22,6 +22,13 @@ namespace ClassLibrary.Models
         [StringLength(250)]
         public string UserPassword { get; set; }
 
+        [Required]
+        [StringLength(50)]
+        public string FullName { get; set; }
+
+        [StringLength(50)]
+        public string Avatar { get; set; }
+
         public byte Status { get; set; }
 
         public DateTime CreateDate { get; set; }
