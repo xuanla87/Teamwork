@@ -281,7 +281,7 @@
                                 <li class="user-body">
                                     <div class="row">
                                         <div class="col-xs-12 text-center">
-                                            <a href="#">Thông tin tài khoản</a>
+                                            <a href="#" onclick="UserInfo()">Thông tin tài khoản</a>
                                         </div>
                                     </div>
                                     <!-- /.row -->
@@ -289,10 +289,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Đổi mật khẩu</a>
+                                        <a href="#" onclick="ChangePass()" class="btn btn-default btn-flat">Đổi mật khẩu</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Đăng xuất</a>
+                                        <a href="#" onclick="Logout()" class="btn btn-default btn-flat">Đăng xuất</a>
                                     </div>
                                 </li>
                             </ul>
@@ -361,13 +361,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li onclick="return SidebarClickEvent('11', 'sidesub001'); " id="11"><a href="/AdminControlPanel/Administrator/Index"><i class="fa fa-circle-o"></i>Tài Khoản</a></li>
-                            <li onclick="return SidebarClickEvent('12','sidesub001');" id="12"><a href="/AdminControlPanel/Quyen/Index"><i class="fa fa-circle-o"></i> Quyền Hệ Thống</a></li>
-                            <li onclick="return SidebarClickEvent('13','sidesub001');" id="13"><a href="/AdminControlPanel/PhanQuyen/Index"><i class="fa fa-circle-o"></i>Phân Quyền</a></li>
-                            @*<li onclick="return SidebarClickEvent('13','sidesub001');" id="13"><a href="/AdminControlPanel/TinTuc/Index"><i class="fa fa-circle-o"></i> Phân Nhóm</a></li>
-                                <li onclick="return SidebarClickEvent('14','sidesub001');" id="14"><a href="/AdminManager/TinTuc/Index"><i class="fa fa-circle-o"></i> Phân Quyền</a></li>
-                                <li onclick="return SidebarClickEvent('15','sidesub001');" id="15"><a href="/AdminManager/TinTuc/Index"><i class="fa fa-circle-o"></i> Cấu Hình</a></li>*@
-                            <li onclick="return SidebarClickEvent('16','sidesub001');" id="16"><a href="/AdminControlPanel/TinTuc/Index"><i class="fa fa-circle-o"></i> Log</a></li>
+                            <li onclick="return SidebarClickEvent('11', 'sidesub001'); " id="11"><a href="/AdminControlPanel/User/Index"><i class="fa fa-circle-o"></i>Người dùng</a></li>
+                            <li onclick="return SidebarClickEvent('12','sidesub001');" id="16"><a href="/AdminControlPanel/LogSystem/ListLogSystem"><i class="fa fa-circle-o"></i> Nhật ký</a></li>
                         </ul>
                     </li>
                     <li onclick="return SidebarClickEvent('s4', 'sidepar001');" id="s4"><a href="#" target="_bank"><i class="fa fa-book"></i> <span>Website</span></a></li>
@@ -425,23 +420,45 @@
 
     <script src="~/Areas/AdminControlPanel/Content/dist/js/demo.js"></script>
     <script src="~/Areas/AdminControlPanel/Content/bootstrap/js/common.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            if (Cookies['sidepar001'] !== undefined) {
-                var par = Cookies['sidepar001'];
-                if (par !== '') {
-                    $('.sidebar-menu>li').removeClass('active');
-                    $('#' + par).attr('class', 'active');
-                }
-            }
-            if (Cookies['sidesub001'] !== undefined) {
-                var sub = Cookies['sidesub001'];
-                if (sub !== undefined) {
-                    $('.sidebar-menu>li>ul>li').removeClass('active');
-                    $('#' + sub).attr('class', 'active');
-                }
+<script type="text/javascript">
+    function Logout() {
+        $.ajax({
+            url: '@Url.Action("LogOut", "Login")',
+            type: "POST",
+            data:{Check:true},
+            success:function(response) {
+                var url = "../Login/UserLogin";
+                window.location.assign(url);
+            },
+            error: function (response) {
+                
             }
         });
-    </script>
+    }
+    function UserInfo() {
+        var url = "@Url.Action("UserInfo", "Home")";
+        window.location.assign(url);
+    }
+    function ChangePass() {
+        var url = "@Url.Action("ChangePass","Home")";
+        window.location.assign(url);
+    }
+    $(function () {
+        if (Cookies['sidepar001'] !== undefined) {
+            var par = Cookies['sidepar001'];
+            if (par !== '') {
+                $('.sidebar-menu>li').removeClass('active');
+                $('#' + par).attr('class', 'active');
+            }
+        }
+        if (Cookies['sidesub001'] !== undefined) {
+            var sub = Cookies['sidesub001'];
+            if (sub !== undefined) {
+                $('.sidebar-menu>li>ul>li').removeClass('active');
+                $('#' + sub).attr('class', 'active');
+            }
+        }
+    });
+</script>
 </body>
 </html>

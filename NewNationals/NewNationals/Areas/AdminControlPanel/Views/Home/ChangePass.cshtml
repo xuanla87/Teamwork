@@ -1,0 +1,71 @@
+﻿@model  NewNationals.Areas.AdminControlPanel.Models.ChangePassModels
+@using System.Web.UI.WebControls
+@using ClassLibrary.Services
+@using ClassLibrary.Commons
+@{
+    ViewBag.Title = "Thêm mới tài khoản";
+    Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Thay đổi mật khẩu
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Tài khoản</a></li>
+        <li class="active">Đổi mật khẩu</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Username)</label>
+                                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tài khoản", @readonly = "true" } })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.PassOld)</label>
+                                    @Html.EditorFor(model => model.PassOld, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mật khẩu cũ", @type = "password" } })
+                                    @Html.ValidationMessageFor(model => model.PassOld, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.PasswordNew)</label>
+                                    @Html.EditorFor(model => model.PasswordNew, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mật khẩu mới" } })
+                                    @Html.ValidationMessageFor(model => model.PasswordNew, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.PasswordNewConfirm)</label>
+                                    @Html.EditorFor(model => model.PasswordNewConfirm, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập lại mật khẩu mới" } })
+                                    @Html.ValidationMessageFor(model => model.PasswordNewConfirm, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn bg-maroon">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row (main row) -->
+</section>

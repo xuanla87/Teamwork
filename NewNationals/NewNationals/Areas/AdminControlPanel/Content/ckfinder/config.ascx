@@ -177,6 +177,13 @@
         type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
         type.DeniedExtensions = new string[] { };
 
+        type = ResourceType.Add("Avatar");
+        type.Url = BaseUrl + "avatar/";
+        type.Dir = BaseDir == "" ? "" : BaseDir + "avatar/";
+        type.MaxSize = 0;
+        type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
+        type.DeniedExtensions = new string[] { };
+
         //      type = ResourceType.Add( "Ssss" );
         //type.Url = BaseUrl + "ssss/";
         //type.Dir = BaseDir == "" ? "" : BaseDir + "ssss/";
@@ -184,12 +191,12 @@
         //type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
         //type.DeniedExtensions = new string[] { };
 
-        type = ResourceType.Add( "Flash" );
-        type.Url = BaseUrl + "flash/";
-        type.Dir = BaseDir == "" ? "" : BaseDir + "flash/";
-        type.MaxSize = 0;
-        type.AllowedExtensions = new string[] { "swf", "flv" };
-        type.DeniedExtensions = new string[] { };
+        //type = ResourceType.Add( "Flash" );
+        //type.Url = BaseUrl + "flash/";
+        //type.Dir = BaseDir == "" ? "" : BaseDir + "flash/";
+        //type.MaxSize = 0;
+        //type.AllowedExtensions = new string[] { "swf", "flv" };
+        //type.DeniedExtensions = new string[] { };
     }
 
 </script>
