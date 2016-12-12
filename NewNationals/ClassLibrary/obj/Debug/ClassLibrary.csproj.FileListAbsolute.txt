@@ -1,0 +1,5 @@
+E:\Code\ASP.NET\NewNationals\ClassLibrary\bin\Debug\ClassLibrary.dll
+E:\Code\ASP.NET\NewNationals\ClassLibrary\bin\Debug\ClassLibrary.pdb
+E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
+E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.dll
+E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.pdb
