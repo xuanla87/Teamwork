@@ -3,3 +3,8 @@ E:\Code\ASP.NET\NewNationals\ClassLibrary\bin\Debug\ClassLibrary.pdb
 E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
 E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.dll
 E:\Code\ASP.NET\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.pdb
+F:\ProjectManager\Teamword_News\NewNationals\ClassLibrary\bin\Debug\ClassLibrary.dll
+F:\ProjectManager\Teamword_News\NewNationals\ClassLibrary\bin\Debug\ClassLibrary.pdb
+F:\ProjectManager\Teamword_News\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
+F:\ProjectManager\Teamword_News\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.dll
+F:\ProjectManager\Teamword_News\NewNationals\ClassLibrary\obj\Debug\ClassLibrary.pdb
