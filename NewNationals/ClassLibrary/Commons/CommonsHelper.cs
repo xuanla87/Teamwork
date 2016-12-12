@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace ClassLibrary.Commons
@@ -129,6 +130,33 @@ namespace ClassLibrary.Commons
                 strBuilder.Append(result[i].ToString("x5"));
             }
             return strBuilder.ToString().ToUpper();
+        }
+        /// <summary>
+        /// Lấy thông tin thông tin địa chỉ IP của user đăng nhập
+        /// </summary>
+        public static string GetIpAddress
+        {
+            get
+            {
+                HttpRequest currentRequest = HttpContext.Current.Request;
+                string ipAddress = currentRequest.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+                if (ipAddress == null || ipAddress.ToLower() == "unknown")
+                    ipAddress = currentRequest.ServerVariables["REMOTE_ADDR"];
+
+                return ipAddress;
+            }
+        }
+
+        /// <summary>
+        /// Lấy thông tin trình duyệt User sử dụng
+        /// </summary>
+        public static string GetPlatform
+        {
+            get
+            {
+                return HttpContext.Current.Request.Browser.Platform;
+            }
         }
     }
 }
