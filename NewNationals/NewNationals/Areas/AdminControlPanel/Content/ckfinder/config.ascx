@@ -184,6 +184,13 @@
         type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
         type.DeniedExtensions = new string[] { };
 
+         type = ResourceType.Add("AnhBaiViet");
+        type.Url = BaseUrl + "AnhBaiViet/";
+        type.Dir = BaseDir == "" ? "" : BaseDir + "AnhBaiViet/";
+        type.MaxSize = 0;
+        type.AllowedExtensions = new string[] { "bmp", "gif", "jpeg", "jpg", "png" };
+        type.DeniedExtensions = new string[] { };
+
         //      type = ResourceType.Add( "Ssss" );
         //type.Url = BaseUrl + "ssss/";
         //type.Dir = BaseDir == "" ? "" : BaseDir + "ssss/";

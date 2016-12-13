@@ -205,6 +205,15 @@ namespace ClassLibrary.Services
             return _db.Categories.Where(x => x.ParentId == null && x.Id != id && x.Status != -1).ToList();
         }
         /// <summary>
+        /// hàm trả về danh sách Category 
+        /// trạng thái =-1 có nghĩa là bản ghi đã bị xóa không hiển thị trên he thống
+        /// </summary>
+        /// <returns></returns>
+        public List<Category> GetSelectListCategory()
+        {
+            return _db.Categories.Where(x=>x.Status != -1).ToList();
+        }
+        /// <summary>
         /// Hàm trả về 1 bản ghi trong Category với ID truyền vào
         /// </summary>
         /// <param name="id"></param>

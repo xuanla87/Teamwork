@@ -158,6 +158,7 @@ namespace ClassLibrary.Services
         {
             return _db.Slidehows.Where(x => x.Status != -1).OrderBy(x => x.Order).ToList();
         }
+
         /// <summary>
         /// Hàm trả về 1 bản ghi trong Slide với ĐK là id truyền vào
         /// </summary>

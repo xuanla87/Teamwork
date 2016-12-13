@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.UI.WebControls;
+using ClassLibrary.Commons;
 using ClassLibrary.Models;
 
 namespace ClassLibrary.Services
@@ -38,6 +42,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Insert Bài viết]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -62,6 +74,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -78,15 +98,71 @@ namespace ClassLibrary.Services
                 var page = _db.Pages.Find(entity.Id);
                 if (page != null)
                 {
-                    _db.Entry(entity).State = EntityState.Modified;
+                    page.Status = -1;
                     _db.SaveChanges();
                 }
                 return true;
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Delete Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
+        }
+        /// <summary>
+        /// Hàm thực hiện lệnh Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateUrl(long id,string url)
+        {
+            try
+            {
+                var page = _db.Pages.Find(id);
+                if (page != null)
+                {
+                    page.Url = url;
+                    _db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Update lại Url Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
+        /// <summary>
+        /// hàm trả về danh sách tất cả bản ghi
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Page> ListAllPage()
+        {
+            return _db.Pages.Where(x => x.Status != -1).OrderByDescending(x => x.CreateDate).ToList();
+        }
+
+        /// <summary>
+        /// hàm trả về 1 bản ghi với id truyền vào
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Page GetPageById(long id)
+        {
+            return _db.Pages.SingleOrDefault(x => x.Id == id);
         }
     }
 }

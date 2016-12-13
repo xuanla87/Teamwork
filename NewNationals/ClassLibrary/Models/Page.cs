@@ -27,7 +27,7 @@ namespace ClassLibrary.Models
         [StringLength(250)]
         public string Description { get; set; }
 
-        public byte Status { get; set; }
+        public int Status { get; set; }
 
         public DateTime CreateDate { get; set; }
 

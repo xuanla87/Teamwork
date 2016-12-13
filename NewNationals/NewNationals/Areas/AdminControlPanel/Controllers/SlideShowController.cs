@@ -20,10 +20,10 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         {
             int pageNum = page ?? 1;
             var showlist = slideService.ListAllSlide();
-            var listlog = new List<SlideShowModels>();
+            var listslide = new List<SlideShowModels>();
             foreach (var item in showlist)
             {
-                listlog.Add(new SlideShowModels()
+                listslide.Add(new SlideShowModels()
                 {
                     Id = item.Id,
                     Name = item.Name,
