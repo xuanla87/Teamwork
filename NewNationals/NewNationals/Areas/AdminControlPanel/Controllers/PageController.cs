@@ -245,5 +245,47 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
         }
         #endregion
+        #region [Delete]
+        [HttpPost]
+        public JsonResult Delete(long id)
+        {
+            var data = true;
+            try
+            {
+                var page = pagService.GetPageById(id);
+                if (page != null)
+                {
+                    // thay đổi trạng thái về -1 coi như bản ghi đã bị xóa
+                    //page.Status = -1;
+                    pagService.Delete(page);
+                }
+            }
+            catch (Exception)
+            {
+                data = false;
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region [Update Status]
+        [HttpPost]
+        public JsonResult UpdateStatus(int id, int status)
+        {
+            var data = true;
+            try
+            {
+                var page = pagService.GetPageById(id);
+                if (page != null)
+                {
+                    pagService.UpdateStatus(id, status);
+                }
+            }
+            catch (Exception)
+            {
+                data = false;
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

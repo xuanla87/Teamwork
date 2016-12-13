@@ -147,6 +147,41 @@ namespace ClassLibrary.Services
             }
         }
         /// <summary>
+        /// thuc thi update bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateStatus(int pagid, int status)
+        {
+            try
+            {
+                var entity = _db.Pages.Find(pagid);
+                if (entity != null)
+                {
+                    if (status == 0)
+                        entity.Status = 1;
+                    if (status == 1)
+                        entity.Status = 0;
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật Status Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
+        /// <summary>
         /// hàm trả về danh sách tất cả bản ghi
         /// </summary>
         /// <returns></returns>

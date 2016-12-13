@@ -215,7 +215,7 @@
         var status = $(elem).data('status');
         $.ajax({
             type: "GET",
-            url: '@Url.Action("updateStatus", "Page")',
+            url: '@Url.Action("UpdateStatus", "Page")',
             data: { id: id, status: status },
             success: function (data) {
                 var url = "Index";
