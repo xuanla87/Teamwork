@@ -15,6 +15,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
     public class SlideShowController : Controller
     {
         SlidehowService slideService=new SlidehowService();
+        PagesService pagService=new PagesService();
         // GET: AdminControlPanel/SlideShow
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
@@ -214,5 +215,11 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
+        [HttpPost]
+        public JsonResult GetAuto(string input)
+        {
+            var listpage = pagService.GetPageAutoComplete(input);
+            return Json(listpage, JsonRequestBehavior.AllowGet);
+        }
     }
 }

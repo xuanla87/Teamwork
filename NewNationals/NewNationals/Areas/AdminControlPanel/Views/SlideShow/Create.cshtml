@@ -63,7 +63,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.TargetUrl)</label>
-                                    @Html.DropDownListFor(x => x.TargetUrl, new SelectList(CommonsHelper.TargetDropdown(), "Value", "Text"), new { @class = "form-control" })
+                                    @*@Html.DropDownListFor(x => x.TargetUrl, new SelectList(CommonsHelper.TargetDropdown(), "Value", "Text"), new { @class = "form-control" })*@
+                                    @Html.EditorFor(model => model.TargetUrl, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập link đi tới bài viết" } })
                                     @Html.ValidationMessageFor(model => model.TargetUrl, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
@@ -113,8 +114,28 @@
 </section>
 <script src="~/Areas/AdminControlPanel/Content/ckeditor/styles.js"></script>
 <script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
+        $("#TargetUrl").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/SlideShow/GetAuto",
+                    type: "POST",
+                    dataType: "json",
+                    data: { input: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Url, value: item.Url };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
         $('#FromDate').daterangepicker({
             singleDatePicker: true,
             calender_style: "picker_1"

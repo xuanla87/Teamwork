@@ -17,6 +17,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         CategoriesService catesService=new CategoriesService();
         PagesService pagService=new PagesService();
         UserService userService = new UserService();
+        TagService tagService=new TagService();
         // GET: AdminControlPanel/Page
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
@@ -146,7 +147,20 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     //-------------------------------------------------------------------------------
                     // cập nhật lại url
                     pagService.UpdateUrl(getid, geturl);
-
+                    // lưu nội dung vào bảng tag
+                    if (!string.IsNullOrEmpty(entity.Tag))
+                    {
+                        string gettag = entity.Tag;
+                        string[] arr = gettag.Split(',');
+                        for (int i = 0; i < arr.Length-1; i++)
+                        {
+                            Tag tg=new Tag();
+                            tg.PageId = getid;
+                            tg.Tag1 = arr[i];
+                            tagService.Insert(tg);
+                        }
+                    }
+                    
                     return RedirectToAction("Index", "Page");
                 }
                 catch (Exception ex)

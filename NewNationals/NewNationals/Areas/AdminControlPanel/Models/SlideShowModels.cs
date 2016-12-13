@@ -27,7 +27,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "Ghi chú")]
         public string Note { get; set; }
 
-        [Display(Name = "Kiểu Target")]
+        [Display(Name = "Link bài viết")]
         public string TargetUrl { get; set; }
 
         [Display(Name = "Vị trí sắp xếp")]

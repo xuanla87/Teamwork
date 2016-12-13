@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using ClassLibrary.Commons;
 using ClassLibrary.Models;
 
 namespace ClassLibrary.Services
@@ -40,6 +42,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Insert Tag]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -64,6 +74,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Update Tag]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
