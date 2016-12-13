@@ -74,7 +74,28 @@
                                         @item.FullName
                                     </td>
                                     <td>@item.Email</td>
-                                    <td>@CommonsHelper.RutGon(item.Messager,200)</td>
+                                    <td>
+                                        <a href="#detail_@item.Id" data-toggle="modal" data-target="#detail_@item.Id">@CommonsHelper.RutGon(item.Messager, 181)</a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="detail_@item.Id" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Chi tiết</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>@Html.Raw(item.Messager)</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>@item.CreateDate</td>
                                     <td>
                                         @if (item.Status == 0)
