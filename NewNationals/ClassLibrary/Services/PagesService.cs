@@ -182,6 +182,76 @@ namespace ClassLibrary.Services
             }
         }
         /// <summary>
+        /// thuc thi update bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateFeature(long pagid, bool status)
+        {
+            try
+            {
+                var entity = _db.Pages.Find(pagid);
+                if (entity != null)
+                {
+                    if (status)
+                        entity.Feature = false;
+                    if (!status)
+                        entity.Feature = true;
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật Status Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
+        /// <summary>
+        /// thuc thi update bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateHome(long pagid, bool status)
+        {
+            try
+            {
+                var entity = _db.Pages.Find(pagid);
+                if (entity != null)
+                {
+                    if (status)
+                        entity.Home = false;
+                    if (!status)
+                        entity.Home = true;
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Cập nhật Status Page]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
+        /// <summary>
         /// hàm trả về danh sách tất cả bản ghi
         /// </summary>
         /// <returns></returns>

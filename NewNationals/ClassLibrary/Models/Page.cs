@@ -51,7 +51,6 @@ namespace ClassLibrary.Models
 
         public long? CategoriesId { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Taxanomy { get; set; }
     }

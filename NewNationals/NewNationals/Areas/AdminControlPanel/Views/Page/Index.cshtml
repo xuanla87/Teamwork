@@ -11,7 +11,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-       Bài viết
+        Bài viết
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -57,9 +57,8 @@
                                 <th>STT</th>
                                 <th>Chuyên mục</th>
                                 <th>Tên bài viết</th>
-                                <th>Feature</th>
-                                <th>Home</th>
-                                <th>Taxanomy</th>
+                                <th>Nổi bật</th>
+                                <th>Sự kiện</th>
                                 <th>Hình ảnh</th>
                                 <th>Ngày tạo</th>
                                 <th>Trạng thái</th>
@@ -76,7 +75,7 @@
                                 <tr>
                                     <td class="text-center">@Html.Raw(i + (Model.PageNumber * Model.PageSize) - Model.PageSize)</td>
                                     <td>
-                                        <a href="/AdminManager/Categories/Index?CategoryId=@item.CategoriesId"> @Html.Action("GetNameCategory", new { id = @item.CategoriesId })</a>
+                                        <a href="/AdminControlPanel/Categories/Index?CategoryId=@item.CategoriesId"> @Html.Action("GetNameCategory", new { id = @item.CategoriesId })</a>
                                     </td>
                                     <td>
                                         <a href="#detail_@item.Id" data-toggle="modal" data-target="#detail_@item.Id">@CommonsHelper.RutGon(item.Name, 181)</a>
@@ -91,7 +90,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Tên bài viêt</p>
-                                                        <hr/>
+                                                        <hr />
                                                         <p>@item.Name</p>
                                                         <hr />
                                                         <p>Tóm tắt</p>
@@ -99,7 +98,7 @@
                                                         <p>@item.Note</p>
                                                         <hr />
                                                         <p>Nội dung</p>
-                                                        <hr/>
+                                                        <hr />
                                                         <p>@Html.Raw(item.Content)</p>
                                                     </div>
                                                     <div class="modal-footer">
@@ -111,52 +110,73 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @item.Feature
+                                        @if (!item.Feature)
+                                        {
+                                            <a href="#" title="Click để hiện thị bài viết trong mục nổi bật" onclick="UpdateFeature(this) " data-id="@item.Id" data-feature="@item.Feature"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Feature)
+                                        {
+                                            <a href="#" title="Click để tắt bài viết trong mục nổi bật" onclick="UpdateFeature(this) " data-id="@item.Id" data-feature="@item.Feature"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        }
                                     </td>
                                     <td>
-                                        @item.Home
+                                        @if (!item.Home)
+                                        {
+                                            <a href="#" title="Click để hiện thị bài viết trong mục sự kiện" onclick="UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Home)
+                                        {
+                                            <a href="#" title="Click để tắt bài viết trong mục sự kiện" onclick="UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        }
                                     </td>
                                     <td>
-                                        @item.Taxanomy
-                                    </td>
-                                    <td>
-                                    @if (!string.IsNullOrEmpty(item.Thumbnail))
-                                    {
-                                        <a href="#avt_@item.Id" data-toggle="modal" data-target="#avt_@item.Id"><img src="@Url.Content(@item.Thumbnail)" alt="Image" width="80" height="50" /></a>
-                                        <div class="modal fade" id="avt_@item.Id" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Hình Ảnh</h4>
+                                        @if (!string.IsNullOrEmpty(item.Thumbnail))
+                                        {
+                                            <a href="#avt_@item.Id" data-toggle="modal" data-target="#avt_@item.Id"><img src="@Url.Content(@item.Thumbnail)" alt="Image" width="80" height="50" /></a>
+                                            <div class="modal fade" id="avt_@item.Id" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Hình Ảnh</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="@Url.Content(@item.Thumbnail)" alt="Image" width="570" height="500" />
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <img src="@Url.Content(@item.Thumbnail)" alt="Image" width="570" height="500" />
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                                                    </div>
-                                                </div>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                    }
-                                </td>
-                                <td>@item.CreateDate</td>
-                                <td>
-                                    @if (item.Status.ToString() == "0")
-                                    {
-                                        <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick="LockPage(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
-                                    }
-                                    @if (item.Status.ToString() == "1")
-                                    {
-                                        <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick="LockPage(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
-                                    }
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a title="Sửa thông tin" href="/AdminControlPanel/Page/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick="Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
+                                        }
+                                    </td>
+                                    <td>@item.CreateDate</td>
+                                    <td>
+                                        @if (item.Status.ToString() == "0")
+                                        {
+                                            <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Status.ToString() == "1")
+                                        {
+                                            <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Status.ToString() == "0")
+                                        {
+                                            <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Status.ToString() == "1")
+                                        {
+                                            <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                        }
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a title="Sửa thông tin" href="/AdminControlPanel/Page/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick="Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -210,16 +230,63 @@
             });
         }
     }
-    function LockPage(elem) {
+    function UpdateStatus(elem) {
         var id = $(elem).data('id');
         var status = $(elem).data('status');
         $.ajax({
-            type: "GET",
-            url: '@Url.Action("UpdateStatus", "Page")',
+            type: "POST",
+            url: '@Url.Action("SetUpdateStatus", "Page")',
             data: { id: id, status: status },
             success: function (data) {
-                var url = "Index";
-                window.location.assign(url);
+                if (data) {
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
+                else {
+                    alert("Lỗi: Bạn không thể update!");
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
+            }
+        });
+    }
+    function UpdateFeature(elem) {
+        var id = $(elem).data('id');
+        var status = $(elem).data('feature');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetUpdateFeature", "Page")',
+            data: { id: id,status:status },
+            success: function (data) {
+                if (data) {
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
+                else {
+                    alert("Lỗi: Bạn không thể update!");
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
+            }
+        });
+    }
+   function UpdateHome(elem) {
+        var id = $(elem).data('id');
+        var status = $(elem).data('home');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetUpdateHome", "Page")',
+            data: { id: id,status:status },
+            success: function (data) {
+                if (data) {
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
+                else {
+                    alert("Lỗi: Bạn không thể update!");
+                    var url = "/AdminControlPanel/Page/Index";
+                    window.location.assign(url);
+                }
             }
         });
     }

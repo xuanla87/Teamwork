@@ -56,16 +56,15 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [MaxLength(512, ErrorMessage = "Tóm tắt không vượt quá 512 ký tự!")]
         public string Note { get; set; }
 
-        [Display(Name = "Feature")]
+        [Display(Name = "Hiển thị trong bài viết Nổi Bật")]
         public bool Feature { get; set; }
 
-        [Display(Name = "Home")]
+        [Display(Name = "Hiển thị trong bài viết Sự Kiện")]
         public bool Home { get; set; }
 
         [Display(Name = "Chuyên mục")]
         public long? CategoriesId { get; set; }
 
-        [Required]
         [StringLength(50)]
         [Display(Name = "Taxanomy")]
         public string Taxanomy { get; set; }

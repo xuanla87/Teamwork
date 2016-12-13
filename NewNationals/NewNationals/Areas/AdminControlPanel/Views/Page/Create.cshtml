@@ -32,34 +32,62 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.CategoriesId)</label>
-                                    @Html.DropDownListFor(model => model.CategoriesId, null, "--- Chọn chuyên mục ---", new {@class = "form-control"})
-                                    @Html.ValidationMessageFor(model => model.CategoriesId, "", new {@class = "text-danger"})
+                                    @Html.DropDownListFor(model => model.CategoriesId, null, "--- Chọn chuyên mục ---", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CategoriesId, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Name)</label>
-                                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập tên bài viết"}})
-                                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên bài viết" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Note)</label>
-                                    @Html.EditorFor(model => model.Note, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập tóm tắt"}})
-                                    @Html.ValidationMessageFor(model => model.Note, "", new {@class = "text-danger"})
+                                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @placeholder = "Nhập tóm tắt" })
+                                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Thumbnail)</label>
-                                    @Html.EditorFor(model => model.Thumbnail, new {htmlAttributes = new {@class = "form-control", @placeholder = "chọn hình ảnh cho bài viết"}})
-                                    @Html.ValidationMessageFor(model => model.Thumbnail, "", new {@class = "text-danger"})
-                                    <input id="SelectImage" type="button" value="Chọn ảnh đại diện"/>
-                                    <!-- /.input group -->
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.Thumbnail, new { htmlAttributes = new { @class = "form-control", @placeholder = "chọn hình ảnh cho bài viết" } })
+                                        @Html.ValidationMessageFor(model => model.Thumbnail, "", new { @class = "text-danger" })
+                                        <span class="input-group-btn">
+                                            <button type="button" id="SelectImage" class="btn btn-info btn-flat">Chọn ảnh</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Content)</label>
+                                    @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung bài viết" } })
+                                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                                </div>
+                              <div class="form-group">
+                                          <label>@Html.LabelFor(model => model.Home)</label>
+                                          @Html.CheckBoxFor(model => model.Home, new {htmlAttributes = new {@class = "form-control", @placeholder = "Hiển thị bài viết ngoài trang chủ" } })
+                                          @Html.ValidationMessageFor(model => model.Home, "", new {@class = "text-danger"})
+                                      </div>
+                                    <div class="form-group">
+                                          <label>@Html.LabelFor(model => model.Feature)</label>
+                                          @Html.CheckBoxFor(model => model.Feature, new {htmlAttributes = new {@class = "form-control", @placeholder = "Hiển thị bài viết trong Feature" } })
+                                          @Html.ValidationMessageFor(model => model.Feature, "", new {@class = "text-danger"})
+                                      </div>
+                                      @*<div class="form-group">
+        <label>@Html.LabelFor(model => model.Taxanomy)</label>
+        @Html.EditorFor(model => model.Taxanomy, new {htmlAttributes = new {@class = "form-control", @placeholder = "Taxanomy"}})
+        @Html.ValidationMessageFor(model => model.Taxanomy, "", new {@class = "text-danger"})
+    </div>*@
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Tag)</label>
+                                    @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ tag ngăn nhau bởi dấu ,  (ví dụ: nội_dung_tag1,nội_dung_tag2,nội_dung_tag3,..)" } })
+                                    @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Title)</label>
@@ -69,45 +97,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Keywords)</label>
-                                    @Html.EditorFor(model => model.Keywords, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập thẻ từ khóa dùng cho (SEO)" } })
-                                    @Html.ValidationMessageFor(model => model.Keywords, "", new {@class = "text-danger"})
+                                    @Html.EditorFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ từ khóa dùng cho (SEO)" } })
+                                    @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Description)</label>
-                                    @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập thẻ mô tả dùng cho (SEO)"}})
-                                    @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Content)</label>
-                                    @Html.TextAreaFor(model => model.Content, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung bài viết"}})
-                                    @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Home)</label>
-                                    @Html.CheckBoxFor(model => model.Home, new {htmlAttributes = new {@class = "form-control", @placeholder = "Hiển thị bài viết ngoài trang chủ" } })
-                                    @Html.ValidationMessageFor(model => model.Home, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Feature)</label>
-                                    @Html.CheckBoxFor(model => model.Feature, new {htmlAttributes = new {@class = "form-control", @placeholder = "Hiển thị bài viết trong Feature" } })
-                                    @Html.ValidationMessageFor(model => model.Feature, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Taxanomy)</label>
-                                    @Html.EditorFor(model => model.Taxanomy, new {htmlAttributes = new {@class = "form-control", @placeholder = "Taxanomy"}})
-                                    @Html.ValidationMessageFor(model => model.Taxanomy, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Tag)</label>
-                                    @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ tag ngăn nhau bởi dấu ,  (ví dụ: nội_dung_tag1,nội_dung_tag2,nội_dung_tag3,..)" } })
-                                    @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Status)</label>
-                                    @Html.DropDownListFor(x => x.Status, new SelectList(CommonsHelper.StatusAccount(), "Value", "Text"), new {@class = "form-control"})
-                                    @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})
-                                    <!-- /.input group -->
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ mô tả dùng cho (SEO)" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <button class="btn bg-maroon">Lưu Thông Tin</button>

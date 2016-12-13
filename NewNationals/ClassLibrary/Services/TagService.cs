@@ -15,7 +15,7 @@ namespace ClassLibrary.Services
     {
         bool Insert(Tag entity);
         bool Update(Tag entity);
-        bool Delete(int id);
+        bool Delete(List<Tag> lst);
 
     }
     public class TagService: ITagService
@@ -91,22 +91,34 @@ namespace ClassLibrary.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool Delete(int id)
+        public bool Delete(List<Tag> lst)
         {
             try
             {
-                var tag = _db.Tags.Find(id);
-                if (tag != null)
-                {
-                    _db.Tags.Remove(tag);
+                    _db.Tags.RemoveRange(lst);
                     _db.SaveChanges();
-                }
                 return true;
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Delete Tag]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
+        }
+        /// <summary>
+        /// Hàm trả về danh sách tất cả bản ghi với Id truyền vào
+        /// </summary>
+        /// <returns></returns>
+        public List<Tag> ListTagById(long id)
+        {
+            return _db.Tags.Where(x => x.PageId == id).ToList();
         }
     }
 }

@@ -218,7 +218,7 @@ namespace ClassLibrary.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Category GetCategoryById(int id)
+        public Category GetCategoryById(int? id)
         {
             return _db.Categories.SingleOrDefault(x => x.Id == id);
         }

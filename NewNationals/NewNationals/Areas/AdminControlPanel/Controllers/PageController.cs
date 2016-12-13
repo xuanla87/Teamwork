@@ -87,7 +87,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string GetNameCategory(int id)
+        public string GetNameCategory(int? id)
         {
             try
             {
@@ -140,24 +140,27 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Feature = entity.Feature;
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
-                    page.Taxanomy = entity.Taxanomy;
+                    page.Taxanomy = "Content";
                     pagService.Insert(page);
                     long getid = page.Id;
                     string geturl = page.Url + "-" + getid;
                     //-------------------------------------------------------------------------------
                     // cập nhật lại url
                     pagService.UpdateUrl(getid, geturl);
-                    // lưu nội dung vào bảng tag
+                    // lưu nội dung vào bảng tag neu co
                     if (!string.IsNullOrEmpty(entity.Tag))
                     {
                         string gettag = entity.Tag;
                         string[] arr = gettag.Split(',');
-                        for (int i = 0; i < arr.Length-1; i++)
+                        for (int i = 0; i < arr.Length; i++)
                         {
-                            Tag tg=new Tag();
-                            tg.PageId = getid;
-                            tg.Tag1 = arr[i];
-                            tagService.Insert(tg);
+                            if(!string.IsNullOrEmpty(arr[i]))
+                            {
+                                Tag tg = new Tag();
+                                tg.PageId = getid;
+                                tg.stTag = arr[i];
+                                tagService.Insert(tg);
+                            }
                         }
                     }
                     
@@ -191,6 +194,15 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             {
                 return HttpNotFound();
             }
+            //-----------------------------------------------------------------------
+            // lấy nội dung tag nếu bài viết đã có tags trước đó
+            var tagentity = tagService.ListTagById(entity.Id);
+            string gettag = "";
+            foreach (var item in tagentity)
+            {
+                gettag += item.stTag + ",";
+            }
+            //-----------------------------------------------------------------------
             PageModels page = new PageModels();
             page.Id = entity.Id;
             page.Name = entity.Name;
@@ -198,7 +210,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.Title = entity.Title;
             page.Keywords = entity.Keywords;
             page.Description = entity.Description;
-            page.Status = entity.Status;
+            page.Status = 1;
             page.CreateDate = DateTime.Now;
             page.ModifiedDate = DateTime.Now;
             page.UserCreate = getuser.Id;
@@ -210,6 +222,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.Home = entity.Home;
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
+            page.Tag = gettag; // hiển thị tags ra bên view
             return View(page);
         }
 
@@ -231,10 +244,10 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Title = entity.Title;
                     page.Keywords = entity.Keywords;
                     page.Description = entity.Description;
-                    page.Status = entity.Status;
-                    page.CreateDate = DateTime.Now;
+                    page.Status = 1;
+                    page.CreateDate = entity.CreateDate;
                     page.ModifiedDate = DateTime.Now;
-                    page.UserCreate = getuser.Id;
+                    page.UserCreate = entity.UserCreate;
                     page.UserModified = getuser.Id;
                     page.Thumbnail = entity.Thumbnail;
                     page.Content = entity.Content;
@@ -244,6 +257,27 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = entity.Taxanomy;
                     pagService.Update(page);
+                    //---------------------------------------------------------
+                    // xóa toàn bộ tag của bài viết
+                    var listltag = tagService.ListTagById(entity.Id);
+                    tagService.Delete(listltag);
+                    //---------------------------------------------------------
+                    // lưu lại nội dung tag
+                    if (!string.IsNullOrEmpty(entity.Tag))
+                    {
+                        string gettag = entity.Tag;
+                        string[] arr = gettag.Split(',');
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (!string.IsNullOrEmpty(arr[i]))
+                            {
+                                Tag tg = new Tag();
+                                tg.PageId = entity.Id;
+                                tg.stTag = arr[i];
+                                tagService.Insert(tg);
+                            }
+                        }
+                    }
                     return RedirectToAction("Index", "Page");
                 }
                 catch (Exception ex)
@@ -283,7 +317,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         #endregion
         #region [Update Status]
         [HttpPost]
-        public JsonResult UpdateStatus(int id, int status)
+        public JsonResult SetUpdateStatus(int id, int status)
         {
             var data = true;
             try
@@ -292,6 +326,46 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 if (page != null)
                 {
                     pagService.UpdateStatus(id, status);
+                }
+            }
+            catch (Exception)
+            {
+                data = false;
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region [Update Feature]
+        [HttpPost]
+        public JsonResult SetUpdateFeature(long id,bool status)
+        {
+            var data = true;
+            try
+            {
+                var page = pagService.GetPageById(id);
+                if (page != null)
+                {
+                    pagService.UpdateFeature(id, status);
+                }
+            }
+            catch (Exception)
+            {
+                data = false;
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region [Update Home]
+        [HttpPost]
+        public JsonResult SetUpdateHome(long id, bool status)
+        {
+            var data = true;
+            try
+            {
+                var page = pagService.GetPageById(id);
+                if (page != null)
+                {
+                    pagService.UpdateHome(id, status);
                 }
             }
             catch (Exception)

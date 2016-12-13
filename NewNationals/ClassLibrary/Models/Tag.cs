@@ -14,8 +14,8 @@ namespace ClassLibrary.Models
         public long PageId { get; set; }
 
         [Key]
-        [Column("Tag", Order = 1)]
-        [StringLength(50)]
-        public string Tag1 { get; set; }
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string stTag { get; set; }
     }
 }
