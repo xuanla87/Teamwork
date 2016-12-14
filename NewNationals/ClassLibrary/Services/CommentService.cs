@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -170,6 +171,34 @@ namespace ClassLibrary.Services
         public Comment GetCommentById(long id)
         {
             return _db.Comments.SingleOrDefault(x => x.Id == id);
+        }
+        public int CountComment()
+        {
+            return _db.Comments.Where(x => x.Status == 0).Count();
+        }
+        public int CountPage()
+        {
+            return _db.Pages.Where(x => x.Status != -1).Count();
+        }
+        public int CountUser()
+        {
+            return _db.Users.Where(x => x.Status != -1).Count();
+        }
+        public int CountCategory()
+        {
+            return _db.Categories.Where(x => x.Status != -1).Count();
+        }
+        public long CountLog()
+        {
+            return _db.LogSystem.Count();
+        }
+        public int CountSetting()
+        {
+            return _db.Settings.Count();
+        }
+        public int CountMenu()
+        {
+            return _db.Menus.Count();
         }
     }
 }

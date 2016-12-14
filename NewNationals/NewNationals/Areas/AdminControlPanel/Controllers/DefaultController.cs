@@ -11,9 +11,17 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
     public class DefaultController : BaseController
     {
+        CommentService comService=new CommentService();
         // GET: AdminControlPanel/Home
         public ActionResult Index()
         {
+            ViewBag.CountComment = comService.CountComment();
+            ViewBag.CountPage = comService.CountPage(); 
+            ViewBag.CountUser = comService.CountUser();
+            ViewBag.CountCategory = comService.CountCategory();
+            ViewBag.CountLog = comService.CountLog();
+            ViewBag.CountSetting = comService.CountSetting();
+            ViewBag.CountMenu = comService.CountMenu();
             return View();
         }
 
