@@ -11,7 +11,7 @@ using PagedList;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class CommentController : Controller
+    public class CommentController : BaseController
     {
         CommentService comService=new CommentService();
         // GET: AdminControlPanel/Comment

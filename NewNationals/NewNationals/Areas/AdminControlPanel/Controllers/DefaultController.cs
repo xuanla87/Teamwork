@@ -9,7 +9,7 @@ using NewNationals.Areas.AdminControlPanel.Models;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class DefaultController : Controller
+    public class DefaultController : BaseController
     {
         // GET: AdminControlPanel/Home
         public ActionResult Index()

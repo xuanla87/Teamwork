@@ -12,7 +12,7 @@ using NewNationals.Areas.AdminControlPanel.Models;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         RoleService rolService=new RoleService();
         // GET: AdminControlPanel/Role

@@ -14,16 +14,32 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
     public class UserController : BaseController
     {
         UserService userService=new UserService();
+        RoleService rolService=new RoleService();
         // GET: AdminControlPanel/User
         public ActionResult Index()
         {
             var list = userService.ListAllUser();
             return View(list);
         }
+        public string GetNameRole(int? id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id.ToString()))
+                    id = 0;
+                var role = rolService.GetRoleById(id);
+                return role.RoleName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
         #region [Insert]
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.RoleId = new SelectList(rolService.ListAllRole(), "Id", "RoleName");
             return View();
         }
 
@@ -31,6 +47,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(UserModels entity)
         {
+            ViewBag.RoleId = new SelectList(rolService.ListAllRole(), "Id", "RoleName");
             if (ModelState.IsValid)
             {
                 try
@@ -74,6 +91,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            ViewBag.RoleId = new SelectList(rolService.ListAllRole(), "Id", "RoleName");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,6 +119,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserModels entity)
         {
+            ViewBag.RoleId = new SelectList(rolService.ListAllRole(), "Id", "RoleName");
             if (ModelState.IsValid)
             {
                 try

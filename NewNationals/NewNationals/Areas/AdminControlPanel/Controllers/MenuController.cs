@@ -12,7 +12,7 @@ using PagedList;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class MenuController : Controller
+    public class MenuController : BaseController
     {
         MenuService menuService=new MenuService();
         // GET: AdminControlPanel/Menu

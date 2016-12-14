@@ -12,7 +12,7 @@ using PagedList;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class SlideShowController : Controller
+    public class SlideShowController : BaseController
     {
         SlidehowService slideService=new SlidehowService();
         PagesService pagService=new PagesService();

@@ -12,7 +12,7 @@ using PagedList;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class PageController : Controller
+    public class PageController : BaseController
     {
         CategoriesService catesService=new CategoriesService();
         PagesService pagService=new PagesService();

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ClassLibrary.Models.User>
+﻿@using System.Data.SqlTypes
+@model IEnumerable<ClassLibrary.Models.User>
 @{
     ViewBag.Title = "Quản lý người dùng";
     Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
@@ -31,6 +32,7 @@
                         <thead>
                             <tr>
                                 <th>Stt</th>
+                                <th>Quyền</th>
                                 <th>Tài khoản</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>
@@ -47,6 +49,12 @@
                             {
                                 <tr>
                                     <td>@Html.Raw(i++)</td>
+                                    <td>
+                                        @if (item.RoleId!=null)
+                                        {
+                                            @Html.Action("GetNameRole", new { id = @item.RoleId })
+                                        }
+                                    </td>
                                     <td>
                                         @item.UserName
                                     </td>
