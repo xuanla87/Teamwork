@@ -30,7 +30,7 @@
                         <thead>
                             <tr>
                                 <th>Stt</th>
-                                <th>Tên quyền/th>
+                                <th>Tên quyền</th>
                                 <th>Ghi chú</th>
                                 <th>Chức năng</th>
                             </tr>
@@ -100,28 +100,7 @@
             });
         }
     }
-    function LockAccount(elem) {
-        var id = $(elem).data('id');
-        var status = $(elem).data('status');
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("UpdateStatus", "Role")',
-            data: { Id: id,Status:status },
-            success: function (data) {
-                if (data) {
-                    //alert("Bạn đã xóa thành công!");
-                    var urlss = "/AdminControlPanel/Role/Index";
-                    window.location.assign(urlss);
-                }
-                else {
-                    alert("Lỗi: Bạn không thể xóa!");
-                    var url = "/AdminControlPanel/Role/Index";
-                    window.location.assign(url);
-                }
-            },
-            error: function () { alert('Đã xảy ra lỗi!'); }
-        });
-    }
+    
 </script>
 
 
