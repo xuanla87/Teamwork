@@ -361,7 +361,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li onclick="return SidebarClickEvent('11', 'sidesub001'); " id="11"><a href="/AdminControlPanel/User/Index"><i class="fa fa-circle-o"></i>Người dùng</a></li>
-                            <li onclick="return SidebarClickEvent('12','sidesub001');" id="16"><a href="/AdminControlPanel/LogSystem/ListLogSystem"><i class="fa fa-circle-o"></i> Nhật ký</a></li>
+                            <li onclick="return SidebarClickEvent('12','sidesub001');" id="16"><a href="/AdminControlPanel/Role/Index"><i class="fa fa-circle-o"></i>Quyền</a></li>
+                            <li onclick="return SidebarClickEvent('13','sidesub001');" id="17"><a href="/AdminControlPanel/LogSystem/ListLogSystem"><i class="fa fa-circle-o"></i> Nhật ký</a></li>
                         </ul>
                     </li>
                     <li onclick="return SidebarClickEvent('s4', 'sidepar001');" id="s4"><a href="#" target="_bank"><i class="fa fa-book"></i> <span>Website</span></a></li>
@@ -435,11 +436,11 @@
             });
         }
         function UserInfo() {
-            var url = "@Url.Action("UserInfo", "Home")";
+            var url = "@Url.Action("UserInfo", "Default")";
             window.location.assign(url);
         }
         function ChangePass() {
-            var url = "@Url.Action("ChangePass","Home")";
+            var url = "@Url.Action("ChangePass", "Default")";
             window.location.assign(url);
         }
         $(function () {

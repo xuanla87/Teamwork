@@ -5,12 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using ClassLibrary.Commons;
 using ClassLibrary.Services;
-using ClassLibrary.Models;
 using NewNationals.Areas.AdminControlPanel.Models;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class HomeController : BaseController
+    public class DefaultController : Controller
     {
         // GET: AdminControlPanel/Home
         public ActionResult Index()
@@ -56,7 +55,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 if (checklogin > 0)
                 {
                     var getuser = userService.GetUserByUserName(entity.Username);
-                    bool checkchange = userService.ChangePass(getuser.Id,CommonsHelper.EncrytPassword(entity.PasswordNew));
+                    bool checkchange = userService.ChangePass(getuser.Id, CommonsHelper.EncrytPassword(entity.PasswordNew));
                     if (checkchange)
                     {
                         ModelState.AddModelError("", "Đổi mật khẩu thành công!");

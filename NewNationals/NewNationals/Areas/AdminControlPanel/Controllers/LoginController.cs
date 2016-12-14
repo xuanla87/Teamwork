@@ -49,7 +49,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     logs.Messenger = "Đăng Nhập hệ thống với tài khoản: " + entity.Username;
                     logs.Status = false;
                     logService.Insert(logs);
-                    return RedirectToAction("Index", "Home", new { area = "AdminControlPanel" });
+                    return RedirectToAction("Index", "Default", new { area = "AdminControlPanel" });
                 }
                 else
                 {

@@ -17,7 +17,7 @@ namespace NewNationals.Areas.AdminControlPanel
             context.MapRoute(
                 "AdminControlPanel_default",
                 "AdminControlPanel/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", controller = "Default", id = UrlParameter.Optional }
             );
         }
     }

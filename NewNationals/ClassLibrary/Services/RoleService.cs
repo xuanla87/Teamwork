@@ -89,5 +89,10 @@ namespace ClassLibrary.Services
                 return false;
             }
         }
+
+        public IEnumerable<Role> ListAllRole()
+        {
+            return _db.Roles.ToList();
+        }
     }
 }
