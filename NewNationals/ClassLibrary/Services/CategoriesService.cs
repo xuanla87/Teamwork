@@ -220,7 +220,12 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public Category GetCategoryById(int? id)
         {
-            return _db.Categories.SingleOrDefault(x => x.Id == id);
+            return _db.Categories.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Category getByUrl(string sturl)
+        {
+            return _db.Categories.FirstOrDefault(x => x.Url == sturl);
         }
     }
 }

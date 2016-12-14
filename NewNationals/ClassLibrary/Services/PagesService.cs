@@ -273,5 +273,10 @@ namespace ClassLibrary.Services
         {
             return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input))).ToList();
         }
+
+        public Page getByUrl(string sturl)
+        {
+            return _db.Pages.FirstOrDefault(x => x.Url == sturl);
+        }
     }
 }
