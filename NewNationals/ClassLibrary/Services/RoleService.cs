@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using ClassLibrary.Commons;
 using ClassLibrary.Models;
 
 namespace ClassLibrary.Services
@@ -39,6 +41,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Thêm mới Role]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -63,6 +73,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Update Role]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -86,6 +104,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Delete Role]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -93,6 +119,25 @@ namespace ClassLibrary.Services
         public IEnumerable<Role> ListAllRole()
         {
             return _db.Roles.ToList();
+        }
+        /// <summary>
+        ///  Kiểm tra quyền có tồn tại không
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public bool RoleNameExits(string input)
+        {
+            return _db.Roles.Any(x => x.RoleName == input);
+        }
+
+        /// <summary>
+        /// Hàm trả về 1 bản ghi trong Role với ID truyền vào
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Role GetRoleById(int? id)
+        {
+            return _db.Roles.SingleOrDefault(x => x.Id == id);
         }
     }
 }
