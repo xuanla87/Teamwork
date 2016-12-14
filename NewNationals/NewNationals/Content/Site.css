@@ -1,14 +1,44 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    background: #eeeeee;
+    font-family: 'RobotoCondensed-Regular' !important;
+    font-size: 14px;
 }
 
+@font-face {
+    font-family: 'RobotoCondensed-Regular';
+    src: url('RobotoTTF/RobotoCondensed-Regular.ttf') format('truetype'), url('RobotoTTF/Roboto-Black.ttf') format('truetype'), url('RobotoTTF/Roboto-BlackItalic.ttf') format('truetype'), url('RobotoTTF/Roboto-Bold.ttf') format('truetype'), url('RobotoTTF/Roboto-BoldItalic.ttf') format('truetype'), url('RobotoTTF/Roboto-Italic.ttf') format('truetype'), url('RobotoTTF/Roboto-Light.ttf') format('truetype'), url('RobotoTTF/Roboto-LightItalic.ttf') format('truetype'), url('RobotoTTF/Roboto-Medium.ttf') format('truetype'), url('RobotoTTF/Roboto-MediumItalic.ttf') format('truetype'), url('RobotoTTF/Roboto-Regular.ttf') format('truetype'), url('RobotoTTF/Roboto-Thin.ttf') format('truetype'), url('RobotoTTF/Roboto-ThinItalic.ttf') format('truetype'), url('RobotoTTF/RobotoCondensed-Bold.ttf') format('truetype'), url('RobotoTTF/RobotoCondensed-BoldItalic.ttf') format('truetype'), url('RobotoTTF/RobotoCondensed-Italic.ttf') format('truetype'), url('RobotoTTF/RobotoCondensed-Light.ttf') format('truetype'), url('RobotoTTF/RobotoCondensed-LightItalic.ttf') format('truetype');
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
+.main {
+    background: #fff;
+}
+
+.home {
+    background: #eee;
+}
+
+.breadcrumb {
+    background: none;
+    font-weight: bold;
+    margin: 15px 0px 0px 0px;
+}
+
+    .breadcrumb .page-home {
+        color: #0083a9;
+    }
+
+    .breadcrumb a {
+        color: #444;
+    }
+
+        .breadcrumb a:hover {
+            color: #0083a9;
+        }
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -16,12 +46,397 @@
     white-space: normal;
 }
 
+a:hover {
+    text-decoration: none;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
-footer{
 
+.navbar-brand {
+    padding: !important;
 }
+
+.navbar-inverse {
+    background: #ffffff !important;
+    border-radius: 0px !important;
+    border: none;
+    box-shadow: 3px 0px 9px rgba(45, 45, 45, 0.33);
+    margin-bottom: 0px;
+}
+
+    .navbar-inverse li {
+        display: table-cell;
+        list-style: none outside none;
+        margin: 0 !important;
+        padding: 0 16px !important;
+        vertical-align: middle;
+        width: 150px !important;
+        float: none;
+        height: 84px;
+        transition: background-color 1s ease 0s,border-color 1s ease 0s;
+        position: relative;
+    }
+
+        .navbar-inverse li:hover, .navbar-inverse li.active {
+            background: #3999b4 !important;
+            color: #fff;
+        }
+
+        .navbar-inverse li .fa {
+            position: absolute;
+            top: 28px;
+            right: 5px;
+            font-size: 24px !important;
+        }
+
+        .navbar-inverse li ul {
+            position: absolute;
+            top: 84px;
+            left: 0px;
+            margin: 0px;
+            border: 1px solid #eee;
+            box-sizing: border-box;
+            background: #fff;
+            display: none;
+            padding: 0px;
+            z-index: 99;
+        }
+
+        .navbar-inverse li:hover ul {
+            display: block;
+        }
+
+        .navbar-inverse li li {
+            float: left;
+            width: 265px !important;
+            height: inherit;
+            border-top: 1px solid #eee;
+            padding: 0px 10px;
+            box-sizing: border-box;
+        }
+
+            .navbar-inverse li li:hover {
+            }
+
+            .navbar-inverse li li:first-child {
+                border-top: none;
+            }
+
+            .navbar-inverse li li a {
+                display: block;
+                line-height: 40px;
+                text-align: left;
+                font-size: 14px;
+                color: #777 !important;
+            }
+
+                .navbar-inverse li li a:hover {
+                    color: #fff !important;
+                }
+
+        .navbar-inverse li:hover a, .navbar-inverse li.active a {
+            background: none !important;
+            color: #fff;
+        }
+
+    .navbar-inverse a {
+        display: block;
+        line-height: 24px !important;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+        text-decoration: none;
+        color: #777777;
+        word-wrap: normal;
+        font-size: 18px;
+        padding: 0px !important;
+        font-weight: bold !important;
+    }
+
+.form-search {
+    float: left;
+    margin-left: 15px;
+}
+
+.search-body {
+    display: table-cell;
+    list-style: none outside none;
+    margin: 0 !important;
+    vertical-align: middle;
+    width: 140px !important;
+    float: none;
+    height: 84px;
+    position: relative;
+}
+
+    .search-body .text {
+        background: #e9e9e9 !important;
+        border: none !important;
+        padding: 4px 8px !important;
+        border-top-left-radius: 3px !important;
+        border-bottom-left-radius: 3px !important;
+        border-top-right-radius: 3px !important;
+        border-bottom-right-radius: 3px !important;
+    }
+
+        .search-body .text:focus, .search-body .text:visited {
+            border: none !important;
+            outline: none !important;
+        }
+
+    .search-body .btn-search {
+        margin: 0px !important;
+        position: absolute;
+        right: 0px;
+        top: 26px;
+        border: 1px solid #e1e1e1 !important;
+        padding: 3px 6px !important;
+        background: #e6e6e6 !important;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+.box h2.title {
+    color: #777;
+    text-transform: uppercase;
+    font-size: 27px;
+}
+
+.box-item {
+    width: 100%;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+    .box-item h3.title {
+        margin: 0px;
+        padding: 0px;
+    }
+
+        .box-item h3.title a {
+            color: #333333;
+            text-transform: uppercase;
+            line-height: 24px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+    .box-item .time {
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #777;
+        padding: 5px 0px;
+    }
+
+    .box-item .thumbnail {
+        border: none !important;
+    }
+
+        .box-item .thumbnail img {
+            max-width: 100%;
+        }
+
+    .box-item .in-category {
+        margin-top: 10px;
+    }
+
+.box-footer {
+    background: #333;
+    padding-left: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+    .box-footer a {
+        font-size: 11px;
+        text-transform: uppercase;
+        line-height: 37px;
+    }
+
+footer {
+    background: #222222;
+    clear: both;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+    footer h2.title {
+        color: #ffffff;
+        font-size: 24px;
+        margin: 0px;
+        padding: 0px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    footer .text {
+        color: #ffffff;
+        margin-top: 30px;
+    }
+
+.banner {
+}
+
+    .banner img {
+        max-width: 100%;
+        height: auto;
+    }
+
+.slideshow {
+    padding: 15px 30px;
+    background: #fff;
+}
+
+.slideshow-body {
+    background: #3999b4;
+}
+
+.slideshow .item {
+    width: 100%;
+}
+
+    .slideshow .item .thumbnail {
+        float: left;
+        width: 25%;
+        border: none;
+        padding: 0px;
+    }
+
+        .slideshow .item .thumbnail img {
+            max-width: 100%;
+        }
+
+    .slideshow .item .text {
+        float: left;
+        width: 75%;
+        padding: 15px;
+        box-sizing: border-box;
+        background: #333;
+        color: #fff;
+        height: 262px;
+    }
+
+        .slideshow .item .text h2.title {
+            margin: 0px 0px 15px 0px;
+            font-size: 23px;
+            text-transform: uppercase;
+            color: #3999b4;
+        }
+
+    .slideshow .item .description {
+        margin-bottom: 15px;
+    }
+
+.box-event {
+    margin: 0px -15px;
+}
+
+    .box-event .item {
+        margin-bottom: 15px;
+        float: left;
+    }
+
+    .box-event .title {
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 23px;
+        margin-top: 15px;
+    }
+
+.box-event-body {
+    height: 200px;
+    overflow: auto;
+    margin-bottom: 15px;
+}
+
+.event-time {
+    width: 10%;
+    float: left;
+    font-size: 23px;
+    text-align: center;
+    color: #444;
+    font-weight: bold;
+}
+
+.event-body {
+    width: 90%;
+    float: left;
+    padding: 0px 15px;
+}
+
+.event-title a {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h1.page-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 15px 0px;
+}
+
+.page-content {
+    padding-bottom: 30px;
+}
+
+    .page-content img {
+        max-width: 100%;
+    }
+/*88888888888888888888888888888888888888888888888888888*/
+.box-right {
+}
+
+    .box-right .header {
+        line-height: 30px;
+        background: #444444;
+        color: #fff;
+        padding-left: 10px;
+        font-size: 16px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+
+    .box-right .box-item {
+        border: 1px solid #eee;
+    }
+
+        .box-right .box-item .title {
+            margin-bottom: 15px;
+        }
+
+            .box-right .box-item .title a {
+                font-size: 18px;
+                line-height: 20px;
+                color: #333;
+            }
+
+        .box-right .box-item .time {
+            background: #eee;
+            color: #777;
+            padding: 5px 10px;
+        }
+
+        .box-right .box-item .text-note {
+            margin-top: 15px;
+            color: #2a2a2a;
+        }
+
+        .box-right .box-item .thumbnail {
+            margin-top: 15px;
+        }
+
+            .box-right .box-item .thumbnail img {
+                max-width: 100%;
+            }
+
+    .box-right .box-footer a {
+        line-height: 25px;
+        font-size: 11px;
+    }

@@ -1,0 +1,23 @@
+﻿@model NewNationals.Models.ModelUrls
+@{
+    ViewBag.Title = Model.Title;
+    string stCase = Model.ActionLink;
+    switch (stCase)
+    {
+        case "Category":
+            @Html.Action("Categories", new { stUrl = Model.stUrl })
+            break;
+        case "Content":
+            @Html.Action("Pages", new { stUrl = Model.stUrl })
+            break;
+        case "404":
+            @Html.Action("PageError")
+            break;
+        case "":
+            @Html.Action("Index")
+            break;
+        default:
+            @Html.Action("Index")
+            break;
+    }
+}

@@ -15,7 +15,7 @@ namespace ClassLibrary.Services
         bool Delete(int id);
 
     }
-    public class SettingService: ISettingService
+    public class SettingService : ISettingService
     {
         private readonly DataContext _db = null;
 
@@ -87,6 +87,56 @@ namespace ClassLibrary.Services
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Lưu giá trị theo stKey
+        /// </summary>
+        /// <param name="stKey"></param>
+        /// <param name="stValue"></param>
+        /// <returns></returns>
+        public bool saveValue(string stKey, string stValue)
+        {
+            try
+            {
+                Setting entity = _db.Settings.FirstOrDefault(x => x.stKey == stKey);
+                if (entity != null)
+                {
+                    entity.stValue = stValue;
+                    _db.Entry(entity).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    entity = new Setting();
+                    entity.stKey = stKey;
+                    entity.stValue = stValue;
+                    entity.Status = true;
+                    Insert(entity);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Lấy dữ liệu theo stKey
+        /// </summary>
+        /// <param name="stKey"></param>
+        /// <returns></returns>
+        public string getValue(string stKey)
+        {
+            try
+            {
+                Setting entity = _db.Settings.FirstOrDefault(x => x.stKey == stKey);
+                return entity.stValue;
+            }
+            catch
+            {
+                return null;
             }
         }
     }

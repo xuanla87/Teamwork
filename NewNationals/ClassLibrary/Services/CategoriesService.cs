@@ -17,7 +17,7 @@ namespace ClassLibrary.Services
         bool Update(Category entity);
         bool Delete(int cateId);
     }
-    public class CategoriesService:ICategoriesService
+    public class CategoriesService : ICategoriesService
     {
         private readonly DataContext _db = null;
 
@@ -211,7 +211,7 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public List<Category> GetSelectListCategory()
         {
-            return _db.Categories.Where(x=>x.Status != -1).ToList();
+            return _db.Categories.Where(x => x.Status != -1).ToList();
         }
         /// <summary>
         /// Hàm trả về 1 bản ghi trong Category với ID truyền vào
@@ -223,9 +223,18 @@ namespace ClassLibrary.Services
             return _db.Categories.FirstOrDefault(x => x.Id == id);
         }
 
+        public Category getById(long? Id)
+        {
+            return _db.Categories.Find(Id);
+        }
         public Category getByUrl(string sturl)
         {
             return _db.Categories.FirstOrDefault(x => x.Url == sturl);
+        }
+
+        public IEnumerable<Category> getTopCategory(int top)
+        {
+            return _db.Categories.Take(top).OrderBy(x => x.Id);
         }
     }
 }

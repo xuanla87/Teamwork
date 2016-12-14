@@ -278,5 +278,13 @@ namespace ClassLibrary.Services
         {
             return _db.Pages.FirstOrDefault(x => x.Url == sturl);
         }
+        public Page getFistByCategoriesId(long CategoriesId)
+        {
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
+        }
+        public IEnumerable<Page> getByCategoriesId(long CategoriesId)
+        {
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x => x.ModifiedDate).ToList();
+        }
     }
 }

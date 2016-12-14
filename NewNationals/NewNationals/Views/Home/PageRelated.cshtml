@@ -1,0 +1,24 @@
+﻿@model List<ClassLibrary.Models.Page>
+@foreach (var item in Model)
+{
+    <div class="box-item">
+        <h3 class="title"><a href="@item.Url">@item.Name</a></h3>
+        <span class="time">
+            @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd-MM-yyyy")
+        </span>
+        @if (!string.IsNullOrEmpty(item.Thumbnail))
+        {
+            <div class="thumbnail">
+                <a href="@item.Url">
+                    <img src="@item.Thumbnail" />
+                </a>
+            </div>
+        }
+        <div class="text-note">
+            @item.Note
+        </div>
+    </div>
+    <div class="box-footer">
+        <a href="@item.Url">Đọc thêm</a>
+    </div>
+}

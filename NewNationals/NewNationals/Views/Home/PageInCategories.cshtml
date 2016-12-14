@@ -1,0 +1,38 @@
+﻿@model ClassLibrary.Models.Page
+@{
+    if (Model != null)
+    {
+        <div class="box-item">
+            <h3 class="title"><a href="@Model.Url">@Model.Name</a></h3>
+            <div class="time">
+                @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd-MM-yyyy")
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Thumbnail))
+            {
+                <div class="thumbnail">
+                    <a href="@Model.Url">
+                        <img src="@Model.Thumbnail" />
+                    </a>
+                </div>
+            }
+            <div class="text-note">
+                @Model.Note
+            </div>
+            <div class="in-category">
+                <b>Mục tin: </b> <a href="@ViewBag.Url">@ViewBag.Name</a>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Model.Url">Đọc thêm</a>
+        </div>
+
+    }
+    else
+    {
+        <div>
+            Kho cos data
+        </div>
+    }
+}
+
+
