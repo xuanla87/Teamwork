@@ -18,6 +18,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         // GET: AdminControlPanel/Role
         public ActionResult Index()
         {
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
             var list = rolService.ListAllRole();
             return View(list);
         }

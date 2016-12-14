@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ClassLibrary.Models.Role>
+    @using ClassLibrary.Commons
 @{
     ViewBag.Title = "Quyền hệ thống";
     Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
@@ -28,30 +29,30 @@
                 <div class="box-body">
                     <table id="tbdata" class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>Stt</th>
-                                <th>Tên quyền</th>
-                                <th>Ghi chú</th>
-                                <th>Chức năng</th>
-                            </tr>
+                        <tr>
+                            <th>Stt</th>
+                            <th>Tên quyền</th>
+                            <th>Ghi chú</th>
+                            <th>Chức năng</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @{
-                                int i = 1;
-                            }
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.Raw(i++)</td>
-                                    <td>
-                                        @item.RoleName
-                                    </td>
-                                    <td>@item.Note</td>
-                                    <td>
-                                        <a title="Sửa thông tin" href="/AdminControlPanel/Role/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                    </td>
-                                </tr>
-                            }
+                        @{
+                            int i = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.Raw(i++)</td>
+                                <td>
+                                    @item.RoleName
+                                </td>
+                                <td>@item.Note</td>
+                                <td>
+                                    <a title="Sửa thông tin" href="/AdminControlPanel/Role/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>

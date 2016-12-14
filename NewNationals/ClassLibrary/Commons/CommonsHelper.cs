@@ -10,6 +10,55 @@ using System.Web.Mvc;
 
 namespace ClassLibrary.Commons
 {
+    public static class HtmlRequestHelper
+    {
+        /// <summary>
+        /// lấy ID
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <returns></returns>
+        public static string Id(this HtmlHelper htmlHelper)
+        {
+            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
+
+            if (routeValues.ContainsKey("id"))
+                return (string)routeValues["id"];
+            else if (HttpContext.Current.Request.QueryString.AllKeys.Contains("id"))
+                return HttpContext.Current.Request.QueryString["id"];
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Lấy tên Controller
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <returns></returns>
+        public static string Controller(this HtmlHelper htmlHelper)
+        {
+            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
+
+            if (routeValues.ContainsKey("controller"))
+                return (string)routeValues["controller"];
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Lấy tên Method
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <returns></returns>
+        public static string Action(this HtmlHelper htmlHelper)
+        {
+            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
+
+            if (routeValues.ContainsKey("action"))
+                return (string)routeValues["action"];
+
+            return string.Empty;
+        }
+    }
     public class CommonsHelper
     {
         public static string SessionAdminCp = "SessionAdminCPLogin";
