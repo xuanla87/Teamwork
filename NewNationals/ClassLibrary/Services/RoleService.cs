@@ -139,5 +139,14 @@ namespace ClassLibrary.Services
         {
             return _db.Roles.SingleOrDefault(x => x.Id == id);
         }
+        /// <summary>
+        /// hàm trả về danh sách Category có ParentID=NULL và trạng thái != -1
+        /// trạng thái =-1 có nghĩa là bản ghi đã bị xóa không hiển thị trên he thống
+        /// </summary>
+        /// <returns></returns>
+        public List<Role> GetRoleList()
+        {
+            return _db.Roles.ToList();
+        }
     }
 }
