@@ -1,0 +1,124 @@
+﻿@model IEnumerable<ClassLibrary.Models.Category>
+@{
+    if (Model.Count() > 0)
+    {
+        <div class="banner">
+            <img src="~/Content/banner.jpg" />
+        </div>
+        <div class="navbar navbar-inverse">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">
+                    <img src="~/Content/logo.png" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="">
+                        <a href="#">
+                            Tai nạn giao thông
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Tai nạn đuối nước
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Tai nạn do ngã
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Tai nạn lao động
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Tai nạn do bóng
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            loại hình Tai nạn khác
+                        </a>
+                        <i class="fa fa-sort-down"></i>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Tai nạn tự tử
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Tai nạn ngộ độc
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Tai nạn ngạt thở
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Điện giật/Sét đánh
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Bạo lực hành hung
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="form-search">
+                    <div class="search-body">
+                        <input type="text" placeholder="Tìm kiêm" class="text" />
+                        <button class="btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slideshow">
+            <div class="row slideshow-body">
+                <div class="col-lg-8">
+                    @Html.Action("SlideShows")
+                </div>
+                <div class="col-lg-4 box-event">
+                    <div class="title">
+                        <i class="fa fa-calendar"></i>
+                        Sự kiện sắp diễn ra
+                    </div>
+                    <div class="box-event-body">
+                        @Html.Action("Events")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home">
+            <div class="container body-content">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4">
+                            <div class="box">
+                                <h2 class="title">@item.Name</h2>
+                                @Html.Action("PageInCategories", new { Id = item.Id })
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.Action("PageByCategories")
+    }
+}
