@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Models;
 using ClassLibrary.Services;
 using NewNationals.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace NewNationals.Controllers
         SettingService SETTINGS = new SettingService();
         public ActionResult Index()
         {
-            var listCate = CATEGORIES.getTopCategory(6).ToList();
+            var listCate = CATEGORIES.getTopCategory(42).ToList();
             return PartialView(listCate);
         }
         public ActionResult Default(string stUrl, int? page)
@@ -80,27 +81,61 @@ namespace NewNationals.Controllers
             var cate = CATEGORIES.getById(entity.CategoriesId);
             if (cate != null)
             {
-                stLink += "<a class=\"page-home\" href=\"/\">Trang chủ</a>";
-                stLink += " | <a href=\"" + cate.Url + "\">" + cate.Name + "</a> | ";
-                stLink += "" + entity.Name + "";
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+                stLink += getLinkParentCategories("", cate.ParentId);
+                stLink += " | " + entity.Name + "";
             }
             else
             {
-                stLink += "<a class=\"page-home\" href=\"/\">Trang chủ</a> | ";
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
+            ViewBag.CategoriesId = cate.ParentId;
+            ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
             return PartialView(entity);
         }
 
-        public ActionResult Details(string slug)
+        public PartialViewResult Categories(string stUrl, int? page)
         {
-            return PartialView();
+            var entity = CATEGORIES.getByUrl(stUrl);
+            var child = CATEGORIES.getByParentId(entity.Id);
+            return PartialView(child);
         }
 
-        public ActionResult Categories(string slug, int? page)
+        public PartialViewResult PageByCategories(string stUrl, int? page)
         {
-            return PartialView();
+            int pageNum = page ?? 1;
+            var entity = CATEGORIES.getByUrl(stUrl);
+            var pages = PAGES.getByCategoriesId(entity.Id);
+            string stLink = "";
+            if (entity != null)
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+                stLink += getLinkParentCategories("", entity.ParentId);
+                stLink += " | " + entity.Name + "";
+            }
+            else
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+            }
+            ViewBag.Breadcrumb = stLink;
+            ViewBag.Title = entity.Name;
+            ViewBag.CategoriesId = entity.ParentId;
+            ViewBag.CategoriesName = CATEGORIES.getById(entity.ParentId).Name;
+            return PartialView(pages.ToPagedList(pageNum, 20));
+        }
+
+        public PartialViewResult getBoxCategories(long? Id)
+        {
+            var entity = CATEGORIES.getByParentId(Id);
+            return PartialView(entity);
+        }
+
+        public PartialViewResult getLatestNews()
+        {
+            var entity = PAGES.getLatest().Take(2).ToList();
+            return PartialView(entity);
         }
 
         public ActionResult PageError()
@@ -128,6 +163,29 @@ namespace NewNationals.Controllers
             var entity = new List<Page>();
             entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(2).ToList();
             return PartialView(entity);
+        }
+
+        public PartialViewResult SlideShows()
+        {
+            var entity = PAGES.getSlideShows();
+            return PartialView(entity);
+        }
+
+        public PartialViewResult Events()
+        {
+            var entity = PAGES.getEvents();
+            return PartialView(entity);
+        }
+
+        private string getLinkParentCategories(string stLink, long? Id)
+        {
+            var cate = CATEGORIES.getById(Id);
+            if (cate != null)
+            {
+                stLink += getLinkParentCategories(stLink, cate.ParentId);
+                stLink += " | <a href=\"" + cate.Url + "\">" + cate.Name + "</a>";
+            }
+            return stLink;
         }
     }
 }

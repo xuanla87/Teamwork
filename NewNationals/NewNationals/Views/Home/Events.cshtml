@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ClassLibrary.Models.Page>
+@foreach (var item in Model)
+{
+    <div class="item">
+        <div class="event-text">
+            <div class="event-time">
+                @DateTime.Parse(item.ModifiedDate.ToString()).ToString("MM yyyy")
+            </div>
+            <div class="event-body">
+                <div class="event-title">
+                    <a href="/@item.Url">
+                        @item.Name
+                    </a>
+                </div>
+                <div class="event-description">
+                    @item.Note
+                </div>
+            </div>
+        </div>
+    </div>
+}

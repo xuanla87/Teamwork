@@ -236,5 +236,10 @@ namespace ClassLibrary.Services
         {
             return _db.Categories.Take(top).OrderBy(x => x.Id);
         }
+
+        public IEnumerable<Category> getByParentId(long? ParentId)
+        {
+            return _db.Categories.Where(x => x.ParentId == ParentId && x.Status != -1);
+        }
     }
 }

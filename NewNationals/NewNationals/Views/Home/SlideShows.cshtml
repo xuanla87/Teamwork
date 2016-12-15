@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ClassLibrary.Models.Page>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            if (i == 0)
+            {
+                <li data-target="#myCarousel" data-slide-to="@i" class="active"></li>
+            }
+            else
+            {
+                <li data-target="#myCarousel" data-slide-to="@i" class=""></li>
+            }
+        }
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        @{
+            int j = 0;
+            foreach (var item in Model)
+            {
+                j++;
+                if (j == 1)
+                {
+                    <div class="item active">
+                        <div class="thumbnail">
+                            <a href="@item.Url">
+                                <img src="@item.Thumbnail" />
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h2 class="title">@item.Name</h2>
+                            <div class="description">
+                                @item.Note
+                            </div>
+                            <a class="btn btn-info" href="@item.Url">Đọc thêm</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <div class="thumbnail">
+                            <a href="@item.Url">
+                                <img src="@item.Thumbnail" />
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h2 class="title">@item.Name</h2>
+                            <div class="description">
+                                @item.Note
+                            </div>
+                            <a class="btn btn-info" href="@item.Url">Đọc thêm</a>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

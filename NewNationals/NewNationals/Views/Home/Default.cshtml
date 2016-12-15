@@ -5,10 +5,10 @@
     switch (stCase)
     {
         case "Category":
-            @Html.Action("Categories", new { stUrl = Model.stUrl })
+            @Html.Action("Categories")
             break;
         case "Content":
-            @Html.Action("Pages", new { stUrl = Model.stUrl })
+            @Html.Action("Pages")
             break;
         case "404":
             @Html.Action("PageError")

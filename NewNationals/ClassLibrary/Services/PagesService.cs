@@ -18,7 +18,7 @@ namespace ClassLibrary.Services
         bool Update(Page entity);
         bool Delete(Page entity);
     }
-    public class PagesService: IPagesService
+    public class PagesService : IPagesService
     {
         private readonly DataContext _db = null;
 
@@ -121,7 +121,7 @@ namespace ClassLibrary.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public bool UpdateUrl(long id,string url)
+        public bool UpdateUrl(long id, string url)
         {
             try
             {
@@ -280,11 +280,26 @@ namespace ClassLibrary.Services
         }
         public Page getFistByCategoriesId(long CategoriesId)
         {
-            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x=>x.ModifiedDate).FirstOrDefault();
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
         }
         public IEnumerable<Page> getByCategoriesId(long CategoriesId)
         {
             return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x => x.ModifiedDate).ToList();
+        }
+
+        public IEnumerable<Page> getSlideShows()
+        {
+            return _db.Pages.Where(x => x.Feature == true && x.Status >= 0).OrderByDescending(x => x.ModifiedDate).Take(5).ToList();
+        }
+
+        public IEnumerable<Page> getEvents()
+        {
+            return _db.Pages.Where(x => x.Home == true && x.Status >= 0).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+        }
+
+        public IEnumerable<Page> getLatest()
+        {
+            return _db.Pages.Where(x => x.Status != -1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
     }
 }

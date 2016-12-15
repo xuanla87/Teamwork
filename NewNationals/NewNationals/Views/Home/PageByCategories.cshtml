@@ -1,4 +1,6 @@
-﻿@model ClassLibrary.Models.Page
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ClassLibrary.Models.Page>
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -79,25 +81,88 @@
             </div>
         </div>
     </div>
-
 </div>
-<div class="container body-content">
+<div class="container body-content page-in-category">
     <div class="row">
         <div class="breadcrumb-trail breadcrumb">
             @Html.Raw(ViewBag.Breadcrumb)
         </div>
+        <div class="col-lg-12">
+            <h1 class="page-title">
+                @ViewBag.Title
+            </h1>
+        </div>
         <div class="col-lg-8">
-            <div class="page-body">
-                <h1 class="page-title">@Model.Name</h1>
-                <div class="page-content">
-                    @Html.Raw(Model.Content)
+            <div class="box-search">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Năm</th>
+                            <th>Từ khóa</th>
+                            <th>Tác giả</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <select id="slYear" name="slYear">
+                                <option value="">Chọn</option>
+                                @{
+                                    int year = DateTime.Now.Year;
+                                    for (int i = year; i >= year - 10; i--)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input id="txtKeywords" name="txtKeywords" type="text" placeholder="Nhập từ khóa" />
+                        </td>
+                        <td>
+                            <input id="txtAuthor" name="txtAuthor" type="text" placeholder="Nhập tên tác giả" />
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btnsearch">Tìm kiếm</button>
+                            <button type="button" class="btnsearch">Xóa</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="item">
+                    <h3 class="title">
+                        <a href="/@item.Url" title="@item.Name">
+                            @item.Name
+                        </a>
+                    </h3>
+                    <span class="time">
+                        @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd MM yyyy")
+                    </span>
+                    <div class="thumbnail">
+                        <a href="/@item.Url" title="@item.Name">
+                            <img alt="@item.Name" src="@item.Thumbnail" />
+                        </a>
+                    </div>
+                    <div class="description">
+                        @item.Note
+                    </div>
                 </div>
+                <div class="box-footer">
+                    <a href="/@item.Url" title="@item.Name">
+                        Đọc thêm
+                    </a>
+                </div>
+            }
+            <div class="paging">
+                @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page))
             </div>
         </div>
         <div class="col-lg-4">
             <div class="box-right">
                 <div class="header">
-                    @ViewBag.CategoriesName
+                    Tìm hiều @ViewBag.CategoriesName
                 </div>
                 <div class="box-body">
                     @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
@@ -107,7 +172,9 @@
                 <div class="header">
                     Tin mới ra
                 </div>
-                @Html.Action("PageRelated", new { Id = Model.Id, CateId = Model.CategoriesId })
+                <div class="box-body">
+                    @Html.Action("getLatestNews")
+                </div>
             </div>
         </div>
     </div>
