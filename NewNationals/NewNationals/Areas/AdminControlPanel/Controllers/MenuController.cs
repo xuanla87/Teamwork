@@ -14,7 +14,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
     public class MenuController : BaseController
     {
-        MenuService menuService=new MenuService();
+        MenuService menuService = new MenuService();
+        PagesService pageService=new PagesService();
         // GET: AdminControlPanel/Menu
         public ActionResult Index(int? page, string SearchString)
         {
@@ -62,7 +63,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     mn.Name = entity.Name;
                     mn.TargetUrl = entity.TargetUrl;
                     mn.ParentId = entity.ParentId;
-                    mn.Tanoxomy = entity.Tanoxomy;
+                    mn.Tanoxomy = "Content";
                     mn.Order = entity.Order;
                     mn.stExtension = entity.stExtension;
                     menuService.Insert(mn);
@@ -120,7 +121,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     mn.Name = entity.Name;
                     mn.TargetUrl = entity.TargetUrl;
                     mn.ParentId = entity.ParentId;
-                    mn.Tanoxomy = entity.Tanoxomy;
+                    mn.Tanoxomy = "Content";
                     mn.Order = entity.Order;
                     mn.stExtension = entity.stExtension;
                     menuService.Update(mn);
@@ -159,6 +160,45 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        CategoriesService cateService=new CategoriesService();
+        [HttpPost]
+        public JsonResult GetUrl(int type, string text)
+        {
+            var data = "";
+            if (type == 1) // cate
+            {
+                data = "";
+                var listcate = cateService.ListAllCategory();
+            }
+            else if (type == 2)
+            {
+                data = "";
+            }
+            else
+            {
+                data = "";
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
         #endregion
+        
+        [HttpPost]
+        public JsonResult GetAutoAll(string input, string gettype)
+        {
+            if (gettype == "1")
+            {
+                var listcate = cateService.GetCateAutoComplete(input);
+                return Json(listcate, JsonRequestBehavior.AllowGet);
+            }
+            else if (gettype == "2")
+            {
+                var listpage = pageService.GetPageAutoComplete(input);
+                return Json(listpage, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

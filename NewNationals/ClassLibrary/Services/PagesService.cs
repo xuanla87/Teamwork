@@ -269,10 +269,6 @@ namespace ClassLibrary.Services
         {
             return _db.Pages.SingleOrDefault(x => x.Id == id);
         }
-        public List<Page> GetPageAutoComplete(string input)
-        {
-            return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input))).ToList();
-        }
 
         public Page getByUrl(string sturl)
         {
@@ -300,6 +296,11 @@ namespace ClassLibrary.Services
         public IEnumerable<Page> getLatest()
         {
             return _db.Pages.Where(x => x.Status != -1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+        }
+
+        public List<Page> GetPageAutoComplete(string input)
+        {
+            return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input)) && x.Status!=-1).ToList();
         }
     }
 }

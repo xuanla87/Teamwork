@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<ClassLibrary.Models.Category>
-<ul class="category">
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-        <li>
-            <a href="/@item.Url">@item.Name</a>
-        </li>
+        <ul class="category">
+
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="/@item.Url">@item.Name</a>
+                </li>
+            }
+        </ul>
     }
-</ul>

@@ -76,6 +76,22 @@ namespace ClassLibrary.Commons
             };
             return getStatus;
         }
+
+        /// <summary>
+        /// Trọn trạng thái sử dụng
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> Dropdown_TypeTargetUrl()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Không có đường dẫn", Value = "0" },
+                new SelectListItem { Text = "Lấy đường dẫn từ Chuyên mục", Value = "1"},
+                new SelectListItem { Text = "Lấy đường dẫn từ Bài viết", Value = "2"},
+            };
+            return getStatus;
+        }
+
         /// <summary>
         /// Chọn giới tính
         /// </summary>

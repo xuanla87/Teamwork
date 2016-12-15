@@ -33,42 +33,55 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model=>model.Id)
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                        @Html.HiddenFor(model => model.Id)
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.ParentId)</label>
-                                    @Html.DropDownListFor(model => model.ParentId, null, "--- Chọn menu cha ---", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
-                                </div>
+
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Name)</label>
                                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên menu" } })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     <!-- /.input group -->
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>@Html.LabelFor(model => model.ParentId)</label>
+                                            @Html.DropDownListFor(model => model.ParentId, null, "--- Chọn menu cha ---", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>@Html.LabelFor(model => model.Order)</label>
+                                            @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập vị trí sắp xếp" } })
+                                            @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Chọn kiểu đường dẫn cho menu</label>
+                                    @Html.DropDownList("TypeTargetUrl", new SelectList(CommonsHelper.Dropdown_TypeTargetUrl(), "Value", "Text"), new { @class = "form-control" })
+                                </div>
+
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.TargetUrl)</label>
                                     @Html.EditorFor(model => model.TargetUrl, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập đường dẫn bài viết" } })
                                     @Html.ValidationMessageFor(model => model.TargetUrl, "", new { @class = "text-danger" })
-                                    <!-- /.input group -->
                                 </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Tanoxomy)</label>
-                                    @Html.EditorFor(model => model.Tanoxomy, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập phân loại" } })
-                                    @Html.ValidationMessageFor(model => model.Tanoxomy, "", new { @class = "text-danger" })
-                                    <!-- /.input group -->
-                                </div>
-                                <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.Order)</label>
-                                    @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập vị trí sắp xếp" } })
-                                    @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
-                                    <!-- /.input group -->
-                                </div>
+
+                                @*<div class="form-group">
+                                        <label>@Html.LabelFor(model => model.Tanoxomy)</label>
+                                        @Html.EditorFor(model => model.Tanoxomy, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập phân loại"}})
+                                        @Html.ValidationMessageFor(model => model.Tanoxomy, "", new {@class = "text-danger"})
+                                    </div>*@
+
+
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.stExtension)</label>
-                                    @Html.EditorFor(model => model.stExtension, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mở rộng" } })
+                                    @Html.TextAreaFor(model => model.stExtension, new { @class = "form-control", @placeholder = "Nhập mở rộng" })
                                     @Html.ValidationMessageFor(model => model.stExtension, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
@@ -86,7 +99,41 @@
     </div>
     <!-- /.row (main row) -->
 </section>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui.js"></script>
 <script>
+    $(document).ready(function () {
+        //$("#TypeTargetUrl").change(function () {
+        //    var ddl= $(this).val();
+        //    if (ddl == "0") {
+        //        alert('ban cho 0');
+        //    }
+        //    if (ddl == "1") {
+        //        $("#targetMenu").addClass("block");
+        //    }
+        //    if (ddl == "2") {
+        //        $("#targetBaiViet").addClass("block");
+        //    }
+        //});
+        $("#TargetUrl").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetAutoAll", "Menu")',
+                    type: "POST",
+                    dataType: "json",
+                    data: { input: request.term, gettype: $('#TypeTargetUrl').val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Name, value: item.Url };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    });
     function BackIndex() {
         var url = "/AdminControlPanel/Menu/Index";
         window.location.assign(url);

@@ -239,7 +239,14 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Category> getByParentId(long? ParentId)
         {
-            return _db.Categories.Where(x => x.ParentId == ParentId && x.Status != -1);
+            if(ParentId==null)
+                return null;
+            else
+                return _db.Categories.Where(x => x.ParentId == ParentId && x.Status != -1);
+        }
+        public List<Category> GetCateAutoComplete(string input)
+        {
+            return _db.Categories.Where(x => (x.Url.Contains(input) || x.Name.Contains(input))).ToList();
         }
     }
 }

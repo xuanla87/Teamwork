@@ -15,6 +15,9 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "Tên menu")]
         public string Name { get; set; }
 
+
+        public string TypeTargetUrl { get; set; }
+
         [StringLength(350)]
         [Display(Name = "Đường dẫn bài viết")]
         public string TargetUrl { get; set; }

@@ -116,8 +116,6 @@
     </div>
     <!-- /.row (main row) -->
 </section>
-<script src="~/Areas/AdminControlPanel/Content/ckeditor/styles.js"></script>
-<script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
 <link href="~/Content/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-ui.js"></script>
 <script>
@@ -125,13 +123,13 @@
         $("#TargetUrl").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: "/SlideShow/GetAuto",
+                    url: '@Url.Action("GetAuto", "SlideShow")',
                     type: "POST",
                     dataType: "json",
                     data: { input: request.term },
                     success: function (data) {
                         response($.map(data, function (item) {
-                            return { label: item.Url, value: item.Url };
+                            return { label: item.Name, value: item.Url };
                         }))
                     }
                 })
@@ -152,7 +150,8 @@
         }, function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
         });
-    });
+    })
+   
     $(function () {
         $("#SelectImage").click(function () {
             var finder = new CKFinder();

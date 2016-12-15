@@ -92,7 +92,12 @@ namespace NewNationals.Controllers
             }
             ViewBag.Breadcrumb = stLink;
             ViewBag.CategoriesId = cate.ParentId;
-            ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+            if(cate.ParentId!=null)
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+            else
+            {
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
+            }
             return PartialView(entity);
         }
 
@@ -122,7 +127,12 @@ namespace NewNationals.Controllers
             ViewBag.Breadcrumb = stLink;
             ViewBag.Title = entity.Name;
             ViewBag.CategoriesId = entity.ParentId;
-            ViewBag.CategoriesName = CATEGORIES.getById(entity.ParentId).Name;
+            if (entity.ParentId != null)
+                ViewBag.CategoriesName = CATEGORIES.getById(entity.ParentId).Name;
+            else
+            {
+                ViewBag.CategoriesName = CATEGORIES.getById(entity.Id).Name;
+            }
             return PartialView(pages.ToPagedList(pageNum, 20));
         }
 
