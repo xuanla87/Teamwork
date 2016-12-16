@@ -91,3 +91,12 @@ F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\Microsoft.Owin.Sec
 F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\ProjectManager\Teamword_News\NewNationals\NewNationals\obj\Debug\NewNationals.dll
 F:\ProjectManager\Teamword_News\NewNationals\NewNationals\obj\Debug\NewNationals.pdb
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\ClassLibrary.dll
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\ClassLibrary.pdb
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\obj\Debug\NewNationals.csprojResolveAssemblyReference.cache
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\PagedList.dll
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\PagedList.Mvc.dll
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\PagedList.xml
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\PagedList.Mvc.xml
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\CKFinder.dll
+F:\ProjectManager\Teamword_News\NewNationals\NewNationals\bin\CKFinder.pdb

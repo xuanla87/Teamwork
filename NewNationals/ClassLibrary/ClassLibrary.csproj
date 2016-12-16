@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc">
       <HintPath>..\..\..\News\News\bin\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -56,7 +57,9 @@
   <ItemGroup>
     <Compile Include="Commons\CommonsHelper.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\LogSystem.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageMeta.cs" />
@@ -68,6 +71,8 @@
     <Compile Include="Models\UserMeta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CategoriesService.cs" />
+    <Compile Include="Services\CommentService.cs" />
+    <Compile Include="Services\LogSystemService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\PageMetaService.cs" />
     <Compile Include="Services\PagesService.cs" />
