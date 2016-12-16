@@ -23,6 +23,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             entity.HomeBoxFourth = SETTING.getValue("HomeBoxFourth");
             entity.HomeBoxFifth = SETTING.getValue("HomeBoxFifth");
             entity.HomeBoxSixth = SETTING.getValue("HomeBoxSixth");
+            entity.FooterInfo = SETTING.getValue("Footer_Info");
             return View(entity);
         }
 
@@ -39,6 +40,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 SETTING.saveValue("HomeBoxFourth", entity.HomeBoxFourth);
                 SETTING.saveValue("HomeBoxFifth", entity.HomeBoxFifth);
                 SETTING.saveValue("HomeBoxSixth", entity.HomeBoxSixth);
+                SETTING.saveValue("Footer_Info", entity.FooterInfo); 
             }
             return View(entity);
         }

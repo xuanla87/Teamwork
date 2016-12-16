@@ -194,7 +194,7 @@ namespace ClassLibrary.Services
         }
         public int CountSetting()
         {
-            return _db.Settings.Count();
+            return _db.Settings.Where(x => x.stValue != null).Count();
         }
         public int CountMenu()
         {

@@ -89,7 +89,15 @@ namespace ClassLibrary.Services
                 return false;
             }
         }
+        public Setting GetSettings(string key)
+        {
+            return _db.Settings.Where(x => x.stKey == key && x.Status == true).FirstOrDefault();
+        }
 
+        public List<Setting> GetAll()
+        {
+            return _db.Settings.ToList();
+        }
         /// <summary>
         /// Lưu giá trị theo stKey
         /// </summary>
