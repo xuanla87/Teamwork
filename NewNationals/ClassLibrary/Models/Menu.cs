@@ -19,7 +19,6 @@ namespace ClassLibrary.Models
 
         public long? ParentId { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Tanoxomy { get; set; }
 

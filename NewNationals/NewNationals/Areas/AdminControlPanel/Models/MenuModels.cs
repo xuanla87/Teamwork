@@ -10,7 +10,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
     {
         public long Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nhập tên menu")]
         [StringLength(150)]
         [Display(Name = "Tên menu")]
         public string Name { get; set; }
@@ -29,6 +29,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "Phân loại")]
         public string Tanoxomy { get; set; }
 
+        [Required(ErrorMessage = "Nhập vị trí sắp xếp (kiểu số)")]
         [Display(Name = "Vị trí sắp xếp")]
         public byte Order { get; set; }
 

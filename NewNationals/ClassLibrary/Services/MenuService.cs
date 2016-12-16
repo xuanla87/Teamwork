@@ -122,7 +122,7 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public IEnumerable<Menu> ListAllMenu()
         {
-            return _db.Menus.OrderBy(x => x.Order).ToList();
+            return _db.Menus.Where(x => x.ParentId == null).OrderBy(x => x.Order).ToList();
         }
         /// <summary>
         /// tạo cấu trúc Menu
@@ -148,6 +148,28 @@ namespace ClassLibrary.Services
                         Value = child.Id.ToString(),
                         Text = string.Format("::..{0}", child.Name)
                     });
+                    //-----------------------------------------------------------------------------
+                    // hien thi menu cap 3
+                    var parents3 = menu.Where(x => x.ParentId == child.Id);
+                    foreach (var parent3 in parents3)
+                    {
+                        // Add SelectListItem for the parent
+                        options.Add(new SelectListItem()
+                        {
+                            Value = parent3.Id.ToString(),
+                            Text = string.Format("::..::..{0}", parent3.Name)
+                        });
+                        // hien thi menu cap 4
+                        //var children3 = categories.Where(x => x.CategoryParentId == parent3.CategoryId);
+                        //foreach (var child3 in children3)
+                        //{
+                        //    options.Add(new SelectListItem()
+                        //    {
+                        //        Value = child3.CategoryId.ToString(),
+                        //        Text = string.Format("::..::..{0}", child3.CategoryName)
+                        //    });
+                        //}
+                    }
                 }
             }
             return options;
@@ -169,5 +191,14 @@ namespace ClassLibrary.Services
         {
             return _db.Menus.SingleOrDefault(x => x.Id == id);
         }
+        /// <summary>
+        /// hàm trả về danh sách mennu theo parentid
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Menu> MenuGetByParent(int menuid)
+        {
+            return _db.Menus.Where(x => x.ParentId == menuid).OrderBy(x => x.Order).ToList();
+        }
+
     }
 }

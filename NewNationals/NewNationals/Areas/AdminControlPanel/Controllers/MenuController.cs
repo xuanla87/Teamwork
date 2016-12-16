@@ -16,6 +16,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
     {
         MenuService menuService = new MenuService();
         PagesService pageService=new PagesService();
+        CategoriesService cateService = new CategoriesService();
+
         // GET: AdminControlPanel/Menu
         public ActionResult Index(int? page, string SearchString)
         {
@@ -45,7 +47,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            //ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            ViewBag.ParentId = menuService.GetMenuSelectList();
             return View();
         }
 
@@ -53,7 +56,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(MenuModels entity)
         {
-            ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            //ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            ViewBag.ParentId = menuService.GetMenuSelectList();
             if (ModelState.IsValid)
             {
                 try
@@ -61,7 +65,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     var mn = new Menu();
                     mn.Id = 1;
                     mn.Name = entity.Name;
-                    mn.TargetUrl = entity.TargetUrl;
+                    mn.TargetUrl = "/" + entity.TargetUrl;
                     mn.ParentId = entity.ParentId;
                     mn.Tanoxomy = "Content";
                     mn.Order = entity.Order;
@@ -95,7 +99,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            // ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            ViewBag.ParentId = menuService.GetMenuSelectList();
             MenuModels mn = new MenuModels();
             mn.Id = entity.Id;
             mn.Name = entity.Name;
@@ -111,7 +116,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MenuModels entity)
         {
-            ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            //ViewBag.ParentId = new SelectList(menuService.GetMenuByParent(), "Id", "Name");
+            ViewBag.ParentId = menuService.GetMenuSelectList();
             if (ModelState.IsValid)
             {
                 try
@@ -119,7 +125,12 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     var mn = new Menu();
                     mn.Id = entity.Id;
                     mn.Name = entity.Name;
-                    mn.TargetUrl = entity.TargetUrl;
+                    if (!string.IsNullOrEmpty(entity.TargetUrl))
+                        mn.TargetUrl = entity.TargetUrl;
+                    else
+                    {
+                        mn.TargetUrl = "/" ;
+                    }
                     mn.ParentId = entity.ParentId;
                     mn.Tanoxomy = "Content";
                     mn.Order = entity.Order;
@@ -160,7 +171,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        CategoriesService cateService=new CategoriesService();
         [HttpPost]
         public JsonResult GetUrl(int type, string text)
         {

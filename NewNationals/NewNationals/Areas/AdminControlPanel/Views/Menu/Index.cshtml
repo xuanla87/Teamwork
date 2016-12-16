@@ -59,7 +59,7 @@
                             {
                                 i++;
                                 <tr>
-                                    <td class="text-center">@Html.Raw(i + (Model.PageNumber * Model.PageSize) - Model.PageSize)</td>
+                                    <td class="text-center">@Html.Raw(i + (Model.PageNumber*Model.PageSize) - Model.PageSize)</td>
                                     <td>
                                         @item.Name
                                     </td>
@@ -71,6 +71,27 @@
                                         <a title="Sửa thông tin" href="/AdminControlPanel/Menu/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
+                                if (!string.IsNullOrEmpty(item.Id.ToString()))
+                                {
+                                    MenuService menu = new MenuService();
+                                    var listbyparent = menu.MenuGetByParent(int.Parse(item.Id.ToString()));
+                                    foreach (var iparent in listbyparent)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@Html.Raw(i + (Model.PageNumber * Model.PageSize) - Model.PageSize)</td>
+                                            <td>
+                                                <p> ::.. @iparent.Name</p>
+                                            </td>
+                                            <td>@iparent.TargetUrl</td>
+                                            <td>@iparent.Tanoxomy</td>
+                                            <td>@iparent.Order</td>
+                                            <td>@iparent.stExtension</td>
+                                            <td>
+                                                <a title="Sửa thông tin" href="/AdminControlPanel/Menu/Edit/@iparent.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@iparent.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
                             }
                         </tbody>
                     </table>
