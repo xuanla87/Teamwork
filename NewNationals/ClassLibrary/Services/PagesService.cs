@@ -276,7 +276,10 @@ namespace ClassLibrary.Services
         }
         public Page getFistByCategoriesId(long CategoriesId)
         {
-            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
+            return
+                _db.Pages.Where(x => x.CategoriesId == CategoriesId)
+                    .OrderByDescending(x => x.ModifiedDate)
+                    .FirstOrDefault();
         }
         public IEnumerable<Page> getByCategoriesId(long CategoriesId)
         {
