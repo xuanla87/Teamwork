@@ -6,6 +6,24 @@
     ViewBag.Title = "Cập nhật bài viết";
     Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
 }
+<style>
+    .fileuploadcss {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .fileuploadcss [type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+</style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -86,12 +104,24 @@
                                     @Html.CheckBoxFor(model => model.Home, new { htmlAttributes = new { @class = "form-control", @placeholder = "Hiển thị bài viết ngoài trang chủ" } })
                                     @Html.ValidationMessageFor(model => model.Home, "", new { @class = "text-danger" })
                                 </div>
-                               
+
                                 @*<div class="form-group">
                                     <label>@Html.LabelFor(model => model.Taxanomy)</label>
                                     @Html.EditorFor(model => model.Taxanomy, new { htmlAttributes = new { @class = "form-control", @placeholder = "Taxanomy" } })
                                     @Html.ValidationMessageFor(model => model.Taxanomy, "", new { @class = "text-danger" })
                                 </div>*@
+                                <div class="form-group">
+                                    <label>File đính kèm</label>
+                                    <label class="form-control fileuploadcss">
+                                        <span id="uploadFile">Nhấn vào đây để chọn file..</span>
+                                        <input type="file" class="upload" id="uploadBtn" name="file" />
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.LinkRelated)</label>
+                                    @Html.EditorFor(model => model.LinkRelated, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập link liên kết nếu có" } })
+                                    @Html.ValidationMessageFor(model => model.LinkRelated, "", new { @class = "text-danger" })
+                                </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Tag)</label>
                                     @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ tag ngăn nhau bởi dấu ,  (ví dụ: nội_dung_tag1,nội_dung_tag2,nội_dung_tag3,..)" } })

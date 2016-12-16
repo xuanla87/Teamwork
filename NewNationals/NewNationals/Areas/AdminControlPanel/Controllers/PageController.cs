@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -113,8 +114,9 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(PageModels entity)
+        public ActionResult Create(PageModels entity, HttpPostedFileBase file)
         {
+            
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
             ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
             if (ModelState.IsValid)
@@ -141,6 +143,20 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = "Content";
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
+                        {
+                            Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
+                        }
+                        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extfile = Path.GetExtension(fileName);
+                        string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
+                        var path = Path.Combine(Server.MapPath("~//Images/FileAttach/"), filerename);
+                        file.SaveAs(path);
+                        page.FileAttach = "/Images/FileAttach/" + filerename;
+                    }
+                    page.LinkRelated = entity.LinkRelated;
                     pagService.Insert(page);
                     long getid = page.Id;
                     string geturl = page.Url + "-" + getid;
@@ -223,13 +239,15 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
+            page.FileAttach = entity.FileAttach;
+            page.LinkRelated = entity.LinkRelated;
             return View(page);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(PageModels entity)
+        public ActionResult Edit(PageModels entity, HttpPostedFileBase file)
         {
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
             ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
@@ -256,6 +274,20 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = entity.Taxanomy;
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
+                        {
+                            Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
+                        }
+                        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                        string extfile = Path.GetExtension(fileName);
+                        string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
+                        var path = Path.Combine(Server.MapPath("~/Images/FileAttach/"), filerename);
+                        file.SaveAs(path);
+                        page.FileAttach = "/Images/FileAttach/" + filerename;
+                    }
+                    page.LinkRelated = entity.LinkRelated;
                     pagService.Update(page);
                     //---------------------------------------------------------
                     // xóa toàn bộ tag của bài viết

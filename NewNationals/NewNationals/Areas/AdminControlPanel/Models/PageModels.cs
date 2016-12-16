@@ -71,5 +71,13 @@ namespace NewNationals.Areas.AdminControlPanel.Models
 
         [Display(Name = "Tag")]
         public string Tag { get; set; }
+
+        [StringLength(500)]
+        [Display(Name = "File đính kèm")]
+        public string FileAttach { get; set; }
+
+        [StringLength(500)]
+        [Display(Name = "Liên kết")]
+        public string LinkRelated { get; set; }
     }
 }
