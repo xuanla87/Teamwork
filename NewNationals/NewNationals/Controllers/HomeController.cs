@@ -15,11 +15,19 @@ namespace NewNationals.Controllers
         CategoriesService CATEGORIES = new CategoriesService();
         PagesService PAGES = new PagesService();
         SettingService SETTINGS = new SettingService();
+        MenuService MENUS=new MenuService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
             return PartialView(listCate);
         }
+
+        public PartialViewResult MenuTop()
+        {
+            var listMenu = MENUS.GetMenuTopParent();
+            return PartialView(listMenu);
+        }
+
         public ActionResult Default(string stUrl, int? page)
         {
             ModelUrls entity = new ModelUrls();

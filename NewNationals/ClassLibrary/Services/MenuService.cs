@@ -124,6 +124,15 @@ namespace ClassLibrary.Services
         {
             return _db.Menus.Where(x => x.ParentId == null).OrderBy(x => x.Order).ToList();
         }
+        public IEnumerable<Menu> GetMenuTopParent()
+        {
+            return _db.Menus.Where(x=>x.ParentId==null).OrderBy(x => x.Order);
+        }
+        public IEnumerable<Menu> GetMenuTopChild(int menuid)
+        {
+            return _db.Menus.Where(x => x.ParentId == menuid).OrderBy(x => x.Order);
+        }
+
         /// <summary>
         /// tạo cấu trúc Menu
         /// </summary>
