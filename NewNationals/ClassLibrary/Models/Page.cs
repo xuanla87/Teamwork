@@ -53,5 +53,11 @@ namespace ClassLibrary.Models
 
         [StringLength(50)]
         public string Taxanomy { get; set; }
+
+        [StringLength(500)]
+        public string FileAttach { get; set; }
+
+        [StringLength(500)]
+        public string LinkRelated { get; set; }
     }
 }
