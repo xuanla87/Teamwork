@@ -14,6 +14,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
     public class CommentController : BaseController
     {
         CommentService comService=new CommentService();
+        PagesService pageService=new PagesService();
         // GET: AdminControlPanel/Comment
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
@@ -63,6 +64,26 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             {
             }
             return View(showlist.ToPagedList(pageNum, 30));
+        }
+
+        /// <summary>
+        ///  hàm trả về tên của bài viết
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string GetNamePage(long id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id.ToString()))
+                    id = 0;
+                var page = pageService.GetPageById(id);
+                return page.Name;
+            }
+            catch
+            {
+                return null;
+            }
         }
         #region [Delete]
         [HttpPost]

@@ -19,6 +19,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         PagesService pagService=new PagesService();
         UserService userService = new UserService();
         TagService tagService=new TagService();
+        PageMetaService pageMetaService=new PageMetaService();
         // GET: AdminControlPanel/Page
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
@@ -114,9 +115,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(PageModels entity, HttpPostedFileBase file)
+        public ActionResult Create(PageModels entity, HttpPostedFileBase[] files)
         {
-            
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
             ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
             if (ModelState.IsValid)
@@ -143,20 +143,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = "Content";
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
-                        {
-                            Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
-                        }
-                        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extfile = Path.GetExtension(fileName);
-                        string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
-                        var path = Path.Combine(Server.MapPath("~//Images/FileAttach/"), filerename);
-                        file.SaveAs(path);
-                        page.FileAttach = "/Images/FileAttach/" + filerename;
-                    }
-                    page.LinkRelated = entity.LinkRelated;
                     pagService.Insert(page);
                     long getid = page.Id;
                     string geturl = page.Url + "-" + getid;
@@ -179,10 +165,41 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                             }
                         }
                     }
-                    
+                    if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
+                    {
+                        Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
+                    }
+                    try
+                    {
+                        /*Lopp for multiple files*/
+                        foreach (HttpPostedFileBase file in files)
+                        {
+                            var filename = System.IO.Path.GetFileName(file.FileName);
+                            //string extfile = Path.GetExtension(fileName);
+                            //string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
+                            var path = Path.Combine(Server.MapPath("~/Images/FileAttach/"), filename);
+                            file.SaveAs(path);
+                            PageMeta pagmeta = new PageMeta();
+                            pagmeta.Id = 1;
+                            pagmeta.PageId = getid;
+                            pagmeta.stKey = "FILEUPLOAD";
+                            pagmeta.stValue = "/Images/FileAttach/" + filename;
+                            pageMetaService.Insert(pagmeta);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    PageMeta pgmeta = new PageMeta();
+                    pgmeta.Id = 1;
+                    pgmeta.PageId = getid;
+                    pgmeta.stKey = "LIENKET";
+                    pgmeta.stValue = entity.LinkRelated;
+                    pageMetaService.Insert(pgmeta);
+
                     return RedirectToAction("Index", "Page");
                 }
-                catch (Exception ex)
+                catch
                 {
                     ModelState.AddModelError("", "Lỗi!");
                     return View();
@@ -239,15 +256,13 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
-            page.FileAttach = entity.FileAttach;
-            page.LinkRelated = entity.LinkRelated;
             return View(page);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(PageModels entity, HttpPostedFileBase file)
+        public ActionResult Edit(PageModels entity, HttpPostedFileBase[] files)
         {
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
             ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
@@ -274,20 +289,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = entity.Taxanomy;
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
-                        {
-                            Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
-                        }
-                        var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extfile = Path.GetExtension(fileName);
-                        string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
-                        var path = Path.Combine(Server.MapPath("~/Images/FileAttach/"), filerename);
-                        file.SaveAs(path);
-                        page.FileAttach = "/Images/FileAttach/" + filerename;
-                    }
-                    page.LinkRelated = entity.LinkRelated;
                     pagService.Update(page);
                     //---------------------------------------------------------
                     // xóa toàn bộ tag của bài viết
@@ -310,6 +311,42 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                             }
                         }
                     }
+                    //---------------------------------------------------------------------
+                    // upload file
+                    var listpagemetaFileUpload = pageMetaService.ListPageMetaById(entity.Id,"FILEUPLOAD");
+                    pageMetaService.DeletePageId(listpagemetaFileUpload);
+
+                    if (!Directory.Exists(Server.MapPath("~/Images/FileAttach/")))
+                    {
+                        Directory.CreateDirectory(Server.MapPath("~/Images/FileAttach/"));
+                    }
+                    try
+                    {
+                        /*Lopp for multiple files*/
+                        foreach (HttpPostedFileBase file in files)
+                        {
+                            var filename = System.IO.Path.GetFileName(file.FileName);
+                            //string extfile = Path.GetExtension(fileName);
+                            //string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
+                            var path = Path.Combine(Server.MapPath("~/Images/FileAttach/"), filename);
+                            file.SaveAs(path);
+                            PageMeta pagmeta = new PageMeta();
+                            pagmeta.Id = 1;
+                            pagmeta.PageId = entity.Id;
+                            pagmeta.stKey = "FILEUPLOAD";
+                            pagmeta.stValue = "/Images/FileAttach/" + filename;
+                            pageMetaService.Insert(pagmeta);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                    PageMeta pgmeta = new PageMeta();
+                    pgmeta.Id = 1;
+                    pgmeta.PageId = entity.Id;
+                    pgmeta.stKey = "LIENKET";
+                    pgmeta.stValue = entity.LinkRelated;
+                    pageMetaService.Insert(pgmeta);
                     return RedirectToAction("Index", "Page");
                 }
                 catch (Exception ex)

@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using ClassLibrary.Commons;
 using ClassLibrary.Models;
 
 namespace ClassLibrary.Services
@@ -39,6 +41,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Insert PageMeta]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -63,6 +73,14 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Update PageMeta]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }
@@ -86,6 +104,39 @@ namespace ClassLibrary.Services
             }
             catch (Exception ex)
             {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Delete PageMeta]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
+        public List<PageMeta> ListPageMetaById(long id,string stkey)
+        {
+            return _db.PageMetas.Where(x => x.PageId == id && x.stKey==stkey).ToList();
+        }
+        public bool DeletePageId(List<PageMeta> lst)
+        {
+            try
+            {
+                _db.PageMetas.RemoveRange(lst);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Delete Tag]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
                 return false;
             }
         }

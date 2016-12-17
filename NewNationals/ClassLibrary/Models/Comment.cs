@@ -26,5 +26,8 @@ namespace ClassLibrary.Models
 
         public int? Status { get; set; }
 
+        public long PageId { get; set; }
+
+
     }
 }
