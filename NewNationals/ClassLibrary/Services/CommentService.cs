@@ -121,7 +121,7 @@ namespace ClassLibrary.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool UpdateStatus(long id,int status)
+        public bool UpdateStatus(long id, int status)
         {
             try
             {
@@ -199,6 +199,11 @@ namespace ClassLibrary.Services
         public int CountMenu()
         {
             return _db.Menus.Count();
+        }
+
+        public IEnumerable<Comment> getByPageId(long PageId)
+        {
+            return _db.Comments.Where(x => x.PageId == PageId && x.Status == 1).OrderByDescending(x => x.CreateDate);
         }
     }
 }

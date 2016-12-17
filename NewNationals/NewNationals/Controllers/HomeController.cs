@@ -1,4 +1,5 @@
-﻿using ClassLibrary.Models;
+﻿using ClassLibrary.Commons;
+using ClassLibrary.Models;
 using ClassLibrary.Services;
 using NewNationals.Models;
 using PagedList;
@@ -14,8 +15,10 @@ namespace NewNationals.Controllers
     {
         CategoriesService CATEGORIES = new CategoriesService();
         PagesService PAGES = new PagesService();
+        PageMetaService PAGEMETAS = new PageMetaService();
         SettingService SETTINGS = new SettingService();
-        MenuService MENUS=new MenuService();
+        MenuService MENUS = new MenuService();
+        CommentService COMMENTS = new CommentService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -81,6 +84,7 @@ namespace NewNationals.Controllers
 
             }
         }
+
         public ActionResult Pages(string stUrl)
         {
             var entity = new Page();
@@ -100,12 +104,25 @@ namespace NewNationals.Controllers
             }
             ViewBag.Breadcrumb = stLink;
             ViewBag.CategoriesId = cate.ParentId;
-            if(cate.ParentId!=null)
+            if (cate.ParentId != null)
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
             else
             {
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
             }
+            var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
+            string output = "";
+            if(meta.Count>0)
+            {
+                output += "<div class=\"file-upload\">";
+                foreach (var item in meta)
+                {
+                    output += "<a href=\"" + item.stValue + "\"><span><i class=\"fa fa-caret-down\"></i></span>tải tập tin</a>";
+                }
+                output += "</div>";
+            }
+           
+            ViewBag.ListFile = output;
             return PartialView(entity);
         }
 
@@ -183,6 +200,13 @@ namespace NewNationals.Controllers
             return PartialView(entity);
         }
 
+        public PartialViewResult NewRelated(long Id, long CateId)
+        {
+            var entity = new List<Page>();
+            entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(2).ToList();
+            return PartialView(entity);
+        }
+
         public PartialViewResult SlideShows()
         {
             var entity = PAGES.getSlideShows();
@@ -193,6 +217,38 @@ namespace NewNationals.Controllers
         {
             var entity = PAGES.getEvents();
             return PartialView(entity);
+        }
+
+        public PartialViewResult Comment(long PageId)
+        {
+            var entity = COMMENTS.getByPageId(PageId);
+            ViewBag.ListComment = entity.ToList();
+            var output = new ModelComments();
+            output.PageId = PageId;
+            output.Captcha = CommonsHelper.genCaptchar();
+            return PartialView(output);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult Comment(ModelComments input)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = new Comment();
+                entity.Email = input.Email;
+                entity.FullName = input.FullName;
+                entity.Messager = input.ContentComment;
+                entity.PageId = input.PageId;
+                entity.Status = 0;
+                entity.CreateDate = DateTime.Now;
+                COMMENTS.Insert(entity);
+                input = new ModelComments();
+                input.PageId = entity.PageId;
+                input.Captcha = CommonsHelper.genCaptchar();
+                return PartialView(input);
+            }
+            return PartialView(input);
         }
 
         private string getLinkParentCategories(string stLink, long? Id)

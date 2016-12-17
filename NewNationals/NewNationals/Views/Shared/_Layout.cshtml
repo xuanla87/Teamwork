@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using ClassLibrary.Services;
+@{ 
+    SettingService SETTINGS = new SettingService();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,19 +20,14 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <h2 class="title">
-                        SAFEVIETNAM.ORG
-                    </h2>
-                    <div class="text">
-                        Là tổ chức ra đời do sự kết hợp của chính phủ hai nước Việt Nam và Austrailia , hoạt động độc lập  từ nguồn tài trợ trực tiếp từ các dự án nước ngoài tại Việt Nam. ( CHSA 2131).
-                    </div>
+                <div class="col-lg-3 col-md-3">
+                    @Html.Raw(SETTINGS.getValue("Footer_Info1"))
                 </div>
-                <div class="col-lg-4 col-md-4">
-                    <h2 class="title">Báo trợ & đối tác</h2>
+                <div class="col-lg-6 col-md-6">
+                    @Html.Raw(SETTINGS.getValue("Footer_Info2"))
                 </div>
-                <div class="col-lg-4 col-md-4">
-                    <h2 class="title">Liên hệ</h2>
+                <div class="col-lg-3 col-md-3">
+                    @Html.Raw(SETTINGS.getValue("Footer_Info3"))
                 </div>
             </div>
         </div>

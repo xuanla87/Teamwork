@@ -12,75 +12,13 @@
     </div>
     <div class="navbar-collapse collapse">
         @Html.Action("MenuTop")
-        @*<ul class="nav navbar-nav">
-            <li class="">
-                <a href="#">
-                    Tai nạn giao thông
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    Tai nạn đuối nước
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    Tai nạn do ngã
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    Tai nạn lao động
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    Tai nạn do bóng
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    loại hình Tai nạn khác
-                </a>
-                <i class="fa fa-sort-down"></i>
-                <ul>
-                    <li>
-                        <a href="#">
-                            Tai nạn tự tử
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Tai nạn ngộ độc
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Tai nạn ngạt thở
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Điện giật/Sét đánh
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Bạo lực hành hung
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-        </ul>*@
         <div class="form-search">
             <div class="search-body">
-                <input type="text" placeholder="Tìm kiêm" class="text"/>
+                <input type="text" placeholder="Tìm kiêm" class="text" />
                 <button class="btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
     </div>
-
 </div>
 <div class="container body-content">
     <div class="row">
@@ -93,7 +31,21 @@
                 <div class="page-content">
                     @Html.Raw(Model.Content)
                 </div>
+                @Html.Raw(ViewBag.ListFile)
             </div>
+            <div class="file-download">
+
+            </div>
+            <div class="comment">
+                <div class="comment-item">
+
+                </div>
+                <hr />
+                <div class="form-comment">
+                    @Html.Action("Comment", new { PageId = Model.Id })
+                </div>
+            </div>
+            @Html.Action("NewRelated", new { Id = Model.Id, CateId = Model.CategoriesId })
         </div>
         <div class="col-lg-4">
             <div class="box-right">
@@ -103,12 +55,6 @@
                 <div class="box-body">
                     @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
                 </div>
-            </div>
-            <div class="box-right">
-                <div class="header">
-                    Tin mới ra
-                </div>
-                @Html.Action("PageRelated", new { Id = Model.Id, CateId = Model.CategoriesId })
             </div>
         </div>
     </div>

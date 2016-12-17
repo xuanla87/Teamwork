@@ -12,6 +12,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 50px;
 }
 
 .main {
@@ -200,6 +201,11 @@ textarea {
         box-sizing: border-box;
     }
 
+.box .box-item {
+    border: 1px solid #eee;
+    box-sizing: border-box;
+}
+
 .box h2.title {
     color: #777;
     text-transform: uppercase;
@@ -216,6 +222,7 @@ textarea {
     .box-item h3.title {
         margin: 0px;
         padding: 0px;
+        height: 52px;
     }
 
         .box-item h3.title a {
@@ -264,6 +271,7 @@ footer {
     clear: both;
     padding-top: 30px;
     padding-bottom: 50px;
+    color: #fff;
 }
 
     footer h2.title {
@@ -379,9 +387,9 @@ footer {
 }
 
 .event-title a {
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 18px;
+    color: #9cff01;
+    text-transform: capitalize;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -537,3 +545,127 @@ h1.page-title {
             .page-in-category .item .thumbnail img {
                 margin: 0px;
             }
+
+.new-related .title {
+    color: #0c5f41;
+    text-transform: fullsize-kana;
+    font-weight: bold;
+}
+
+.new-related ul {
+    list-style: none;
+    margin-top: 10px;
+    padding: 0px;
+}
+
+    .new-related ul li > a {
+        color: #777;
+        margin-left: 15px;
+    }
+
+.form-comment {
+    width: 100%;
+    float: left;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+    .form-comment textarea {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0px;
+        min-height: 140px;
+    }
+
+    .form-comment input {
+        float: right;
+        width: 240px;
+    }
+
+    .form-comment .txtcaptchar {
+        float: left !important;
+        width: 100px !important;
+    }
+
+    .form-comment .field-validation-error {
+        float: left !important;
+        width: 100% !important;
+        padding: 10px 0px;
+    }
+
+    .form-comment .captchar {
+        float: left;
+        padding: 15px;
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        margin-right: 15px;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 24px;
+    }
+
+.comment-item {
+    float: left;
+    padding: 15px 0px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+    .comment-item .icon {
+        font-size: 30px;
+        background: #0c5f40;
+        width: 50px;
+        color: #fff;
+        text-align: center;
+        float: left;
+    }
+
+    .comment-item .comment-text {
+        margin-left: 10px;
+        float: left;
+    }
+
+    .comment-item .comment-content {
+        font-size: 11px;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+.btn-comment {
+    background: #0c5f41;
+    border-radius: 0px;
+    color: #fff;
+}
+
+.show-commnet {
+    border-bottom: 1px solid #eee;
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.file-upload {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+    .file-upload a {
+        float: left;
+        margin-right: 10px;
+        background: #71b900;
+        border: 1px solid #eee;
+        line-height: 24px;
+        text-align: center;
+        color: #fff;
+        width: 120px;
+        text-transform: uppercase;
+    }
+
+        .file-upload a span {
+            width: 23px;
+            float: left;
+            background: #444;
+        }
