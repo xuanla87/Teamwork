@@ -249,6 +249,56 @@ namespace ClassLibrary.Commons
                 return HttpContext.Current.Request.Browser.Platform;
             }
         }
+        /// <summary>
+        /// hàm trả về tên tháng 
+        /// </summary>
+        /// <param name="monthname"></param>
+        /// <returns></returns>
+        public static string ReturnNameMonth(int monthname)
+        {
+            switch (monthname)
+            {
+                case 1:
+                    return "Tháng 1";
+                    break;
+                case 2:
+                    return "Tháng 2";
+                    break;
+                case 3:
+                    return "Tháng 3";
+                    break;
+                case 4:
+                    return "Tháng 4";
+                    break;
+                case 5:
+                    return "Tháng 5";
+                    break;
+                case 6:
+                    return "Tháng 6";
+                    break;
+                case 7:
+                    return "Tháng 7";
+                    break;
+                case 8:
+                    return "Tháng 8";
+                    break;
+                case 9:
+                    return "Tháng 9";
+                    break;
+                case 10:
+                    return "Tháng 10";
+                    break;
+                case 11:
+                    return "Tháng 11";
+                    break;
+                case 12:
+                    return "Tháng 12";
+                    break;
+                default:
+                    return null;
+                    break;
+            }
+        }
     }
 }
 
