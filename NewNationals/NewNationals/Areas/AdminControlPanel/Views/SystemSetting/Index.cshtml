@@ -37,9 +37,19 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.FooterInfo)</label>
-                                    @Html.TextAreaFor(model => model.FooterInfo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung Footer" } })
-                                    @Html.ValidationMessageFor(model => model.FooterInfo, "", new { @class = "text-danger" })
+                                    <label>@Html.LabelFor(model => model.FooterInfo1)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo1, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung Footer 1"}})
+                                    @Html.ValidationMessageFor(model => model.FooterInfo1, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.FooterInfo2)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo2, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung Footer 2"}})
+                                    @Html.ValidationMessageFor(model => model.FooterInfo2, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.FooterInfo3)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo3, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung Footer 3" } })
+                                    @Html.ValidationMessageFor(model => model.FooterInfo3, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
                                     <button class="btn bg-maroon">Lưu Thông Tin</button>
@@ -60,7 +70,9 @@
 <script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
 <script>
     $(function () {
-        CKEDITOR.replace('FooterInfo');
+        CKEDITOR.replace('FooterInfo1');
+        CKEDITOR.replace('FooterInfo2');
+        CKEDITOR.replace('FooterInfo3');
     });
 </script>
 

@@ -47,7 +47,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Edit", "Page", FormMethod.Post, new { EncType = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -112,10 +112,13 @@
                                 </div>*@
                                 <div class="form-group">
                                     <label>File đính kèm</label>
-                                    <label class="form-control fileuploadcss">
-                                        <span id="uploadFile">Nhấn vào đây để chọn file..</span>
-                                        <input type="file" class="upload" id="uploadBtn" name="file" />
+                                    <label class="form-control">
+                                        <input type="file" multiple="multiple" id="uploadBtn" name="files"/>
                                     </label>
+                                    @*<label class="form-control fileuploadcss">
+                                        <span id="uploadFile">Nhấn vào đây để chọn file..</span>
+                                        <input type="file" class="upload" multiple="multiple" id="uploadBtn" name="files" />
+                                    </label>*@
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.LinkRelated)</label>

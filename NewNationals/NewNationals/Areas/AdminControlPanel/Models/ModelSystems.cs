@@ -15,8 +15,14 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         public string HomeBoxFifth { get; set; }
         public string HomeBoxSixth { get; set; }
 
-        [Display(Name = "CÀI ĐẶT FOOTER TRANG")]
-        public string FooterInfo { get; set; }
+        [Display(Name = "CÀI ĐẶT FOOTER 1")]
+        public string FooterInfo1 { get; set; }
+
+        [Display(Name = "CÀI ĐẶT FOOTER 2")]
+        public string FooterInfo2 { get; set; }
+
+        [Display(Name = "CÀI ĐẶT FOOTER 3")]
+        public string FooterInfo3 { get; set; }
 
         [Display(Name = "GIỚI THIỆU")]
         public string Page { get; set; }
