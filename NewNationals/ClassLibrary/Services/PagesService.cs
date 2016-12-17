@@ -257,7 +257,10 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public IEnumerable<Page> ListAllPage()
         {
-            return _db.Pages.Where(x => x.Status != -1).OrderByDescending(x => x.CreateDate).ToList();
+            return
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Content")
+                    .OrderByDescending(x => x.CreateDate)
+                    .ToList();
         }
 
         /// <summary>
@@ -304,6 +307,77 @@ namespace ClassLibrary.Services
         public List<Page> GetPageAutoComplete(string input)
         {
             return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input)) && x.Status!=-1).ToList();
+        }
+
+        public Page PageGetSettings(string key)
+        {
+            return _db.Pages.Where(x => x.Taxanomy == key && x.Status!=-1).FirstOrDefault();
+        }
+        UserService userService = new UserService();
+        /// <summary>
+        /// Lưu giá trị theo stKey
+        /// </summary>
+        /// <param name="stKey"></param>
+        /// <param name="stValue"></param>
+        /// <returns></returns>
+        public bool PageSettingSaveValue(string stKey, string stValue,string name)
+        {
+            try
+            {
+                Page entity = _db.Pages.FirstOrDefault(x => x.Taxanomy == stKey);
+                if (entity != null)
+                {
+                    var getuser = userService.GetUserByUserName(HttpContext.Current.Session[CommonsHelper.SessionAdminCp].ToString());
+                    entity.Taxanomy = stKey;
+                    entity.Name = name;
+                    entity.Url = CommonsHelper.FilterCharCommas(name);
+                    entity.Status = 1;
+                    entity.CreateDate = DateTime.Now;
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.UserCreate = getuser.Id;
+                    entity.UserModified = getuser.Id;
+                    entity.Content = stValue;
+                    _db.Entry(entity).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    var getuser = userService.GetUserByUserName(HttpContext.Current.Session[CommonsHelper.SessionAdminCp].ToString());
+                    entity = new Page();
+                    entity.Name = name;
+                    entity.Url = CommonsHelper.FilterCharCommas(name);
+                    entity.Status = 1;
+                    entity.CreateDate = DateTime.Now;
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.UserCreate = getuser.Id;
+                    entity.UserModified= getuser.Id;
+                    entity.Taxanomy = stKey;
+                    entity.Content = stValue;
+                    Insert(entity);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Lấy dữ liệu theo stKey
+        /// </summary>
+        /// <param name="stKey"></param>
+        /// <returns></returns>
+        public string PagegetValue(string stKey)
+        {
+            try
+            {
+                Page entity = _db.Pages.FirstOrDefault(x => x.Taxanomy == stKey );
+                return entity.Content;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

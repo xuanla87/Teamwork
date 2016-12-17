@@ -20,6 +20,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         UserService userService = new UserService();
         TagService tagService=new TagService();
         PageMetaService pageMetaService=new PageMetaService();
+        ModelSystems settings=new ModelSystems();
         // GET: AdminControlPanel/Page
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
@@ -103,7 +104,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 return null;
             }
         }
-
         #region [Insert]
         [HttpGet]
         public ActionResult Create()
@@ -190,12 +190,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     catch
                     {
                     }
-                    PageMeta pgmeta = new PageMeta();
-                    pgmeta.Id = 1;
-                    pgmeta.PageId = getid;
-                    pgmeta.stKey = "LIENKET";
-                    pgmeta.stValue = entity.LinkRelated;
-                    pageMetaService.Insert(pgmeta);
+                    if(!string.IsNullOrEmpty(entity.LinkRelated))
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = getid;
+                        pgmeta.stKey = "LIENKET";
+                        pgmeta.stValue = entity.LinkRelated;
+                        pageMetaService.Insert(pgmeta);
+                    }
+                   
 
                     return RedirectToAction("Index", "Page");
                 }
@@ -325,7 +329,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                         /*Lopp for multiple files*/
                         foreach (HttpPostedFileBase file in files)
                         {
-                            var filename = System.IO.Path.GetFileName(file.FileName);
+                            var filename = Path.GetFileName(file.FileName);
                             //string extfile = Path.GetExtension(fileName);
                             //string filerename = fileName + "_" + DateTime.Now.Ticks.ToString() + extfile;
                             var path = Path.Combine(Server.MapPath("~/Images/FileAttach/"), filename);
@@ -341,12 +345,17 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     catch
                     {
                     }
-                    PageMeta pgmeta = new PageMeta();
-                    pgmeta.Id = 1;
-                    pgmeta.PageId = entity.Id;
-                    pgmeta.stKey = "LIENKET";
-                    pgmeta.stValue = entity.LinkRelated;
-                    pageMetaService.Insert(pgmeta);
+                    var listpagemetaLienKet = pageMetaService.ListPageMetaById(entity.Id, "LIENKET");
+                    pageMetaService.DeletePageId(listpagemetaLienKet);
+                    if (!string.IsNullOrEmpty(entity.LinkRelated))
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = entity.Id;
+                        pgmeta.stKey = "LIENKET";
+                        pgmeta.stValue = entity.LinkRelated;
+                        pageMetaService.Insert(pgmeta);
+                    }
                     return RedirectToAction("Index", "Page");
                 }
                 catch (Exception ex)
@@ -444,5 +453,27 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        [HttpGet]
+        public ActionResult Settings()
+        {
+            PageModels entity = new PageModels();
+            var getentity = pagService.PageGetSettings("Page");
+            entity.Content = getentity.Content;
+            entity.Name = getentity.Name;
+            return View(entity);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Settings(PageModels entity)
+        {
+            if (ModelState.IsValid)
+            {
+                pagService.PageSettingSaveValue("Page", entity.Content, entity.Name);
+            }
+            return View(entity);
+        }
     }
 }

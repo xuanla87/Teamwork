@@ -17,5 +17,8 @@ namespace NewNationals.Areas.AdminControlPanel.Models
 
         [Display(Name = "CÀI ĐẶT FOOTER TRANG")]
         public string FooterInfo { get; set; }
+
+        [Display(Name = "GIỚI THIỆU")]
+        public string Page { get; set; }
     }
 }
