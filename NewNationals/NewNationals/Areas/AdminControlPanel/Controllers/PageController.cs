@@ -108,7 +108,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
+            ViewBag.CategoriesId = catesService.GetCategoriesSelectList();
             return View();
         }
 
@@ -118,7 +118,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         public ActionResult Create(PageModels entity, HttpPostedFileBase[] files)
         {
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
-            ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
+            ViewBag.CategoriesId = catesService.GetCategoriesSelectList();
             if (ModelState.IsValid)
             {
                 try
@@ -221,7 +221,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         public ActionResult Edit(long? id)
         {
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
-            ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
+            ViewBag.CategoriesId = catesService.GetCategoriesSelectList();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -269,7 +269,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         public ActionResult Edit(PageModels entity, HttpPostedFileBase[] files)
         {
             var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
-            ViewBag.CategoriesId = new SelectList(catesService.GetSelectListCategory(), "Id", "Name");
+            ViewBag.CategoriesId = catesService.GetCategoriesSelectList();
             if (ModelState.IsValid)
             {
                 try
