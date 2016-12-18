@@ -21,6 +21,36 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
+                    <h3>@ViewBag.CountCategory</h3>
+
+                    <p>Chuyên mục</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/AdminControlPanel/Categories/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>
+                        @ViewBag.CountMenu
+                    </h3>
+
+                    <p>Menu</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-paper"></i>
+                </div>
+                <a href="/AdminControlPanel/Menu/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
                     <h3>@ViewBag.CountPage</h3>
 
                     <p>Bài viết</p>
@@ -46,9 +76,13 @@
                 <a href="/AdminControlPanel/Comment/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
+        
+
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-red">
                 <div class="inner">
                     <h3>@ViewBag.CountUser</h3>
 
@@ -58,38 +92,6 @@
                     <i class="ion ion-person"></i>
                 </div>
                 <a href="/AdminControlPanel/User/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3>@ViewBag.CountCategory</h3>
-
-                    <p>Chuyên mục</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="/AdminControlPanel/Categories/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3>
-                        @ViewBag.CountMenu
-                    </h3>
-
-                    <p>Menu</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-ios-paper"></i>
-                </div>
-                <a href="/AdminControlPanel/Menu/Index" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-xs-6">

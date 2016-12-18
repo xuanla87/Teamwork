@@ -24,7 +24,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(cateService.GetCategoryByParent(0), "Id", "Name");
+            ViewBag.ParentId = cateService.GetCategoriesSelectList();
             return View();
         }
 
@@ -36,13 +36,13 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             {
                 try
                 {
-                    ViewBag.ParentId = new SelectList(cateService.GetCategoryByParent(0), "Id", "Name");
-                    if (!cateService.CategoryNameExits(CommonsHelper.FilterCharCommas(entity.Title)))
+                    ViewBag.ParentId = cateService.GetCategoriesSelectList();
+                    if (!cateService.CategoryNameExits(CommonsHelper.FilterCharCommas(entity.Name)))
                     {
                         var cate = new Category();
                         cate.Id = 1;
                         cate.Name = entity.Name;
-                        cate.Url = CommonsHelper.FilterCharCommas(entity.Title);
+                        cate.Url = CommonsHelper.FilterCharCommas(entity.Name);
                         cate.Note = entity.Note;
                         cate.Title = entity.Title;
                         cate.Keyword = entity.Keyword;
@@ -84,7 +84,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ParentId = new SelectList(cateService.GetCategoryByParent(entity.Id), "Id", "Name");
+            ViewBag.ParentId = cateService.GetCategoriesSelectList();
             CategoriesModels cate = new CategoriesModels();
             cate.Id = entity.Id;
             cate.Name = entity.Name;
@@ -102,7 +102,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CategoriesModels entity)
         {
-            ViewBag.ParentId = new SelectList(cateService.GetCategoryByParent(entity.Id), "Id", "Name");
+            ViewBag.ParentId = cateService.GetCategoriesSelectList();
             if (ModelState.IsValid)
             {
                 try
@@ -110,7 +110,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     var cate = new Category();
                     cate.Id = entity.Id;
                     cate.Name = entity.Name;
-                    cate.Url = CommonsHelper.FilterCharCommas(entity.Title);
+                    cate.Url = CommonsHelper.FilterCharCommas(entity.Name);
                     cate.Note = entity.Note;
                     cate.Title = entity.Title;
                     cate.Keyword = entity.Keyword;

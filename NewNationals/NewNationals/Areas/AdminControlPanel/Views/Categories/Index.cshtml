@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ClassLibrary.Models.Category>
+﻿@using ClassLibrary.Services
+@model IEnumerable<ClassLibrary.Models.Category>
 @{
     ViewBag.Title = "Quản lý chuyên mục";
     Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
@@ -54,26 +55,64 @@
                                     <td>
                                         @if (item.Status.ToString() == "0")
                                         {
-                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick="LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                         }
                                         @if (item.Status.ToString() == "1")
                                         {
-                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick="LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
                                         }
                                     </td>
                                     <td>
                                         @if (item.Status.ToString() == "0")
                                         {
-                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick="LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
                                         }
                                         @if (item.Status.ToString() == "1")
                                         {
-                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick="LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
                                         }
                                         &nbsp;&nbsp;&nbsp;
                                         <a title="Sửa thông tin" href="/AdminControlPanel/Categories/Edit/@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
+                                if (!string.IsNullOrEmpty(item.Id.ToString()))
+                                {
+                                    CategoriesService cate = new CategoriesService();
+                                    var listbyparent = cate.CategoryGetByParent(int.Parse(item.Id.ToString()));
+                                    foreach (var iparent in listbyparent)
+                                    {
+                                        <tr>
+                                            <td>@Html.Raw(i++)</td>
+                                            <td>
+                                                <p> ::.. @iparent.Name</p>
+                                            </td>
+                                            <td>@iparent.Url</td>
+                                            <td>@iparent.Note</td>
+                                            <td>
+                                                @if (iparent.Status.ToString() == "0")
+                                                {
+                                                    <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent.Id" data-status="@iparent.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                                }
+                                                @if (iparent.Status.ToString() == "1")
+                                                {
+                                                    <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent.Id" data-status="@iparent.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (iparent.Status.ToString() == "0")
+                                                {
+                                                    <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent.Id" data-status="@iparent.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                                }
+                                                @if (iparent.Status.ToString() == "1")
+                                                {
+                                                    <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent.Id" data-status="@iparent.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                                }
+                                                &nbsp;&nbsp;&nbsp;
+                                                <a title="Sửa thông tin" href="/AdminControlPanel/Categories/Edit/@iparent.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@iparent.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
                             }
                         </tbody>
                     </table>

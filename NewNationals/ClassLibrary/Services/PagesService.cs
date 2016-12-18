@@ -258,7 +258,7 @@ namespace ClassLibrary.Services
         public IEnumerable<Page> ListAllPage()
         {
             return
-                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Content")
+                _db.Pages.Where(x => x.Status ==1 && x.Taxanomy == "Content")
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }
@@ -280,28 +280,28 @@ namespace ClassLibrary.Services
         public Page getFistByCategoriesId(long CategoriesId)
         {
             return
-                _db.Pages.Where(x => x.CategoriesId == CategoriesId)
+                _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status==1)
                     .OrderByDescending(x => x.ModifiedDate)
                     .FirstOrDefault();
         }
         public IEnumerable<Page> getByCategoriesId(long CategoriesId)
         {
-            return _db.Pages.Where(x => x.CategoriesId == CategoriesId).OrderByDescending(x => x.ModifiedDate).ToList();
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1).OrderByDescending(x => x.ModifiedDate).ToList();
         }
 
         public IEnumerable<Page> getSlideShows()
         {
-            return _db.Pages.Where(x => x.Feature == true && x.Status >= 0).OrderByDescending(x => x.ModifiedDate).Take(5).ToList();
+            return _db.Pages.Where(x => x.Feature == true && x.Status == 1).OrderByDescending(x => x.ModifiedDate).Take(5).ToList();
         }
 
         public IEnumerable<Page> getEvents()
         {
-            return _db.Pages.Where(x => x.Home == true && x.Status >= 0).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return _db.Pages.Where(x => x.Home == true && x.Status ==1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
 
         public IEnumerable<Page> getLatest()
         {
-            return _db.Pages.Where(x => x.Status != -1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return _db.Pages.Where(x => x.Status ==1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
 
         public List<Page> GetPageAutoComplete(string input)

@@ -150,15 +150,16 @@ namespace ClassLibrary.Services
                 return false;
             }
         }
+        
         /// <summary>
-        /// tạo cấu trúc Category
+        /// tạo cấu trúc category
         /// </summary>
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetCategoriesSelectList()
         {
-            var categories = _db.Categories.Where(x => x.Status != 1).ToList();
+            var cate = _db.Categories.Where(x => x.Status != -1).ToList();
             List<SelectListItem> options = new List<SelectListItem>();
-            var parents = categories.Where(x => x.ParentId == null);
+            var parents = cate.Where(x => x.ParentId == null);
             foreach (var parent in parents)
             {
                 options.Add(new SelectListItem()
@@ -166,7 +167,7 @@ namespace ClassLibrary.Services
                     Value = parent.Id.ToString(),
                     Text = parent.Name
                 });
-                var children = categories.Where(x => x.ParentId == parent.Id);
+                var children = cate.Where(x => x.ParentId == parent.Id);
                 foreach (var child in children)
                 {
                     options.Add(new SelectListItem()
@@ -174,6 +175,28 @@ namespace ClassLibrary.Services
                         Value = child.Id.ToString(),
                         Text = string.Format("::..{0}", child.Name)
                     });
+                    //-----------------------------------------------------------------------------
+                    // hien thi menu cap 3
+                    var parents3 = cate.Where(x => x.ParentId == child.Id);
+                    foreach (var parent3 in parents3)
+                    {
+                        // Add SelectListItem for the parent
+                        options.Add(new SelectListItem()
+                        {
+                            Value = parent3.Id.ToString(),
+                            Text = string.Format("::..::..{0}", parent3.Name)
+                        });
+                        // hien thi menu cap 4
+                        //var children3 = categories.Where(x => x.CategoryParentId == parent3.CategoryId);
+                        //foreach (var child3 in children3)
+                        //{
+                        //    options.Add(new SelectListItem()
+                        //    {
+                        //        Value = child3.CategoryId.ToString(),
+                        //        Text = string.Format("::..::..{0}", child3.CategoryName)
+                        //    });
+                        //}
+                    }
                 }
             }
             return options;
@@ -234,7 +257,7 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Category> getTopCategory(int top)
         {
-            return _db.Categories.Take(top).OrderBy(x => x.Id);
+            return _db.Categories.Where(x=>x.ParentId==null).Take(top).OrderBy(x => x.Id);
         }
 
         public IEnumerable<Category> getByParentId(long? ParentId)
@@ -247,6 +270,14 @@ namespace ClassLibrary.Services
         public List<Category> GetCateAutoComplete(string input)
         {
             return _db.Categories.Where(x => (x.Url.Contains(input) || x.Name.Contains(input))).ToList();
+        }
+        /// <summary>
+        /// hàm trả về danh sách mennu theo parentid
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Category> CategoryGetByParent(int cateid)
+        {
+            return _db.Categories.Where(x => x.ParentId == cateid).OrderBy(x => x.Id).ToList();
         }
     }
 }
