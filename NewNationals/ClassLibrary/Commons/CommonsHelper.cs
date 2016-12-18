@@ -249,20 +249,6 @@ namespace ClassLibrary.Commons
                 return HttpContext.Current.Request.Browser.Platform;
             }
         }
-
-        public static string genCaptchar()
-        {
-            Random random = new Random();
-            string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVXYZ";
-            StringBuilder builder = new StringBuilder();
-            char ch;
-            for (int i = 0; i < 6; i++)
-            {
-                ch = chars[random.Next(chars.Length)];
-                builder.Append(ch);
-            }
-            return builder.ToString();
-        }
     }
 }
 
