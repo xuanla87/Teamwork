@@ -131,7 +131,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Title = entity.Title;
                     page.Keywords = entity.Keywords;
                     page.Description = entity.Description;
-                    page.Status = entity.Status;
+                    page.Status = 1;
                     page.CreateDate = DateTime.Now;
                     page.ModifiedDate = DateTime.Now;
                     page.UserCreate = getuser.Id;
