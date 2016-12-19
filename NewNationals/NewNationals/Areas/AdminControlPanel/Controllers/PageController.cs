@@ -579,7 +579,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                             }
                         }
                     }
-                    return RedirectToAction("Index", "Page");
+                    return RedirectToAction("PageIntro", "Page");
                 }
                 catch
                 {
@@ -689,7 +689,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                             }
                         }
                     }
-                    return RedirectToAction("Index", "Page");
+                    return RedirectToAction("PageIntro", "Page");
                 }
                 catch (Exception ex)
                 {

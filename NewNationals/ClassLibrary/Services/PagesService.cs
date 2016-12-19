@@ -265,7 +265,7 @@ namespace ClassLibrary.Services
         public IEnumerable<Page> ListAllPageIntro()
         {
             return
-                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Page")
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy != "Content")
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }

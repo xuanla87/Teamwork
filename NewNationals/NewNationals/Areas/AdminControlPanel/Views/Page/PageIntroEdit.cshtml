@@ -32,7 +32,12 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model=>model.Id)
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.CreateDate)
+                        @Html.HiddenFor(model => model.UserCreate)
+                        @*@Html.HiddenFor(model => model.Feature)
+                            @Html.HiddenFor(model => model.Home)*@
+                        @Html.HiddenFor(model => model.Taxanomy)
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
