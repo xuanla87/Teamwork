@@ -258,7 +258,7 @@ namespace ClassLibrary.Services
         public IEnumerable<Page> ListAllPage()
         {
             return
-                _db.Pages.Where(x => x.Status!=-1 && x.Taxanomy == "Content")
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Content")
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }
@@ -287,7 +287,7 @@ namespace ClassLibrary.Services
         public Page getFistByCategoriesId(long CategoriesId)
         {
             return
-                _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status==1)
+                _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1)
                     .OrderByDescending(x => x.ModifiedDate)
                     .FirstOrDefault();
         }
@@ -303,22 +303,22 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Page> getEvents()
         {
-            return _db.Pages.Where(x => x.Home == true && x.Status ==1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return _db.Pages.Where(x => x.Home == true && x.Status == 1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
 
         public IEnumerable<Page> getLatest()
         {
-            return _db.Pages.Where(x => x.Status ==1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return _db.Pages.Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
 
         public List<Page> GetPageAutoComplete(string input)
         {
-            return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input)) && x.Status!=-1).ToList();
+            return _db.Pages.Where(x => (x.Url.Contains(input) || x.Name.Contains(input)) && x.Status != -1).ToList();
         }
 
         public Page PageGetSettings(string key)
         {
-            return _db.Pages.Where(x => x.Taxanomy == key && x.Status!=-1).FirstOrDefault();
+            return _db.Pages.Where(x => x.Taxanomy == key && x.Status != -1).FirstOrDefault();
         }
         UserService userService = new UserService();
         /// <summary>
@@ -327,7 +327,7 @@ namespace ClassLibrary.Services
         /// <param name="stKey"></param>
         /// <param name="stValue"></param>
         /// <returns></returns>
-        public bool PageSettingSaveValue(string stKey, string stValue,string name)
+        public bool PageSettingSaveValue(string stKey, string stValue, string name)
         {
             try
             {
@@ -357,7 +357,7 @@ namespace ClassLibrary.Services
                     entity.CreateDate = DateTime.Now;
                     entity.ModifiedDate = DateTime.Now;
                     entity.UserCreate = getuser.Id;
-                    entity.UserModified= getuser.Id;
+                    entity.UserModified = getuser.Id;
                     entity.Taxanomy = stKey;
                     entity.Content = stValue;
                     Insert(entity);
@@ -378,13 +378,18 @@ namespace ClassLibrary.Services
         {
             try
             {
-                Page entity = _db.Pages.FirstOrDefault(x => x.Taxanomy == stKey );
+                Page entity = _db.Pages.FirstOrDefault(x => x.Taxanomy == stKey);
                 return entity.Content;
             }
             catch
             {
                 return null;
             }
+        }
+
+        public Page getPageHome()
+        {
+            return _db.Pages.OrderByDescending(x => x.ModifiedDate).FirstOrDefault(x => x.Home == true && x.Taxanomy == "Page");
         }
     }
 }

@@ -183,6 +183,42 @@ namespace NewNationals.Controllers
             output.Captcha = CommonsHelper.genCaptchar();
             return PartialView(output);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult Comment(ModelComments input)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = new Comment();
+                entity.Email = input.Email;
+                entity.FullName = input.FullName;
+                entity.Messager = input.ContentComment;
+                entity.PageId = input.PageId;
+                entity.Status = 0;
+                entity.CreateDate = DateTime.Now;
+                COMMENTS.Insert(entity);
+                input = new ModelComments();
+                input.PageId = entity.PageId;
+                input.Captcha = CommonsHelper.genCaptchar();
+                return PartialView(input);
+            }
+            return PartialView(input);
+        }
+
+        public ActionResult SendMail()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendMail(ModelSendMails input)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(input);
+            }
+            return View(input);
+        }
         public ActionResult PageError()
         {
             return PartialView();

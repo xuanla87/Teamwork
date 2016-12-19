@@ -150,7 +150,7 @@ namespace ClassLibrary.Services
                 return false;
             }
         }
-        
+
         /// <summary>
         /// tạo cấu trúc category
         /// </summary>
@@ -257,12 +257,12 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Category> getTopCategory(int top)
         {
-            return _db.Categories.Where(x=>x.ParentId==null).Take(top).OrderBy(x => x.Id);
+            return _db.Categories.Where(x => x.ParentId == null).Take(top).OrderBy(x => x.Id);
         }
 
         public IEnumerable<Category> getByParentId(long? ParentId)
         {
-            if(ParentId==null)
+            if (ParentId == null)
                 return null;
             else
                 return _db.Categories.Where(x => x.ParentId == ParentId && x.Status != -1);

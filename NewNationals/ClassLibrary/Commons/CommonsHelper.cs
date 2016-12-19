@@ -249,6 +249,65 @@ namespace ClassLibrary.Commons
                 return HttpContext.Current.Request.Browser.Platform;
             }
         }
+        public static string genCaptchar()
+        {
+            Random random = new Random();
+            string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVXYZ";
+            StringBuilder builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < 6; i++)
+            {
+                ch = chars[random.Next(chars.Length)];
+                builder.Append(ch);
+            }
+            return builder.ToString();
+        }
+        public static string formatDate(DateTime date)
+        {
+            int month = date.Month;
+            int day = date.Day;
+            string stmonth = "";
+            switch (month)
+            {
+                case 1:
+                    stmonth += "Tháng 1";
+                    break;
+                case 2:
+                    stmonth += "Tháng 2";
+                    break;
+                case 3:
+                    stmonth += "Tháng 3";
+                    break;
+                case 4:
+                    stmonth += "Tháng 4";
+                    break;
+                case 5:
+                    stmonth += "Tháng 5";
+                    break;
+                case 6:
+                    stmonth += "Tháng 6";
+                    break;
+                case 7:
+                    stmonth += "Tháng 7";
+                    break;
+                case 8:
+                    stmonth += "Tháng 8";
+                    break;
+                case 9:
+                    stmonth += "Tháng 9";
+                    break;
+                case 10:
+                    stmonth += "Tháng 10";
+                    break;
+                case 11:
+                    stmonth += "Tháng 11";
+                    break;
+                case 12:
+                    stmonth += "Tháng 12";
+                    break;
+            }
+            return "<div class=\"date\"><div class=\"day\">" + day + "</div>" + stmonth + "</div>";
+        }
     }
 }
 
