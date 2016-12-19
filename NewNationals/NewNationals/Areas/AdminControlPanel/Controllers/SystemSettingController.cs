@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace NewNationals.Areas.AdminControlPanel.Controllers
 {
-    public class SystemSettingController : Controller
+    public class SystemSettingController : BaseController
     {
         SettingService SETTING = new SettingService();
         [HttpGet]

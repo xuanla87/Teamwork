@@ -459,9 +459,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         {
             PageModels entity = new PageModels();
             var getentity = pagService.PageGetSettings("Page");
-            entity.Content = getentity.Content;
-            entity.Name = getentity.Name;
-            return View(entity);
+            if (getentity != null)
+            {
+                entity.Content = getentity.Content;
+                entity.Name = getentity.Name;
+                return View(entity);
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
