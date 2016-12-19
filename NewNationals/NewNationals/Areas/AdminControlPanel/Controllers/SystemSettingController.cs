@@ -26,6 +26,9 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             entity.FooterInfo1 = SETTING.getValue("Footer_Info1");
             entity.FooterInfo2 = SETTING.getValue("Footer_Info2");
             entity.FooterInfo3 = SETTING.getValue("Footer_Info3");
+            entity.THONGTIN = SETTING.getValue("THONGTIN");
+            entity.RIENGTU = SETTING.getValue("RIENGTU");
+            entity.DIEUKHOAN = SETTING.getValue("DIEUKHOAN");
             return View(entity);
         }
 
@@ -45,27 +48,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 SETTING.saveValue("Footer_Info1", entity.FooterInfo1);
                 SETTING.saveValue("Footer_Info2", entity.FooterInfo2);
                 SETTING.saveValue("Footer_Info3", entity.FooterInfo3);
-            }
-            return View(entity);
-        }
-
-        [HttpGet]
-        public ActionResult SettingPage()
-        {
-            ModelSystems entity = new ModelSystems();
-            entity.THONGTIN = SETTING.getValue("THONGTIN");
-            entity.RIENGTU = SETTING.getValue("RIENGTU");
-            entity.DIEUKHOAN = SETTING.getValue("DIEUKHOAN");
-            return View(entity);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
-        public ActionResult SettingPage(ModelSystems entity)
-        {
-            if (ModelState.IsValid)
-            {
                 SETTING.saveValue("THONGTIN", entity.THONGTIN);
                 SETTING.saveValue("RIENGTU", entity.RIENGTU);
                 SETTING.saveValue("DIEUKHOAN", entity.DIEUKHOAN);
