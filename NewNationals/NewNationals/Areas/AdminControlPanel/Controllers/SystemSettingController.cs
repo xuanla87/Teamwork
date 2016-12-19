@@ -48,5 +48,31 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             return View(entity);
         }
+
+        [HttpGet]
+        public ActionResult SettingPage()
+        {
+            ModelSystems entity = new ModelSystems();
+            entity.GIOITHIEU = SETTING.getValue("GIOITHIEU");
+            entity.THONGTIN = SETTING.getValue("THONGTIN");
+            entity.RIENGTU = SETTING.getValue("RIENGTU");
+            entity.DIEUKHOAN = SETTING.getValue("DIEUKHOAN");
+            return View(entity);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult SettingPage(ModelSystems entity)
+        {
+            if (ModelState.IsValid)
+            {
+                SETTING.saveValue("GIOITHIEU", entity.GIOITHIEU);
+                SETTING.saveValue("THONGTIN", entity.THONGTIN);
+                SETTING.saveValue("RIENGTU", entity.RIENGTU);
+                SETTING.saveValue("DIEUKHOAN", entity.DIEUKHOAN);
+            }
+            return View(entity);
+        }
     }
 }

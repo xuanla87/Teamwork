@@ -25,6 +25,15 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         public string FooterInfo3 { get; set; }
 
         [Display(Name = "GIỚI THIỆU")]
-        public string Page { get; set; }
+        public string GIOITHIEU { get; set; }
+
+        [Display(Name = "THÔNG TIN")]
+        public string THONGTIN { get; set; }
+
+        [Display(Name = "RIÊNG TƯ")]
+        public string RIENGTU { get; set; }
+
+        [Display(Name = "ĐIỀU KHOẢN")]
+        public string DIEUKHOAN { get; set; }
     }
 }
