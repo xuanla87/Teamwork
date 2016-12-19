@@ -129,11 +129,19 @@ namespace NewNationals.Controllers
             return PartialView(child);
         }
 
-        public PartialViewResult PageByCategories(string stUrl, int? page)
+        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key)
         {
             int pageNum = page ?? 1;
             var entity = CATEGORIES.getByUrl(stUrl);
             var pages = PAGES.getByCategoriesId(entity.Id);
+            if (!string.IsNullOrEmpty(key))
+            {
+                pages = pages.Where(x => x.Name.ToLower().Contains(key.ToLower()) || x.Title.ToLower().Contains(key.ToLower()));
+            }
+            if (year > 0)
+            {
+                pages = pages.Where(x => x.ModifiedDate.Year == year || x.CreateDate.Year == year);
+            }
             string stLink = "";
             if (entity != null)
             {
@@ -147,6 +155,9 @@ namespace NewNationals.Controllers
             }
             ViewBag.Breadcrumb = stLink;
             ViewBag.Title = entity.Name;
+            ViewBag.stUrl = stUrl;
+            ViewBag.Keyword = key;
+            ViewBag.Year = year;
             ViewBag.CategoriesId = entity.ParentId;
             if (entity.ParentId != null)
                 ViewBag.CategoriesName = CATEGORIES.getById(entity.ParentId).Name;
@@ -267,6 +278,28 @@ namespace NewNationals.Controllers
                 stLink += " | <a href=\"" + cate.Url + "\">" + cate.Name + "</a>";
             }
             return stLink;
+        }
+
+        public ActionResult Search(string key, int? page)
+        {
+            int pageNum = page ?? 1;
+            var list = PAGES.getAll();
+            if (!string.IsNullOrEmpty(key))
+            {
+                list = list.Where(x => x.Name.ToLower().Contains(key.ToLower()) || x.Title.ToLower().Contains(key.ToLower()));
+            }
+            return View(list.ToPagedList(pageNum, 20));
+        }
+
+        public ActionResult SearchInCategories(int year, long categoriesid, string key, int? page)
+        {
+            int pageNum = page ?? 1;
+            var list = PAGES.getByCategoriesId(categoriesid);
+            if (!string.IsNullOrEmpty(key))
+            {
+                list = list.Where(x => x.ModifiedDate.Year == year && (x.Name.ToLower().Contains(key.ToLower()) || x.Title.ToLower().Contains(key.ToLower())));
+            }
+            return View(list.ToPagedList(pageNum, 20));
         }
     }
 }
