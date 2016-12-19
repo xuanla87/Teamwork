@@ -5,7 +5,7 @@
     <div class="item">
         <div class="event-text">
             <div class="event-time">
-                @DateTime.Parse(item.ModifiedDate.ToString()).ToString("MM yyyy")
+                @Html.Raw(CommonsHelper.formatDate(DateTime.Parse(item.ModifiedDate.ToString())))
             </div>
             <div class="event-body">
                 <div class="event-title">

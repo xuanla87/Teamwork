@@ -1,0 +1,66 @@
+﻿@model NewNationals.Models.ModelComments
+@using ClassLibrary.Models;
+@{
+    List<Comment> listComment = ViewBag.ListComment;
+    if (listComment != null)
+    {
+        <div class="show-commnet">
+            @foreach (var item in listComment)
+            {
+                <div class="comment-item">
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="comment-text">
+                        <div class="comment-name">
+                            @item.FullName | <a href="mailto:@item.Email">@item.Email</a>
+                        </div>
+                        <div class="comment-content">
+                            @item.Messager
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label>Bình luận</label>
+        @Html.TextAreaFor(model => model.ContentComment, new { @class = "form-control", @placeholder = "bình luận tại đây..." })
+        @Html.ValidationMessageFor(model => model.ContentComment, "", new { @class = "text-danger" })
+    </div>
+    <div style="margin-bottom:15px; color:#e1e1e1; font-style:italic;">
+        * (bình luận trên đây được giới hạn trong 200 ký tự!)
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Họ và tên *</label>
+                @Html.EditorFor(model => model.FullName)
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="captchar">
+                @Html.DisplayTextFor(model => model.Captcha)
+                @Html.HiddenFor(model => model.Captcha)
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.ConfirmCaptcha, new { @class = "txtcaptchar" })
+                @Html.ValidationMessageFor(model => model.ConfirmCaptcha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-comment">Đăng bình luận</button>
+    </div>
+}

@@ -1,4 +1,5 @@
-﻿using ClassLibrary.Models;
+﻿using ClassLibrary.Commons;
+using ClassLibrary.Models;
 using ClassLibrary.Services;
 using NewNationals.Models;
 using PagedList;
@@ -16,6 +17,7 @@ namespace NewNationals.Controllers
         PagesService PAGES = new PagesService();
         SettingService SETTINGS = new SettingService();
         MenuService MENUS = new MenuService();
+        CommentService COMMENTS = new CommentService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -172,7 +174,15 @@ namespace NewNationals.Controllers
             entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(5).ToList();
             return PartialView(entity);
         }
-
+        public PartialViewResult Comment(long PageId)
+        {
+            var entity = COMMENTS.getByPageId(PageId);
+            ViewBag.ListComment = entity.ToList();
+            var output = new ModelComments();
+            output.PageId = PageId;
+            output.Captcha = CommonsHelper.genCaptchar();
+            return PartialView(output);
+        }
         public ActionResult PageError()
         {
             return PartialView();
