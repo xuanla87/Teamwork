@@ -15,7 +15,7 @@ namespace NewNationals.Controllers
         CategoriesService CATEGORIES = new CategoriesService();
         PagesService PAGES = new PagesService();
         SettingService SETTINGS = new SettingService();
-        MenuService MENUS=new MenuService();
+        MenuService MENUS = new MenuService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -100,12 +100,23 @@ namespace NewNationals.Controllers
             }
             ViewBag.Breadcrumb = stLink;
             ViewBag.CategoriesId = cate.ParentId;
-            if(cate.ParentId!=null)
+            if (cate.ParentId != null)
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
             else
             {
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
             }
+            return PartialView(entity);
+        }
+
+        public PartialViewResult DetailPage(string stUrl)
+        {
+            var entity = new Page();
+            entity = PAGES.getByUrl(stUrl);
+            string stLink = "";
+            stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+            stLink += "" + entity.Name + "";
+            ViewBag.Breadcrumb = stLink;
             return PartialView(entity);
         }
 
@@ -153,6 +164,12 @@ namespace NewNationals.Controllers
         public PartialViewResult getLatestNews()
         {
             var entity = PAGES.getLatest().Take(2).ToList();
+            return PartialView(entity);
+        }
+        public PartialViewResult NewRelated(long Id, long CateId)
+        {
+            var entity = new List<Page>();
+            entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(5).ToList();
             return PartialView(entity);
         }
 

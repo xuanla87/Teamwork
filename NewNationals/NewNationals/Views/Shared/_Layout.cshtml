@@ -10,6 +10,10 @@
     <link href="~/Content/carousel.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/Content/fav_icon.png" type="image/x-icon" />
     <link rel="icon" href="~/Content/fav_icon.png" type="image/x-icon" />
+    @using ClassLibrary.Services;
+    @{
+        SettingService SETTINGS = new SettingService();
+    }
 </head>
 <body>
     <div class="main">
@@ -19,38 +23,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-4">
-                    <h2 class="title">
-                        SAFEVIETNAM.ORG.VN
-                    </h2>
-                    <div class="text">
-                        <a href="/"><img src="~/Content/Logo white.png" height="36" width="220" /></a>
-                            </div>
-                        <div class="text">
-                            SAFEVIETNAM là trang website tổng hợp các thông tin về tình hình tai nạn thương tích tại Việt Nam bao gồm các dữ liệu về số liệu thứ cấp,
-                            luật và văn bản chính sách, sách và ấn phím in, bài báo khoa học
-                        </div>
-                    </div>
-                <div class="col-lg-4 col-md-4">
-                    <h2 class="title">Báo trợ & đối tác</h2>
-                    <div class="text">
-                        <a href="http://www.wpro.who.int/vietnam/vi/" target="_blank"><img src="~/Content/WHO.png" height="58" width="55" /></a>
-                        <a href="http://antoangiaothong.gov.vn/" target="_blank"><img src="~/Content/UYBAN-ATGTQG.png" height="58" width="55" /></a>
-                        <a href="http://www.huph.edu.vn/" target="_blank"><img src="~/Content/Y-TE-CONG-DONG-LOGO.png"  height="58" width="55" /></a>
-                        <a href="http://cippr.huph.edu.vn/" target="_blank"><img src="~/Content/CIPPR.png"  height="60" width="58" /></a>
-                        <a href="http://www.grsproadsafety.org/" target="_blank"><img src="~/Content/Global road.png"  height="58" width="55" /></a>
-                        <a href="http://rtirn.net/" target="_blank"><img src="~/Content/Road Traffic.png"  height="60" width="58" /></a>
-                    </div>
+                    @Html.Raw(SETTINGS.getValue("Footer_Info1"))
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h2 class="title">Liên hệ</h2>
-                    <div class="text">
-                        TRUNG TÂM NGHIÊN CỨU CHÍNH SÁCH VÀ PHÒNG CHỐNG CHẤN THƯƠNG, TRƯỞNG ĐẠI HỌC Y TẾ CÔNG CỘNG
-                    </div>
-                    <div class="text">
-                        ADD: 11A ĐỨC THẮNG, BẮC TỪ LIÊM, TP. HÀ NỘI<br/>
-                        TEL: +84 4 62662325<br />
-                        EMAIL: cippr.huph@gmail.com
-                    </div>
+                    @Html.Raw(SETTINGS.getValue("Footer_Info2"))
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    @Html.Raw(SETTINGS.getValue("Footer_Info3"))
                 </div>
             </div>
         </div>
