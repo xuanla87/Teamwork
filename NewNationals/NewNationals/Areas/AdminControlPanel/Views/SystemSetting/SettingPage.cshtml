@@ -35,11 +35,6 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label>@Html.LabelFor(model => model.GIOITHIEU)</label>
-                                    @Html.TextAreaFor(model => model.GIOITHIEU, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung giới thiệu" } })
-                                    @Html.ValidationMessageFor(model => model.GIOITHIEU, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
                                     <label>@Html.LabelFor(model => model.THONGTIN)</label>
                                     @Html.TextAreaFor(model => model.THONGTIN, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung thông tin" } })
                                     @Html.ValidationMessageFor(model => model.THONGTIN, "", new { @class = "text-danger" })
@@ -73,7 +68,6 @@
 <script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
 <script>
     $(function () {
-        CKEDITOR.replace('GIOITHIEU');
         CKEDITOR.replace('THONGTIN');
         CKEDITOR.replace('RIENGTU');
         CKEDITOR.replace('DIEUKHOAN');

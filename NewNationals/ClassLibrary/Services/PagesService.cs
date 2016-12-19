@@ -262,6 +262,13 @@ namespace ClassLibrary.Services
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }
+        public IEnumerable<Page> ListAllPageIntro()
+        {
+            return
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Page")
+                    .OrderByDescending(x => x.CreateDate)
+                    .ToList();
+        }
 
         /// <summary>
         /// hàm trả về 1 bản ghi với id truyền vào

@@ -1,0 +1,117 @@
+﻿@model NewNationals.Areas.AdminControlPanel.Models.PageModels
+@using System.Web.UI.WebControls
+@using ClassLibrary.Services
+@using ClassLibrary.Commons
+@{
+    ViewBag.Title = "Cập nhật giới thiệu";
+    Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Cập nhật giới thiệu
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Giới thiệu</a></li>
+        <li class="active">Cập nhật</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        <a href="/AdminControlPanel/Page/PageIntro" class="btn btn-block btn-info btn-flat">Danh Sách</a>
+                    </h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model=>model.Id)
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Name)</label>
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên bài viết" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Note)</label>
+                                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @placeholder = "Nhập tóm tắt" })
+                                    @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Thumbnail)</label>
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.Thumbnail, new { htmlAttributes = new { @class = "form-control", @placeholder = "nên chọn hình ảnh cho bài viết kích thước chuẩn 400 x 400 px" } })
+                                        @Html.ValidationMessageFor(model => model.Thumbnail, "", new { @class = "text-danger" })
+                                        <span class="input-group-btn">
+                                            <button type="button" id="SelectImage" class="btn btn-info btn-flat">Chọn ảnh</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Content)</label>
+                                    @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung bài viết" } })
+                                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Tag)</label>
+                                    @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ tag ngăn nhau bởi dấu ,  (ví dụ: nội_dung_tag1,nội_dung_tag2,nội_dung_tag3,..)" } })
+                                    @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Title)</label>
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ tiêu đề dùng cho (SEO)" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Keywords)</label>
+                                    @Html.EditorFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ từ khóa dùng cho (SEO)" } })
+                                    @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Description)</label>
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thẻ mô tả dùng cho (SEO)" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn bg-maroon">Lưu Thông Tin</button>
+                                    <a class="btn bg-orange" onclick=" BackIndex() ">Hủy Bỏ</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Areas/AdminControlPanel/Content/ckeditor/ckeditor.js"></script>
+<script src="~/Areas/AdminControlPanel/Content/ckeditor/styles.js"></script>
+<script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
+<script>
+    $(function () {
+        $("#SelectImage").click(function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $("#Thumbnail").val(fileUrl);
+            };
+            finder.popup();
+        });
+    });
+    $(function () {
+        CKEDITOR.replace('Content');
+    });
+    function BackIndex() {
+        var url = "/AdminControlPanel/Page/PageIntro";
+        window.location.assign(url);
+    }
+</script>
+
+

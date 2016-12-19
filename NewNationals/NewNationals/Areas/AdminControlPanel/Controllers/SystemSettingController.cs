@@ -53,7 +53,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         public ActionResult SettingPage()
         {
             ModelSystems entity = new ModelSystems();
-            entity.GIOITHIEU = SETTING.getValue("GIOITHIEU");
             entity.THONGTIN = SETTING.getValue("THONGTIN");
             entity.RIENGTU = SETTING.getValue("RIENGTU");
             entity.DIEUKHOAN = SETTING.getValue("DIEUKHOAN");
@@ -67,7 +66,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         {
             if (ModelState.IsValid)
             {
-                SETTING.saveValue("GIOITHIEU", entity.GIOITHIEU);
                 SETTING.saveValue("THONGTIN", entity.THONGTIN);
                 SETTING.saveValue("RIENGTU", entity.RIENGTU);
                 SETTING.saveValue("DIEUKHOAN", entity.DIEUKHOAN);

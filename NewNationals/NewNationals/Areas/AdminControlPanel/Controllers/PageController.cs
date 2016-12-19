@@ -85,6 +85,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             return View(showlist.ToPagedList(pageNum, 20));
         }
+
         /// <summary>
         ///  hàm trả về tên của groupcategory
         /// </summary>
@@ -454,33 +455,254 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         }
         #endregion
 
-        [HttpGet]
-        public ActionResult Settings()
+
+
+        #region [Quản lý page Giới thiệu]
+        public ActionResult PageIntro(int? page, string SearchString, string FromDate, string ToDate)
         {
-            PageModels entity = new PageModels();
-            var getentity = pagService.PageGetSettings("Page");
-            if (getentity != null)
+            int pageNum = page ?? 1;
+            var showlist = pagService.ListAllPageIntro();
+            var listpage = new List<PageModels>();
+            foreach (var item in showlist)
             {
-                entity.Content = getentity.Content;
-                entity.Name = getentity.Name;
-                return View(entity);
+                listpage.Add(new PageModels()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Url = item.Url,
+                    Title = item.Title,
+                    Keywords = item.Keywords,
+                    Description = item.Description,
+                    Status = item.Status,
+                    CreateDate = item.CreateDate,
+                    ModifiedDate = item.ModifiedDate,
+                    UserCreate = item.UserCreate,
+                    UserModified = item.UserModified,
+                    Thumbnail = item.Thumbnail,
+                    Content = item.Content,
+                    Note = item.Note,
+                    Feature = item.Feature,
+                    Home = item.Home,
+                    CategoriesId = item.CategoriesId,
+                    Taxanomy = item.Taxanomy
+                });
             }
-            else
+            if (!string.IsNullOrEmpty(SearchString))
             {
-                return View();
+                showlist = showlist.Where(x => x.Name.Contains(SearchString)
+                || x.Title.Contains(SearchString) || x.Keywords.Contains(SearchString) || x.Description.Contains(SearchString)
+                || x.Content.Contains(SearchString) || x.Note.Contains(SearchString));
             }
+            try
+            {
+                if (!string.IsNullOrEmpty(FromDate))
+                {
+                    if (!FromDate.Trim().Equals(string.Empty))
+                    {
+                        showlist = showlist.Where(x => x.CreateDate.Date >= DateTime.Parse(FromDate).Date);
+                    }
+                }
+            }
+            catch
+            {
+            }
+            try
+            {
+                if (!string.IsNullOrEmpty(ToDate))
+                {
+                    if (!ToDate.Trim().Equals(string.Empty))
+                    {
+                        showlist = showlist.Where(x => x.CreateDate.Date <= DateTime.Parse(ToDate).Date);
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return View(showlist.ToPagedList(pageNum, 20));
+        }
+
+        [HttpGet]
+        public ActionResult PageIntroCreate()
+        {
+           return View(); 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Settings(PageModels entity)
+        public ActionResult PageIntroCreate(PageModels entity)
         {
+            var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
             if (ModelState.IsValid)
             {
-                pagService.PageSettingSaveValue("Page", entity.Content, entity.Name);
+                try
+                {
+                    var page = new Page();
+                    page.Id = 1;
+                    page.Name = entity.Name;
+                    page.Url = CommonsHelper.FilterCharCommas(entity.Name);
+                    page.Title = entity.Title;
+                    page.Keywords = entity.Keywords;
+                    page.Description = entity.Description;
+                    page.Status = 1;
+                    page.CreateDate = DateTime.Now;
+                    page.ModifiedDate = DateTime.Now;
+                    page.UserCreate = getuser.Id;
+                    page.UserModified = getuser.Id;
+                    page.Thumbnail = entity.Thumbnail;
+                    page.Content = entity.Content;
+                    page.Note = entity.Note;
+                    page.Feature = entity.Feature;
+                    page.Home = entity.Home;
+                    page.CategoriesId = entity.CategoriesId;
+                    page.Taxanomy = "Page";
+                    pagService.Insert(page);
+                    long getid = page.Id;
+                    string geturl = page.Url + "-" + getid;
+                    //-------------------------------------------------------------------------------
+                    // cập nhật lại url
+                    pagService.UpdateUrl(getid, geturl);
+                    // lưu nội dung vào bảng tag neu co
+                    if (!string.IsNullOrEmpty(entity.Tag))
+                    {
+                        string gettag = entity.Tag;
+                        string[] arr = gettag.Split(',');
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (!string.IsNullOrEmpty(arr[i]))
+                            {
+                                Tag tg = new Tag();
+                                tg.PageId = getid;
+                                tg.stTag = arr[i];
+                                tagService.Insert(tg);
+                            }
+                        }
+                    }
+                    return RedirectToAction("Index", "Page");
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Lỗi!");
+                    return View();
+                }
             }
-            return View(entity);
+            else
+            {
+                ModelState.AddModelError("", "Lỗi!");
+                return View();
+            }
         }
+
+        [HttpGet]
+        public ActionResult PageIntroEdit(long? id)
+        {
+            var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var entity = pagService.GetPageById(int.Parse(id.ToString()));
+            if (entity == null)
+            {
+                return HttpNotFound();
+            }
+            //-----------------------------------------------------------------------
+            // lấy nội dung tag nếu bài viết đã có tags trước đó
+            var tagentity = tagService.ListTagById(entity.Id);
+            string gettag = "";
+            foreach (var item in tagentity)
+            {
+                gettag += item.stTag + ",";
+            }
+            //-----------------------------------------------------------------------
+            PageModels page = new PageModels();
+            page.Id = entity.Id;
+            page.Name = entity.Name;
+            page.Url = CommonsHelper.FilterCharCommas(entity.Name) + "-" + entity.Id;
+            page.Title = entity.Title;
+            page.Keywords = entity.Keywords;
+            page.Description = entity.Description;
+            page.Status = 1;
+            page.CreateDate = DateTime.Now;
+            page.ModifiedDate = DateTime.Now;
+            page.UserCreate = getuser.Id;
+            page.UserModified = getuser.Id;
+            page.Thumbnail = entity.Thumbnail;
+            page.Content = entity.Content;
+            page.Note = entity.Note;
+            page.Feature = entity.Feature;
+            page.Home = entity.Home;
+            page.CategoriesId = entity.CategoriesId;
+            page.Taxanomy = entity.Taxanomy;
+            page.Tag = gettag; // hiển thị tags ra bên view
+            return View(page);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult PageIntroEdit(PageModels entity)
+        {
+            var getuser = userService.GetUserByUserName(Session[CommonsHelper.SessionAdminCp].ToString());
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var page = new Page();
+                    page.Id = entity.Id;
+                    page.Name = entity.Name;
+                    page.Url = CommonsHelper.FilterCharCommas(entity.Name) + "-" + entity.Id;
+                    page.Title = entity.Title;
+                    page.Keywords = entity.Keywords;
+                    page.Description = entity.Description;
+                    page.Status = 1;
+                    page.CreateDate = entity.CreateDate;
+                    page.ModifiedDate = DateTime.Now;
+                    page.UserCreate = entity.UserCreate;
+                    page.UserModified = getuser.Id;
+                    page.Thumbnail = entity.Thumbnail;
+                    page.Content = entity.Content;
+                    page.Note = entity.Note;
+                    page.Feature = entity.Feature;
+                    page.Home = entity.Home;
+                    page.CategoriesId = entity.CategoriesId;
+                    page.Taxanomy = entity.Taxanomy;
+                    pagService.Update(page);
+                    //---------------------------------------------------------
+                    // xóa toàn bộ tag của bài viết
+                    var listltag = tagService.ListTagById(entity.Id);
+                    tagService.Delete(listltag);
+                    //---------------------------------------------------------
+                    // lưu lại nội dung tag
+                    if (!string.IsNullOrEmpty(entity.Tag))
+                    {
+                        string gettag = entity.Tag;
+                        string[] arr = gettag.Split(',');
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (!string.IsNullOrEmpty(arr[i]))
+                            {
+                                Tag tg = new Tag();
+                                tg.PageId = entity.Id;
+                                tg.stTag = arr[i];
+                                tagService.Insert(tg);
+                            }
+                        }
+                    }
+                    return RedirectToAction("Index", "Page");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Lỗi!");
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Lỗi!");
+                return View();
+            }
+        }
+        #endregion
     }
 }

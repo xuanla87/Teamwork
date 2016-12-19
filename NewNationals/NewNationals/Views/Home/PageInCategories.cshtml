@@ -1,4 +1,5 @@
 ﻿@model ClassLibrary.Models.Page
+    @using ClassLibrary.Commons
 @{
     if (Model != null)
     {
@@ -19,7 +20,7 @@
                 @Model.Note
             </div>
             <div class="in-category">
-                <b>Mục tin: </b> <a href="/@ViewBag.Url">@ViewBag.Name</a>
+                <b>Mục tin: </b> <a href="/@ViewBag.Url">@CommonsHelper.RutGon(ViewBag.Name, 42)</a>
             </div>
         </div>
         <div class="box-footer">

@@ -24,9 +24,6 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "CÀI ĐẶT FOOTER 3")]
         public string FooterInfo3 { get; set; }
 
-        [Display(Name = "GIỚI THIỆU")]
-        public string GIOITHIEU { get; set; }
-
         [Display(Name = "THÔNG TIN")]
         public string THONGTIN { get; set; }
 
