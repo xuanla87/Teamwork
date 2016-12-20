@@ -73,7 +73,7 @@ textarea {
         display: table-cell;
         list-style: none outside none;
         margin: 0 !important;
-        padding: 0 16px !important;
+        padding: 0 8px !important;
         vertical-align: middle;
         width: 150px !important;
         float: none;
