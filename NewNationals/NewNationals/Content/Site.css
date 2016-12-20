@@ -60,16 +60,22 @@ textarea {
 }
 
 .navbar-brand {
-    padding: !important;
+    background: #fff;
+    line-height: 84px !important;
+    height: auto !important;
 }
 
 .navbar-inverse {
-    background: #ffffff !important;
+    background: #e6e6e6 !important;
     border-radius: 0px !important;
     border: none;
     box-shadow: 3px 0px 9px rgba(45, 45, 45, 0.33);
     margin-bottom: 0px;
 }
+
+    .navbar-inverse .navbar-nav {
+        background: #fff;
+    }
 
     .navbar-inverse li:first-child {
         border-left: 1px solid #eeeeee;
@@ -166,8 +172,9 @@ textarea {
     }
 
 .form-search {
-    float: left;
-    margin-left: 15px;
+    float: right;
+    margin-left: 5px;
+    text-align: right;
 }
 
 .search-body {
@@ -175,20 +182,19 @@ textarea {
     list-style: none outside none;
     margin: 0 !important;
     vertical-align: middle;
-    width: 140px !important;
+    width: 200px !important;
     float: none;
     height: 84px;
     position: relative;
 }
 
     .search-body .text {
-        background: #e9e9e9 !important;
-        border: none !important;
+        background: #fff !important;
         padding: 4px 8px !important;
+        width: 200px;
     }
 
         .search-body .text:focus, .search-body .text:visited {
-            border: none !important;
             outline: none !important;
         }
 
@@ -200,12 +206,13 @@ textarea {
     .search-body .btn-search {
         margin: 0px !important;
         position: absolute;
-        right: 0px;
+        right: 2px;
         top: 28px;
         border: 1px solid #e1e1e1 !important;
-        padding: 3px 6px !important;
-        background: #e6e6e6 !important;
+        padding: 3px 8px !important;
+        background: #e7e7e7 !important;
         box-sizing: border-box;
+        color: #0c5f40;
     }
 
 .box .box-item {
