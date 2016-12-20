@@ -137,22 +137,32 @@ namespace ClassLibrary.Commons
         /// <returns></returns>
         public static string RutGon(string value, int count)
         {
-            string values = value;
-            if (values.Length >= count)
+            if (string.IsNullOrEmpty(value))
+                return value;
+            try
             {
-                string valueCut = values.Substring(0, count - 3);
-                string[] valuearray = valueCut.Split(' ');
-                string valuereturn = "";
-                for (int i = 0; i < valuearray.Length - 1; i++)
+                string values = value;
+                if (values.Length >= count)
                 {
-                    valuereturn = valuereturn + " " + valuearray[i];
+                    string valueCut = values.Substring(0, count - 3);
+                    string[] valuearray = valueCut.Split(' ');
+                    string valuereturn = "";
+                    for (int i = 0; i < valuearray.Length - 1; i++)
+                    {
+                        valuereturn = valuereturn + " " + valuearray[i];
+                    }
+                    return valuereturn + "...";
                 }
-                return valuereturn + "...";
+                else
+                {
+                    return values;
+                }
             }
-            else
+            catch
             {
-                return values;
+                return "";
             }
+            
         }
 
         /// <summary>
@@ -274,6 +284,27 @@ namespace ClassLibrary.Commons
                     break;
             }
             return "<div class=\"date\"><div class=\"day\">" + day + "</div>" + stmonth + "</div>";
+        }
+
+        /// <summary>
+        /// hàm viết hoa ký tự đầu tiên
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string VietHoaKyTuDauTien(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return str;
+            try
+            {
+                string result = "";
+                result += str.Trim().Substring(0, 1).ToUpper() + str.Trim().Substring(1).ToLower();
+                return result.Trim();
+            }
+            catch
+            {
+                return "";
+            }
         }
     }
 }
