@@ -58,6 +58,7 @@
                                 <th>Tên bài viết</th>
                                 <th>Hình ảnh</th>
                                 <th>Ngày tạo</th>
+                                <th>Ưu tiên</th>
                                 <th>Trạng thái</th>
                                 <th>Chức năng</th>
                             </tr>
@@ -131,13 +132,25 @@
                                     <td>
                                         @if (item.Status.ToString() == "0")
                                         {
-                                            <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                            <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick=" UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                         }
                                         @if (item.Status.ToString() == "1")
                                         {
-                                            <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick="UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                            <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick=" UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
                                         }
                                     </td>
+
+                                    <td>
+                                        @if (!item.Home)
+                                        {
+                                            <a href="#" title="Click để hiện thị bài viết trong mục sự kiện" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Home)
+                                        {
+                                            <a href="#" title="Click để tắt bài viết trong mục sự kiện" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        }
+                                    </td>
+
                                     <td>
                                         @if (item.Status.ToString() == "0")
                                         {
@@ -201,6 +214,26 @@
                 error: function () { alert('Đã xảy ra lỗi!'); }
             });
         }
+    }
+    function UpdateHome(elem) {
+        var id = $(elem).data('id');
+        var status = $(elem).data('home');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetUpdateHome", "Page")',
+            data: { id: id, status: status },
+            success: function (data) {
+                if (data) {
+                    var url = "/AdminControlPanel/Page/PageIntro";
+                    window.location.assign(url);
+                }
+                else {
+                    alert("Lỗi: Bạn không thể update!");
+                    var url = "/AdminControlPanel/Page/PageIntro";
+                    window.location.assign(url);
+                }
+            }
+        });
     }
     function UpdateStatus(elem) {
         var id = $(elem).data('id');

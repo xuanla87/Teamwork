@@ -18,6 +18,7 @@ namespace NewNationals.Controllers
         SettingService SETTINGS = new SettingService();
         MenuService MENUS = new MenuService();
         CommentService COMMENTS = new CommentService();
+        PageMetaService PAGEMETAS=new PageMetaService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -59,15 +60,25 @@ namespace NewNationals.Controllers
                 else
                 {
                     var content = PAGES.getByUrl(stUrl);
+
                     if (content != null)
                     {
+                        var pagtemplate = PAGEMETAS.PageMetaByIdKey(content.Id, "NOT_CATEGORY");
+                        if (pagtemplate != null)
+                        {
+                            entity.ActionLink = "Page";
+                        }
+                        else
+                        {
+                            entity.ActionLink = content.Taxanomy;
+                        }
                         if (!string.IsNullOrEmpty(content.Title))
                             entity.Title = content.Title;
                         else
                             entity.Title = content.Name;
                         entity.Keywords = content.Keywords;
                         entity.Descriptions = content.Description;
-                        entity.ActionLink = content.Taxanomy;
+                        
                         entity.stUrl = stUrl;
                         return View(entity);
                     }
