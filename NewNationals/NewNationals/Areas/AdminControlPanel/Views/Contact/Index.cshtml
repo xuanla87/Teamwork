@@ -1,0 +1,248 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ClassLibrary.Models.Contact>
+@using ClassLibrary.Services;
+@using ClassLibrary.Commons;
+@{
+    ViewBag.Title = "Quản lý liên hệ";
+    Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Quản lý liên hệ
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Liên hệ</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Liên hệ</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            @Html.TextBox("SearchString", null, new { @placeholder = "Từ khóa tìm kiếm...", @autocomplete = "off", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            @Html.TextBox("FromDate", null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "FromDate" })
+                            <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            @Html.TextBox("ToDate", null, new { @placeholder = "Đến ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "ToDate" })
+                            <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <button class="btn btn-primary btn-info" onclick=" fSearch() "><i class="fa fa-filter"></i> Lọc dữ liệu</button>
+                            <button class="btn btn-primary btn-danger" onclick="endSearch()"><i class="fa fa-close"></i> Bỏ lọc</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <table id="tbdata" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Stt</th>
+                                <th>Email</th>
+                                <th>Tiêu đề</th>
+                                <th>Nội dung</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                <tr>
+                                    <td class="text-center">@Html.Raw(i + (Model.PageNumber * Model.PageSize) - Model.PageSize)</td>
+                                    <td>
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        <a href="#detail_@item.Id" data-toggle="modal" data-target="#detail_@item.Id">@CommonsHelper.RutGon(item.Content, 181)</a>
+                                        <div class="modal fade" id="detail_@item.Id" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Chi tiết</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>@Html.Raw(item.Content)</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item.CreateDate</td>
+                                    <td>
+                                        @if (item.Status == 0)
+                                        {
+                                            @:Chưa đọc
+                                        }
+                                        @if (item.Status == 1)
+                                        {
+                                            @:Đã đọc
+                                        }
+                                        @if (item.Status == -1)
+                                        {
+                                            @:Bị xóa
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Status == 0)
+                                        {
+                                            <a href="#" title="đã đọc liên hệ" onclick="AcceptComemnt(this)" data-id="@item.Id"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Status == 1)
+                                        {
+                                            <a href="#" title="chưa đọc liên hện" onclick="DelineComemnt(this)" data-id="@item.Id"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                        }
+                                        &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@item.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="pull-right">
+                        @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page))
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#FromDate').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#ToDate').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function (start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    });
+    function updateStatus(elem) {
+        var id = $(elem).data('id');
+        var status = $(elem).data('status');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("updateStatus", "Contact")',
+            data: { Logid: id, status: status },
+            success: function (data) {
+                var url = "Index";
+                window.location.assign(url);
+            }
+        });
+    }
+    function fSearch() {
+        var url = "Index?page=1&SearchString=" + $("#SearchString").val() + "&FromDate=" + $("#FromDate").val() + "&ToDate=" + $("#ToDate").val();
+        window.location.assign(url);
+    }
+    function endSearch() {
+        var url = "Index";
+        window.location.assign(url);
+    }
+    function Delete(elem) {
+        if (!confirm('Bạn có chắc muốn xóa bản ghi?'))
+            return false;
+        else {
+            var id = $(elem).data('id');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "Contact")',
+                data: { Id: id },
+                success: function (data) {
+                    if (data) {
+                        //alert("Bạn đã xóa thành công!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                    else {
+                        alert("Lỗi: Bạn không thể xóa!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                },
+                error: function () { alert('Đã xảy ra lỗi!'); }
+            });
+        }
+    }
+    function AcceptComemnt(elem) {
+        if (!confirm('Bạn có chắc muốn duyêt bình luân này?'))
+            return false;
+        else {
+            var id = $(elem).data('id');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Accept", "Contact")',
+                data: { Id: id },
+                success: function (data) {
+                    if (data) {
+                        //alert("Bạn đã xóa thành công!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                    else {
+                        alert("Lỗi: Bạn không thể xóa!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                },
+                error: function () { alert('Đã xảy ra lỗi!'); }
+            });
+        }
+    }
+    function DelineComemnt(elem) {
+        if (!confirm('Bạn có chắc muốn bỏ duyêt bình luân này?'))
+            return false;
+        else {
+            var id = $(elem).data('id');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Desagree", "Contact")',
+                data: { Id: id },
+                success: function (data) {
+                    if (data) {
+                        //alert("Bạn đã xóa thành công!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                    else {
+                        alert("Lỗi: Bạn không thể xóa!");
+                        var url = "/AdminControlPanel/Contact/Index";
+                        window.location.assign(url);
+                    }
+                },
+                error: function () { alert('Đã xảy ra lỗi!'); }
+            });
+        }
+    }
+</script>

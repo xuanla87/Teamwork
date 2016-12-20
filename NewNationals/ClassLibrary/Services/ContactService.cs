@@ -124,5 +124,52 @@ namespace ClassLibrary.Services
         {
             return _db.Contacts.Where(x => x.Id == id).ToList();
         }
+        /// <summary>
+        /// Hàm trả về danh sách tất cả bản ghi
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Contact> ListAllContact()
+        {
+            return _db.Contacts.Where(x => x.Status != -1).OrderByDescending(x => x.CreateDate).ToList();
+        }
+        /// <summary>
+        /// Hàm trả về 1 bản ghi trong Contact với ĐK là id truyền vào
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public Contact GetContactById(long id)
+        {
+            return _db.Contacts.SingleOrDefault(x => x.Id == id);
+        }
+        /// <summary>
+        /// Hàm thực hiện lệnh Delete
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool UpdateStatus(long id, int status)
+        {
+            try
+            {
+                var ct = _db.Contacts.Find(id);
+                if (ct != null)
+                {
+                    ct.Status = status;
+                    _db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi updatestatus Contact]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
     }
 }
