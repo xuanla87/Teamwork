@@ -22,6 +22,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             ViewBag.CountLog = comService.CountLog();
             ViewBag.CountSetting = comService.CountSetting();
             ViewBag.CountMenu = comService.CountMenu();
+            ViewBag.CountContact = comService.CountContact();
             return View();
         }
 
