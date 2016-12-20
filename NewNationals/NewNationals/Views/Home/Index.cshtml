@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ClassLibrary.Models.Category>
+@using ClassLibrary.Commons
 @using ClassLibrary.Services;
 @{
     var page = new PagesService().getPageHome();
@@ -6,73 +7,75 @@
     {
         <div class="box-home">
             <div class="header">
-                <img src="~/Content/logo.png" />
+                <img src="~/Content/logo1.png" />
             </div>
             <div class="box-home-title">
-                @page.Name
+                @CommonsHelper.RutGon(page.Name, 40)
             </div>
             <div class="box-home-content">
-                @page.Note
+                @CommonsHelper.RutGon(page.Note, 220)
             </div>
             <a class="btn btn-info" href="/@page.Url">Đọc thêm</a>
         </div>
     }
 }
-<div class="banner">
-    <img src="~/Content/banner.jpg" />
-</div>
-
-<div class="navbar navbar-inverse">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a href="/" class="navbar-brand">
-            <img src="~/Content/logo.png" />
-        </a>
-    </div>
-    <div class="navbar-collapse collapse">
-        @Html.Action("MenuTop")
-        <div class="form-search">
-            <div class="search-body">
-                <input type="text" placeholder="Tìm kiêm" class="text" />
-                <button class="btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-        </div>
+<div class="main-home">
+    <div class="banner">
+        <img src="~/Content/banner.jpg" />
     </div>
 
-</div>
-<div class="slideshow">
-    <div class="row slideshow-body">
-        <div class="col-lg-8">
-            @Html.Action("SlideShows")
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <img src="~/Content/logo.png" />
+            </a>
         </div>
-        <div class="col-lg-4 box-event">
-            <div class="title">
-                <i class="fa fa-calendar"></i>
-                Sự kiện sắp diễn ra
-            </div>
-            <div class="box-event-body">
-                @Html.Action("Events")
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="home">
-    <div class="container body-content">
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="col-md-4">
-                    <div class="box">
-                        <h2 class="title">@item.Name</h2>
-                        @Html.Action("PageInCategories", new { Id = item.Id })
-                    </div>
+        <div class="navbar-collapse collapse">
+            @Html.Action("MenuTop")
+            <div class="form-search">
+                <div class="search-body">
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
+                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="slideshow">
+        <div class="row slideshow-body">
+            <div class="col-lg-8">
+                @Html.Action("SlideShows")
+            </div>
+            <div class="col-lg-4 box-event">
+                <div class="title">
+                    <i class="fa fa-calendar"></i>
+                    Sự kiện sắp diễn ra
+                </div>
+                <div class="box-event-body">
+                    @Html.Action("Events")
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="home">
+        <div class="container body-content">
+            <div class="row">
+                @foreach (var item in Model)
+            {
+                    <div class="col-md-4">
+                        <div class="box">
+                            <h2 class="title">@item.Name</h2>
+                            @Html.Action("PageInCategories", new { Id = item.Id })
+                        </div>
+                    </div>
             }
+            </div>
         </div>
     </div>
 </div>

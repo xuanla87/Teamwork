@@ -1,75 +1,76 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
 @model PagedList.IPagedList<ClassLibrary.Models.Page>
-<div class="navbar navbar-inverse">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a href="/" class="navbar-brand">
-            <img src="~/Content/logo.png" />
-        </a>
-    </div>
-    <div class="navbar-collapse collapse">
-        @Html.Action("MenuTop")
-        <div class="form-search">
-            <div class="search-body">
-                <input type="text" placeholder="Tìm kiêm" class="text" />
-                <button class="btn-search" type="button"><i class="glyphicon glyphicon-search"></i></button>
+<div class="main-page">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <img src="~/Content/logo.png" />
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            @Html.Action("MenuTop")
+            <div class="form-search">
+                <div class="search-body">
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
+                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container body-content page-in-category">
-    <div class="row">
-        <div class="breadcrumb-trail breadcrumb">
-            @Html.Raw(ViewBag.Breadcrumb)
-        </div>
-        <div class="col-lg-12">
-            <h1 class="page-title">
-                @ViewBag.Title
-            </h1>
-        </div>
-        <div class="col-lg-8">
-            <div class="box-search">
-                <table class="table">
-                    <thead>
+    <div class="container body-content page-in-category">
+        <div class="row">
+            <div class="breadcrumb-trail breadcrumb">
+                @Html.Raw(ViewBag.Breadcrumb)
+            </div>
+            <div class="col-lg-12">
+                <h1 class="page-title">
+                    @ViewBag.Title
+                </h1>
+            </div>
+            <div class="col-lg-8">
+                <div class="box-search">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Năm</th>
+                                <th>Từ khóa</th>
+                                <th>Tác giả</th>
+                                <th></th>
+                            </tr>
+                        </thead>
                         <tr>
-                            <th>Năm</th>
-                            <th>Từ khóa</th>
-                            <th>Tác giả</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>
-                            <select id="slYear" name="slYear">
-                                <option value="">Chọn</option>
-                                @{
+                            <td>
+                                <select id="slYear" name="slYear">
+                                    <option value="">Chọn</option>
+                                    @{
                                     int year = DateTime.Now.Year;
                                     for (int i = year; i >= year - 10; i--)
                                     {
-                                        <option value="@i">@i</option>
+                                    <option value="@i">@i</option>
                                     }
-                                }
-                            </select>
-                        </td>
-                        <td>
-                            <input id="txtKeywords" name="txtKeywords" type="text" placeholder="Nhập từ khóa" />
-                        </td>
-                        <td>
-                            <input id="txtAuthor" name="txtAuthor" type="text" placeholder="Nhập tên tác giả" />
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btnsearch">Tìm kiếm</button>
-                            <button type="button" class="btnsearch">Xóa</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            @foreach (var item in Model)
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input id="txtKeywords" name="txtKeywords" type="text" placeholder="Nhập từ khóa" />
+                            </td>
+                            <td>
+                                <input id="txtAuthor" name="txtAuthor" type="text" placeholder="Nhập tên tác giả" />
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btnsearch">Tìm kiếm</button>
+                                <button type="button" class="btnsearch">Xóa</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                @foreach (var item in Model)
             {
                 <div class="item">
                     <h3 class="title">
@@ -111,25 +112,26 @@
                     </a>
                 </div>
             }
-            <div class="paging">
-                @Html.PagedListPager(Model, page => Url.Content("/" + ViewBag.stUrl + "/?keyword=" + ViewBag.Keyword + "&&page=" + ViewBag.Year + "&&page=" + page))
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="box-right">
-                <div class="header">
-                    Tìm hiều @ViewBag.CategoriesName
-                </div>
-                <div class="box-body">
-                    @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
+                <div class="paging">
+                    @Html.PagedListPager(Model, page => Url.Content("/" + ViewBag.stUrl + "/?keyword=" + ViewBag.Keyword + "&&page=" + ViewBag.Year + "&&page=" + page))
                 </div>
             </div>
-            <div class="box-right">
-                <div class="header">
-                    Tin mới ra
+            <div class="col-lg-4">
+                <div class="box-right">
+                    <div class="header">
+                        Tìm hiều @ViewBag.CategoriesName
+                    </div>
+                    <div class="box-body">
+                        @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
+                    </div>
                 </div>
-                <div class="box-body">
-                    @Html.Action("getLatestNews")
+                <div class="box-right">
+                    <div class="header">
+                        Tin mới ra
+                    </div>
+                    <div class="box-body">
+                        @Html.Action("getLatestNews")
+                    </div>
                 </div>
             </div>
         </div>

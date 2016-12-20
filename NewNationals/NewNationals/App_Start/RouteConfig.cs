@@ -13,6 +13,11 @@ namespace NewNationals
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                   name: "search",
+                   url: "Search",
+                   defaults: new { controller = "Home", action = "Search", stUrl = UrlParameter.Optional }
+               );
+            routes.MapRoute(
                        name: "stUrl",
                        url: "{stUrl}",
                        defaults: new { controller = "Home", action = "Default", stUrl = UrlParameter.Optional }
