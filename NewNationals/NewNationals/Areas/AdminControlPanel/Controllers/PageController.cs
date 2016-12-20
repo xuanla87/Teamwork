@@ -251,6 +251,9 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 gettag += item.stTag + ",";
             }
             //-----------------------------------------------------------------------
+            // lấy template
+            var pagtemplate = pageMetaService.PageMetaByIdKey(entity.Id, "NOT_CATEGORY");
+            //-----------------------------------------------------------------------
             PageModels page = new PageModels();
             page.Id = entity.Id;
             page.Name = entity.Name;
@@ -271,6 +274,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
+            if (pagtemplate != null)
+                page.TemplatePage = pagtemplate.stKey;
             return View(page);
         }
 

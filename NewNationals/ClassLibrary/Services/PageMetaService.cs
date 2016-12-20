@@ -119,6 +119,10 @@ namespace ClassLibrary.Services
         {
             return _db.PageMetas.Where(x => x.PageId == id && x.stKey==stkey).ToList();
         }
+        public PageMeta PageMetaByIdKey(long id, string stkey)
+        {
+            return _db.PageMetas.SingleOrDefault(x => x.PageId == id && x.stKey == stkey);
+        }
         public bool DeletePageId(List<PageMeta> lst)
         {
             try
