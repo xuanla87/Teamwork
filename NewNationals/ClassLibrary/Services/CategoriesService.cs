@@ -279,5 +279,17 @@ namespace ClassLibrary.Services
         {
             return _db.Categories.Where(x => x.ParentId == cateid).OrderBy(x => x.Id).ToList();
         }
+
+        /// <summary>
+        /// hàm trả về danh sách mennu theo parentid
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Category> CategoryGetListByParentId(int cateid)
+        {
+            return
+                _db.Categories.Where(x => x.ParentId == cateid || x.Id == cateid && x.Status == 1)
+                    .OrderBy(x => x.Id)
+                    .ToList();
+        }
     }
 }

@@ -35,14 +35,14 @@
                     <br>
                     <div class="row">
                         <div class="col-lg-4 col-md-4">
-                            @Html.TextBox("SearchString", null, new { @placeholder = "Từ khóa tìm kiếm...", @autocomplete = "off", @class = "form-control" })
+                            @Html.TextBox("SearchStringintro", null, new { @placeholder = "Từ khóa tìm kiếm...", @autocomplete = "off", @class = "form-control" })
                         </div>
                         <div class="col-lg-2 col-md-2">
-                            @Html.TextBox("FromDate", null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "FromDate" })
+                            @Html.TextBox("FromDateintro", null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "FromDateintro" })
                             <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
                         </div>
                         <div class="col-lg-2 col-md-2">
-                            @Html.TextBox("ToDate", null, new { @placeholder = "Đến ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "ToDate" })
+                            @Html.TextBox("ToDateintro", null, new { @placeholder = "Đến ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "ToDateintro" })
                             <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
                         </div>
                         <div class="col-lg-4 col-md-4">
@@ -130,6 +130,17 @@
                                     </td>
                                     <td>@item.CreateDate</td>
                                     <td>
+                                        @if (!item.Home)
+                                        {
+                                            <a href="#" title="Click để hiện thị bài viết trong mục ưu tiên giới thiệu" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        }
+                                        @if (item.Home)
+                                        {
+                                            <a href="#" title="Click để tắt bài viết trong mục ưu tiên giới thiệu" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        }
+                                    </td>
+
+                                    <td>
                                         @if (item.Status.ToString() == "0")
                                         {
                                             <a href="#" title="Bài viết đang bị khóa, Click để mở bài viết" onclick=" UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
@@ -139,18 +150,6 @@
                                             <a href="#" title="bài viết đang mở, Click để khóa Bài viết" onclick=" UpdateStatus(this) " data-id="@item.Id" data-status="@item.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
                                         }
                                     </td>
-
-                                    <td>
-                                        @if (!item.Home)
-                                        {
-                                            <a href="#" title="Click để hiện thị bài viết trong mục sự kiện" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-                                        }
-                                        @if (item.Home)
-                                        {
-                                            <a href="#" title="Click để tắt bài viết trong mục sự kiện" onclick=" UpdateHome(this) " data-id="@item.Id" data-home="@item.Home"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                        }
-                                    </td>
-
                                     <td>
                                         @if (item.Status.ToString() == "0")
                                         {
@@ -168,7 +167,7 @@
                         </tbody>
                     </table>
                     <div class="pull-right">
-                        @Html.PagedListPager(Model, page => Url.Content("PageIntro?page=" + page))
+                        @Html.PagedListPager(Model, page => Url.Content("PageIntro?pageintro=" + ViewBag.pageintro + "&SearchStringintro=" + ViewBag.SearchStringintro + "&FromDateintro=" + ViewBag.FromDateintro + "&ToDateintro=" + ViewBag.ToDateintro))
                     </div>
                 </div>
             </div>
@@ -257,7 +256,7 @@
     }
    
     function fSearch() {
-        var url = "PageIntro?page=1&SearchString=" + $("#SearchString").val() + "&FromDate=" + $("#FromDate").val() + "&ToDate=" + $("#ToDate").val();
+        var url = "PageIntro?pageintro=1&SearchStringintro=" + $("#SearchStringintro").val() + "&FromDateintro=" + $("#FromDateintro").val() + "&ToDateintro=" + $("#ToDateintro").val();
         window.location.assign(url);
     }
     function endSearch() {

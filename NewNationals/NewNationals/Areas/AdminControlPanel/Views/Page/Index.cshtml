@@ -181,7 +181,7 @@
                         </tbody>
                     </table>
                     <div class="pull-right">
-                        @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page))
+                        @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page + "&SearchString=" + ViewBag.SearchString + "&FromDate=" + ViewBag.FromDate + "&ToDate=" + ViewBag.ToDate))
                     </div>
                 </div>
                 <!-- /.box-body -->

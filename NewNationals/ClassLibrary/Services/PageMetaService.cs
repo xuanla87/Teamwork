@@ -121,7 +121,7 @@ namespace ClassLibrary.Services
         }
         public PageMeta PageMetaByIdKey(long id, string stkey)
         {
-            return _db.PageMetas.SingleOrDefault(x => x.PageId == id && x.stKey == stkey);
+            return _db.PageMetas.FirstOrDefault(x => x.PageId == id && x.stKey == stkey);
         }
         public bool DeletePageId(List<PageMeta> lst)
         {

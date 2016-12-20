@@ -20,16 +20,15 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         UserService userService = new UserService();
         TagService tagService=new TagService();
         PageMetaService pageMetaService=new PageMetaService();
-        ModelSystems settings=new ModelSystems();
         // GET: AdminControlPanel/Page
         public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
         {
             int pageNum = page ?? 1;
             var showlist = pagService.ListAllPage();
-            var listpage = new List<PageModels>();
+            var listpage = new List<Page>();
             foreach (var item in showlist)
             {
-                listpage.Add(new PageModels()
+                listpage.Add(new Page()
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -53,9 +52,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             if (!string.IsNullOrEmpty(SearchString))
             {
-                showlist = showlist.Where(x => x.Name.Contains(SearchString) 
-                || x.Title.Contains(SearchString) || x.Keywords.Contains(SearchString) || x.Description.Contains(SearchString) 
-                || x.Content.Contains(SearchString) || x.Note.Contains(SearchString));
+                showlist = showlist.Where(x => x.Name.Contains(SearchString) || x.Title.Contains(SearchString) || x.Keywords.Contains(SearchString) || x.Description.Contains(SearchString) || x.Content.Contains(SearchString) || x.Note.Contains(SearchString));
             }
             try
             {
@@ -83,6 +80,10 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             catch
             {
             }
+            ViewBag.page = page;
+            ViewBag.SearchString = SearchString;
+            ViewBag.FromDate = FromDate;
+            ViewBag.ToDate = ToDate;
             return View(showlist.ToPagedList(pageNum, 20));
         }
 
@@ -481,14 +482,14 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         #endregion
 
         #region [Quản lý page Giới thiệu]
-        public ActionResult PageIntro(int? page, string SearchString, string FromDate, string ToDate)
+        public ActionResult PageIntro(int? pageintro, string SearchStringintro, string FromDateintro, string ToDateintro)
         {
-            int pageNum = page ?? 1;
+            int pageNum = pageintro ?? 1;
             var showlist = pagService.ListAllPageIntro();
-            var listpage = new List<PageModels>();
+            var listpage = new List<Page>();
             foreach (var item in showlist)
             {
-                listpage.Add(new PageModels()
+                listpage.Add(new Page()
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -510,19 +511,19 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     Taxanomy = item.Taxanomy
                 });
             }
-            if (!string.IsNullOrEmpty(SearchString))
+            if (!string.IsNullOrEmpty(SearchStringintro))
             {
-                showlist = showlist.Where(x => x.Name.Contains(SearchString)
-                || x.Title.Contains(SearchString) || x.Keywords.Contains(SearchString) || x.Description.Contains(SearchString)
-                || x.Content.Contains(SearchString) || x.Note.Contains(SearchString));
+                showlist = showlist.Where(x => x.Name.Contains(SearchStringintro)
+                || x.Title.Contains(SearchStringintro) || x.Keywords.Contains(SearchStringintro) || x.Description.Contains(SearchStringintro)
+                || x.Content.Contains(SearchStringintro) || x.Note.Contains(SearchStringintro));
             }
             try
             {
-                if (!string.IsNullOrEmpty(FromDate))
+                if (!string.IsNullOrEmpty(FromDateintro))
                 {
-                    if (!FromDate.Trim().Equals(string.Empty))
+                    if (!FromDateintro.Trim().Equals(string.Empty))
                     {
-                        showlist = showlist.Where(x => x.CreateDate.Date >= DateTime.Parse(FromDate).Date);
+                        showlist = showlist.Where(x => x.CreateDate.Date >= DateTime.Parse(FromDateintro).Date);
                     }
                 }
             }
@@ -531,17 +532,21 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             try
             {
-                if (!string.IsNullOrEmpty(ToDate))
+                if (!string.IsNullOrEmpty(ToDateintro))
                 {
-                    if (!ToDate.Trim().Equals(string.Empty))
+                    if (!ToDateintro.Trim().Equals(string.Empty))
                     {
-                        showlist = showlist.Where(x => x.CreateDate.Date <= DateTime.Parse(ToDate).Date);
+                        showlist = showlist.Where(x => x.CreateDate.Date <= DateTime.Parse(ToDateintro).Date);
                     }
                 }
             }
             catch
             {
             }
+            ViewBag.pageintro = pageintro;
+            ViewBag.SearchStringintro = SearchStringintro;
+            ViewBag.FromDateintro = FromDateintro;
+            ViewBag.ToDateintro = ToDateintro;
             return View(showlist.ToPagedList(pageNum, 20));
         }
 
