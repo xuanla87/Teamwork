@@ -79,5 +79,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "Liên kết")]
         public string LinkRelated { get; set; }
 
+        [Display(Name = "Chọn Template")]
+        public string TemplatePage { get; set; }
     }
 }

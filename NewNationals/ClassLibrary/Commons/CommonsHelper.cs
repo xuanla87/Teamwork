@@ -10,58 +10,25 @@ using System.Web.Mvc;
 
 namespace ClassLibrary.Commons
 {
-    public static class HtmlRequestHelper
-    {
-        /// <summary>
-        /// lấy ID
-        /// </summary>
-        /// <param name="htmlHelper"></param>
-        /// <returns></returns>
-        public static string Id(this HtmlHelper htmlHelper)
-        {
-            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
-
-            if (routeValues.ContainsKey("id"))
-                return (string)routeValues["id"];
-            else if (HttpContext.Current.Request.QueryString.AllKeys.Contains("id"))
-                return HttpContext.Current.Request.QueryString["id"];
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Lấy tên Controller
-        /// </summary>
-        /// <param name="htmlHelper"></param>
-        /// <returns></returns>
-        public static string Controller(this HtmlHelper htmlHelper)
-        {
-            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
-
-            if (routeValues.ContainsKey("controller"))
-                return (string)routeValues["controller"];
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Lấy tên Method
-        /// </summary>
-        /// <param name="htmlHelper"></param>
-        /// <returns></returns>
-        public static string Action(this HtmlHelper htmlHelper)
-        {
-            var routeValues = HttpContext.Current.Request.RequestContext.RouteData.Values;
-
-            if (routeValues.ContainsKey("action"))
-                return (string)routeValues["action"];
-
-            return string.Empty;
-        }
-    }
+       
     public class CommonsHelper
     {
         public static string SessionAdminCp = "SessionAdminCPLogin";
+
+
+        /// <summary>
+        /// Trọn template cho bài viết
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> Template_BaiViet()
+        {
+            var temp = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Chọn template", Value = "0" },
+                new SelectListItem { Text = "Không hiển thị chuyên mục bên phải (cho dạng bản đồ)", Value = "NOT_CATEGORY"},
+            };
+            return temp;
+        }
 
         /// <summary>
         /// Trọn trạng thái sử dụng

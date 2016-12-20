@@ -24,6 +24,7 @@ namespace ClassLibrary.Models
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<LogSystem> LogSystem { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

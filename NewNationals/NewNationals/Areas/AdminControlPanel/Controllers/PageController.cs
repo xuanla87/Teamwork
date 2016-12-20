@@ -191,7 +191,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     catch
                     {
                     }
-                    if(!string.IsNullOrEmpty(entity.LinkRelated))
+                    //-------- insert vào bảng pagemta với KEY là : LIENKET
+                    if (!string.IsNullOrEmpty(entity.LinkRelated))
                     {
                         PageMeta pgmeta = new PageMeta();
                         pgmeta.Id = 1;
@@ -200,7 +201,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                         pgmeta.stValue = entity.LinkRelated;
                         pageMetaService.Insert(pgmeta);
                     }
-                   
+                    //-------- insert vào bảng pagemta với KEY là : NOT_CATEGORY
+                    if (!string.IsNullOrEmpty(entity.TemplatePage) && entity.TemplatePage!="0")
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = getid;
+                        pgmeta.stKey = entity.TemplatePage;
+                        pgmeta.stValue = entity.TemplatePage;
+                        pageMetaService.Insert(pgmeta);
+                    }
 
                     return RedirectToAction("Index", "Page");
                 }
@@ -357,6 +367,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                         pgmeta.stValue = entity.LinkRelated;
                         pageMetaService.Insert(pgmeta);
                     }
+                    //-------- insert vào bảng pagemta với KEY là : NOT_CATEGORY
+                    if (!string.IsNullOrEmpty(entity.TemplatePage) && entity.TemplatePage != "0")
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = entity.Id;
+                        pgmeta.stKey = entity.TemplatePage;
+                        pgmeta.stValue = entity.TemplatePage;
+                        pageMetaService.Insert(pgmeta);
+                    }
                     return RedirectToAction("Index", "Page");
                 }
                 catch (Exception ex)
@@ -454,8 +474,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
-
 
         #region [Quản lý page Giới thiệu]
         public ActionResult PageIntro(int? page, string SearchString, string FromDate, string ToDate)
