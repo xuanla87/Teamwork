@@ -79,6 +79,7 @@ textarea {
         float: none;
         height: 84px;
         transition: background-color 1s ease 0s,border-color 1s ease 0s;
+		border-right: 1px solid #eeeeee;
         position: relative;
     }
 
