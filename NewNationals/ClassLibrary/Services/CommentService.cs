@@ -200,6 +200,10 @@ namespace ClassLibrary.Services
         {
             return _db.Menus.Count();
         }
+        public int CountContact()
+        {
+            return _db.Contacts.Where(x => x.Status == 0).Count();
+        }
         public IEnumerable<Comment> getByPageId(long PageId)
         {
             return _db.Comments.Where(x => x.PageId == PageId && x.Status == 1).OrderByDescending(x => x.CreateDate);

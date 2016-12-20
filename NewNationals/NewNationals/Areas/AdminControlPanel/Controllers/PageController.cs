@@ -191,7 +191,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     catch
                     {
                     }
-                    if(!string.IsNullOrEmpty(entity.LinkRelated))
+                    //-------- insert vào bảng pagemta với KEY là : LIENKET
+                    if (!string.IsNullOrEmpty(entity.LinkRelated))
                     {
                         PageMeta pgmeta = new PageMeta();
                         pgmeta.Id = 1;
@@ -200,7 +201,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                         pgmeta.stValue = entity.LinkRelated;
                         pageMetaService.Insert(pgmeta);
                     }
-                   
+                    //-------- insert vào bảng pagemta với KEY là : NOT_CATEGORY
+                    if (!string.IsNullOrEmpty(entity.TemplatePage) && entity.TemplatePage!="0")
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = getid;
+                        pgmeta.stKey = entity.TemplatePage;
+                        pgmeta.stValue = entity.TemplatePage;
+                        pageMetaService.Insert(pgmeta);
+                    }
 
                     return RedirectToAction("Index", "Page");
                 }
@@ -241,6 +251,9 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 gettag += item.stTag + ",";
             }
             //-----------------------------------------------------------------------
+            // lấy template
+            var pagtemplate = pageMetaService.PageMetaByIdKey(entity.Id, "NOT_CATEGORY");
+            //-----------------------------------------------------------------------
             PageModels page = new PageModels();
             page.Id = entity.Id;
             page.Name = entity.Name;
@@ -261,6 +274,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
+            if (pagtemplate != null)
+                page.TemplatePage = pagtemplate.stKey;
             return View(page);
         }
 
@@ -355,6 +370,16 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                         pgmeta.PageId = entity.Id;
                         pgmeta.stKey = "LIENKET";
                         pgmeta.stValue = entity.LinkRelated;
+                        pageMetaService.Insert(pgmeta);
+                    }
+                    //-------- insert vào bảng pagemta với KEY là : NOT_CATEGORY
+                    if (!string.IsNullOrEmpty(entity.TemplatePage) && entity.TemplatePage != "0")
+                    {
+                        PageMeta pgmeta = new PageMeta();
+                        pgmeta.Id = 1;
+                        pgmeta.PageId = entity.Id;
+                        pgmeta.stKey = entity.TemplatePage;
+                        pgmeta.stValue = entity.TemplatePage;
                         pageMetaService.Insert(pgmeta);
                     }
                     return RedirectToAction("Index", "Page");
@@ -454,8 +479,6 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
-
 
         #region [Quản lý page Giới thiệu]
         public ActionResult PageIntro(int? page, string SearchString, string FromDate, string ToDate)
