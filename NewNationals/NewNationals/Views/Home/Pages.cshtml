@@ -29,6 +29,25 @@
         <div class="col-lg-8">
             <div class="page-body">
                 <h1 class="page-title">@Model.Name</h1>
+                <div class="time-social">
+                    <span class="time">
+                        @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                    </span>
+                    <span>
+                        <a href="#" class="social-icon facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon google">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" class="social-icon linkedin">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </span>
+                </div>
                 <div class="page-content">
                     @Html.Raw(Model.Content)
                 </div>

@@ -4,7 +4,7 @@
     @foreach (var item in Model)
     {
         <li>
-            <a href="@item.TargetUrl">
+            <a href="/@item.TargetUrl">
                 @item.Name
             </a>
             @{
@@ -18,7 +18,7 @@
                     @foreach (var itemchild in listchild)
                     {
                         <li>
-                            <a href="@itemchild.TargetUrl">
+                            <a href="/@itemchild.TargetUrl">
                                 @itemchild.Name
                             </a>
                         </li>

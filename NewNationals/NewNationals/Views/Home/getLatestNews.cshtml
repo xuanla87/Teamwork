@@ -3,9 +3,25 @@
 {
     <div class="box-item">
         <h3 class="title"><a href="@item.Url">@item.Name</a></h3>
-        <span class="time">
-            @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd-MM-yyyy")
-        </span>
+        <div class="time-social">
+            <span class="time">
+                @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+            </span>
+            <span>
+                <a href="#" class="social-icon facebook">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a href="#" class="social-icon twitter">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#" class="social-icon google">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                <a href="#" class="social-icon linkedin">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+            </span>
+        </div>
         @if (!string.IsNullOrEmpty(item.Thumbnail))
         {
             <div class="thumbnail">
