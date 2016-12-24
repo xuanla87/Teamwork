@@ -1,5 +1,5 @@
-﻿@model ClassLibrary.Models.Page
-@using ClassLibrary.Commons;
+﻿@using ClassLibrary.Commons
+@model ClassLibrary.Models.Page
 <div class="main-page">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
@@ -21,13 +21,14 @@
                 </div>
             </div>
         </div>
+
     </div>
     <div class="container body-content">
         <div class="row">
             <div class="breadcrumb-trail breadcrumb">
                 @Html.Raw(ViewBag.Breadcrumb)
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="page-body">
                     <h1 class="page-title">@CommonsHelper.VietHoaKyTuDauTien(Model.Name)</h1>
                     <div class="time-social">
@@ -52,6 +53,52 @@
                     </div>
                     <div class="page-content">
                         @Html.Raw(Model.Content)
+                    </div>
+                    @Html.Raw(ViewBag.ListFile)
+                    @Html.Raw(ViewBag.ListLienKet)
+                    <div class="muc-tin">
+                        @Html.Raw(ViewBag.Muctin)
+                    </div>
+                    <div class="namviet">
+                        @ViewBag.Year
+                    </div>
+                    <div class="tacgia">
+                        @ViewBag.TacGia
+                    </div>
+                    <div class="tochuc">
+                        @ViewBag.ToChuc
+                    </div>
+                    <div class="pagetag">
+                        @Html.Action("Tags", new { PageId = Model.Id })
+                    </div>
+                </div>
+                <div class="comment">
+                    <div class="comment-item">
+                        @Html.Raw(ViewBag.ListComment)
+                    </div>
+                    <hr />
+                    <div class="form-comment">
+                        @Html.Action("Comment", new { PageId = Model.Id })
+                    </div>
+                </div>
+                @Html.Action("NewRelated", new { Id = Model.Id, CateId = Model.CategoriesId, Taxanomy = Model.Taxanomy })
+            </div>
+            <div class="col-lg-4">
+                <div class="box-right">
+                    <div class="header">
+                        @ViewBag.CategoriesName
+                    </div>
+                    <div class="box-body">
+                         @*@if (ViewBag.BoxCategories == "LEFTMENU_2")
+                        {
+                            @Html.Action("GetBoxCategories_LEFTMENU_2", new { Id = ViewBag.CategoriesId })
+                        }
+                        @if (ViewBag.BoxCategories == "LEFTMENU_1")
+                        {
+                            @Html.Action("GetBoxCategories_LEFTMENU_1", new { Id = ViewBag.CategoriesId })
+                        }*@
+                        @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
+
                     </div>
                 </div>
             </div>

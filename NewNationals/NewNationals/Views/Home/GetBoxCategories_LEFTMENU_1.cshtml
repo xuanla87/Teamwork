@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ClassLibrary.Models.Category>
+@if (Model != null)
+{
+    <ul class="category">
+
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="/@item.Url">@item.Name.ToUpper()</a>
+            </li>
+        }
+    </ul>
+}

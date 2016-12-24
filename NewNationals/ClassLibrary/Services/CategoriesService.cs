@@ -150,7 +150,36 @@ namespace ClassLibrary.Services
                 return false;
             }
         }
-
+        /// <summary>
+        /// Hàm thực hiện lệnh Delete
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateUrl(long id, string url)
+        {
+            try
+            {
+                var page = _db.Categories.Find(id);
+                if (page != null)
+                {
+                    page.Url = url;
+                    _db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Lỗi Update lại Url Categories]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return false;
+            }
+        }
         /// <summary>
         /// tạo cấu trúc category
         /// </summary>
@@ -207,7 +236,7 @@ namespace ClassLibrary.Services
         /// <returns></returns>
         public IEnumerable<Category> ListAllCategory()
         {
-            return _db.Categories.Where(x => x.Status != -1).ToList();
+            return _db.Categories.Where(x => x.Status != -1 && x.ParentId == null).ToList();
         }
         /// <summary>
         ///  Kiểm tra chuyên mục có tồn tại không
@@ -254,10 +283,14 @@ namespace ClassLibrary.Services
         {
             return _db.Categories.FirstOrDefault(x => x.Url == sturl);
         }
+        public Category GetParentChild(long? Id)
+        {
+            return _db.Categories.FirstOrDefault(x => x.ParentId == Id);
+        }
 
         public IEnumerable<Category> getTopCategory(int top)
         {
-            return _db.Categories.Where(x => x.ParentId == null).Take(top).OrderBy(x => x.Id);
+            return _db.Categories.Where(x => x.ParentId == null && x.taxanomy == null && x.Status!=-1).Take(top).OrderBy(x => x.Id);
         }
 
         public IEnumerable<Category> getByParentId(long? ParentId)
@@ -267,6 +300,11 @@ namespace ClassLibrary.Services
             else
                 return _db.Categories.Where(x => x.ParentId == ParentId && x.Status != -1);
         }
+
+        public IEnumerable<Category> GetCategories_LEFTMENU_2(string taxanomy,long? Id)
+        {
+            return _db.Categories.Where(x => x.taxanomy == taxanomy && x.ParentId == Id && x.Status != -1);
+        }
         public List<Category> GetCateAutoComplete(string input)
         {
             return _db.Categories.Where(x => (x.Url.Contains(input) || x.Name.Contains(input))).ToList();
@@ -275,7 +313,7 @@ namespace ClassLibrary.Services
         /// hàm trả về danh sách mennu theo parentid
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Category> CategoryGetByParent(int cateid)
+        public IEnumerable<Category> CategoryGetByParent(long cateid)
         {
             return _db.Categories.Where(x => x.ParentId == cateid).OrderBy(x => x.Id).ToList();
         }
@@ -290,6 +328,11 @@ namespace ClassLibrary.Services
                 _db.Categories.Where(x => x.ParentId == cateid || x.Id == cateid && x.Status == 1)
                     .OrderBy(x => x.Id)
                     .ToList();
+        }
+
+        public Category GetByIdCategories(long cateid)
+        {
+            return _db.Categories.Where(x => x.ParentId == cateid || x.Id == cateid && x.Status == 1).FirstOrDefault();
         }
     }
 }

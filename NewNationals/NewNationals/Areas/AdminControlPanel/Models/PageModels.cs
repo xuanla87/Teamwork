@@ -65,8 +65,7 @@ namespace NewNationals.Areas.AdminControlPanel.Models
         [Display(Name = "Chuyên mục")]
         public long? CategoriesId { get; set; }
 
-        [StringLength(50)]
-        [Display(Name = "Taxanomy")]
+        [Display(Name = "Chọn kiểu cho bài viết")]
         public string Taxanomy { get; set; }
 
         [Display(Name = "Tag")]

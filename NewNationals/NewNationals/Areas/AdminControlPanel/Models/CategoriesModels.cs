@@ -34,5 +34,11 @@ namespace NewNationals.Areas.AdminControlPanel.Models
 
         [Display(Name = "Chuyên mục cha")]
         public long? ParentId { get; set; }
+
+        [Display(Name = "Chọn chuyên mục")]
+        public string Taxanomy { get; set; }
+
+        [Display(Name = "Lấy Link từ bài viết trỏ vào chuyên mục này")]
+        public string GeTargettUrl { get; set; }
     }
 }

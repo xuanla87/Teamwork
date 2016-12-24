@@ -58,6 +58,25 @@ namespace ClassLibrary.Commons
             };
             return getStatus;
         }
+        public static IEnumerable<SelectListItem> Dropdown_CategoriesTaxanomy()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Mặc định", Value = "" },
+                new SelectListItem { Text = "Menu bên phải trong các bài viết KHÔNG thuộc 5 TIỂU BAN TAI NẠN GIAO THÔNG", Value = "LEFTMENU_2"}
+                //new SelectListItem { Text = "Menu bên phải trong dạng bài viết thuộc TAI NẠN GIAO THÔNG ", Value = "LEFTMENU_1"},
+            };
+            return getStatus;
+        }
+        public static IEnumerable<SelectListItem> Dropdown_PageTaxanomy()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Dạng bài viết Tai nạn khác", Value = "BaiViet_KHAC"},
+                new SelectListItem { Text = "Dạng bài viết thuộc 5 TIỂU BAN TAI NẠN GIAO THÔNG ", Value = "BaiViet_TNGT"},
+            };
+            return getStatus;
+        }
 
         /// <summary>
         /// Chọn giới tính
@@ -72,7 +91,15 @@ namespace ClassLibrary.Commons
             };
             return getStatus;
         }
-
+        public static IEnumerable<SelectListItem> Categories_TypeTargetUrl()
+        {
+            var getStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Tự động tạo đường dẫn", Value = "0" },
+                new SelectListItem { Text = "Lấy đường dẫn từ bài viết có sẵn", Value = "1"},
+            };
+            return getStatus;
+        }
         /// <summary>
         /// Chọn kiểu Menu
         /// </summary>

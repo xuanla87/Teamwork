@@ -33,45 +33,56 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.ParentId)</label>
-                                    @Html.DropDownListFor(model => model.ParentId, null, "--- Chọn chuyên mục cha ---", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.ParentId, null, "--- Chọn chuyên mục cha ---", new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.ParentId, "", new {@class = "text-danger"})
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Name)</label>
-                                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập tên chuyên mục" } })
+                                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập tên chuyên mục"}})
                                     @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Note)</label>
-                                    @Html.EditorFor(model => model.Note, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập ghi chú" } })
+                                    @Html.EditorFor(model => model.Note, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập ghi chú"}})
                                     @Html.ValidationMessageFor(model => model.Note, "", new {@class = "text-danger"})
-                                    <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.Taxanomy)</label>
+                                    @Html.DropDownListFor(x => x.Taxanomy, new SelectList(CommonsHelper.Dropdown_CategoriesTaxanomy(), "Value", "Text"), new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.Taxanomy, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>Chọn kiểu đường dẫn cho chuyên mục (nếu cần)</label>
+                                    @Html.DropDownList("TypeTargetUrl", new SelectList(CommonsHelper.Categories_TypeTargetUrl(), "Value", "Text"), new {@class = "form-control"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.GeTargettUrl)</label>
+                                    @Html.EditorFor(model => model.GeTargettUrl, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập đường dẫn bài viết cần lấy"}})
+                                    @Html.ValidationMessageFor(model => model.GeTargettUrl, "", new {@class = "text-danger"})
+                                </div>
+                                @*<div class="form-group">
                                     <label>@Html.LabelFor(model => model.Title)</label>
                                     @Html.EditorFor(model => model.Title, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập thẻ tiêu đê (SEO)" } })
                                     @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
-                                    <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Keyword)</label>
                                     @Html.EditorFor(model => model.Keyword, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập thẻ từ khóa (SEO)" } })
                                     @Html.ValidationMessageFor(model => model.Keyword, "", new {@class = "text-danger"})
-                                    <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Description)</label>
                                     @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập thẻ mô tả (SEO)" } })
                                     @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
-                                </div>
+                                </div>*@
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.Status)</label>
                                     @Html.DropDownListFor(x => x.Status, new SelectList(CommonsHelper.StatusAccount(), "Value", "Text"), new {@class = "form-control"})
@@ -93,7 +104,29 @@
     </div>
     <!-- /.row (main row) -->
 </section>
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui.js"></script>
 <script>
+    $(document).ready(function () {
+        $("#GeTargettUrl").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetAutoAll", "Categories")',
+                    type: "POST",
+                    dataType: "json",
+                    data: { input: request.term, gettype: $('#TypeTargetUrl').val() },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Name, value: item.Url };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    });
     function BackIndex() {
         var url = "/AdminControlPanel/Categories/Index";
         window.location.assign(url);

@@ -120,5 +120,13 @@ namespace ClassLibrary.Services
         {
             return _db.Tags.Where(x => x.PageId == id).ToList();
         }
+        public List<Tag> ListTagsGetByPageId(long? id)
+        {
+            return _db.Tags.Where(x => x.PageId == id).ToList();
+        }
+        public int CountTags(string name)
+        {
+            return _db.Tags.Where(x => x.stTag == name).Count();
+        }
     }
 }

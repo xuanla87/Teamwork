@@ -16,35 +16,58 @@
     }
 </head>
 <body>
-    <div class="main">
-        @RenderBody()
-    </div>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    @Html.Raw(SETTINGS.getValue("Footer_Info1"))
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    @Html.Raw(SETTINGS.getValue("Footer_Info2"))
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    @Html.Raw(SETTINGS.getValue("Footer_Info3"))
-                </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-585b493fb4a61b2d"></script> 
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<div class="main">
+    @RenderBody()
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                @Html.Raw(SETTINGS.getValue("Footer_Info1"))
+            </div>
+            <div class="col-lg-4 col-md-4">
+                @Html.Raw(SETTINGS.getValue("Footer_Info2"))
+            </div>
+            <div class="col-lg-4 col-md-4">
+                @Html.Raw(SETTINGS.getValue("Footer_Info3"))
             </div>
         </div>
-    </footer>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/menu.js"></script>
-    <script>
-        function Timkiem() {
-            var textkey = $("#txtSearch").val();
-            if (textkey != null || textkey != "") {
-                var url = "/Search?key=" + textkey;
-                window.location.assign(url);
-            }
-        };
-    </script>
+    </div>
+</footer>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/menu.js"></script>
+<script>
+    function SearchAdvanced() {
+        var year = $("#slYear").val();
+        var key = $("#txtKeywords").val();
+        var categoriesid = $("#CategoriesSearch").val();
+        if (key != null || key != "") {
+            var url = "?year=" + year + "&&key=" + key + "&&categoriesid=" + categoriesid;
+            window.location.assign(url);
+        }
+    };
+
+    function Timkiem() {
+        var textkey = $("#txtSearch").val();
+        if (textkey != null || textkey != "") {
+            var url = "/Search?key=" + textkey;
+            window.location.assign(url);
+        }
+    };
+
+</script>
 </body>
 </html>

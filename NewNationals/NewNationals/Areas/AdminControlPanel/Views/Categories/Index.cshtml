@@ -84,7 +84,7 @@
                                         <tr>
                                             <td>@Html.Raw(i++)</td>
                                             <td>
-                                                <p> ::.. @iparent.Name</p>
+                                                <p style="color: blue;"> ::.. @iparent.Name</p>
                                             </td>
                                             <td>@iparent.Url</td>
                                             <td>@iparent.Note</td>
@@ -111,6 +111,45 @@
                                                 <a title="Sửa thông tin" href="/AdminControlPanel/Categories/Edit/@iparent.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@iparent.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
+                                        if (!string.IsNullOrEmpty(iparent.Id.ToString()))
+                                        {
+                                            CategoriesService cate3 = new CategoriesService();
+                                            var listbyparent3 = cate3.CategoryGetByParent(int.Parse(iparent.Id.ToString()));
+                                            foreach (var iparent3 in listbyparent3)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(i++)</td>
+                                                    <td>
+                                                        <p style="color: red;">::..::::.... @iparent3.Name</p>
+                                                    </td>
+                                                    <td>@iparent3.Url</td>
+                                                    <td>@iparent3.Note</td>
+                                                    <td>
+                                                        @if (iparent3.Status.ToString() == "0")
+                                                        {
+                                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent3.Id" data-status="@iparent3.Status"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                                        }
+                                                        @if (iparent3.Status.ToString() == "1")
+                                                        {
+                                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent3.Id" data-status="@iparent3.Status"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (iparent3.Status.ToString() == "0")
+                                                        {
+                                                            <a href="#" title="Chuyên mục đang bị khóa, Click để mở Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent3.Id" data-status="@iparent3.Status"><i class="fa fa-lock" aria-hidden="true"></i></a>
+                                                        }
+                                                        @if (iparent3.Status.ToString() == "1")
+                                                        {
+                                                            <a href="#" title="Chuyên mục đang mở, Click để khóa Chuyên mục" onclick=" LockAccount(this) " data-id="@iparent3.Id" data-status="@iparent3.Status"><i class="fa fa-unlock" aria-hidden="true"></i></a>
+                                                        }
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <a title="Sửa thông tin" href="/AdminControlPanel/Categories/Edit/@iparent3.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp; <a href="#" title="Xóa bản ghi" onclick=" Delete(this) " data-id="@iparent3.Id"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
                                     }
                                 }
                             }

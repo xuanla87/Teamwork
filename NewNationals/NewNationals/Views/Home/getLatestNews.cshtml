@@ -2,13 +2,14 @@
 @foreach (var item in Model)
 {
     <div class="box-item">
-        <h3 class="title"><a href="@item.Url">@item.Name</a></h3>
+        <h3 class="title"><a href="@item.Url">@item.Name.ToUpper()</a></h3>
         <div class="time-social">
             <span class="time">
                 @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
             </span>
             <span>
-                <a href="#" class="social-icon facebook">
+                <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                @*<a href="#" class="social-icon facebook">
                     <i class="fa fa-facebook"></i>
                 </a>
                 <a href="#" class="social-icon twitter">
@@ -19,7 +20,7 @@
                 </a>
                 <a href="#" class="social-icon linkedin">
                     <i class="fa fa-linkedin"></i>
-                </a>
+                </a>*@
             </span>
         </div>
         @if (!string.IsNullOrEmpty(item.Thumbnail))

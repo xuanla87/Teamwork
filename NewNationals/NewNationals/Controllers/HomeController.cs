@@ -19,6 +19,7 @@ namespace NewNationals.Controllers
         MenuService MENUS = new MenuService();
         CommentService COMMENTS = new CommentService();
         PageMetaService PAGEMETAS = new PageMetaService();
+        TagService TAGS=new TagService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -112,11 +113,182 @@ namespace NewNationals.Controllers
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
-            ViewBag.CategoriesId = cate.ParentId;
+           
             if (cate.ParentId != null)
+            {
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+                ViewBag.CategoriesId = cate.ParentId;
+            }
             else
             {
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
+                ViewBag.CategoriesId = cate.Id;
+            }
+            var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
+            string output = "";
+            if (meta.Count > 0)
+            {
+                output += "<div class=\"file-upload\">";
+                foreach (var item in meta)
+                {
+                    output += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-caret-down\"></i></span> Tải tập tin</a>";
+                }
+                output += "</div>";
+            }
+            ViewBag.ListFile = output;
+            var metalienket = PAGEMETAS.ListPageMetaById(entity.Id, "LIENKET");
+            string lienket = "";
+            if (metalienket.Count > 0)
+            {
+                lienket += "<div class=\"file-upload\">";
+                foreach (var item in metalienket)
+                {
+                    lienket += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-flag-o\"></i></span> Liên kết</a>";
+                }
+                lienket += "</div>";
+            }
+            ViewBag.ListLienKet = lienket;
+            return PartialView(entity);
+        }
+        public ActionResult PagesFixCategories_Left1(string stUrl)
+        {
+            var entity = new Page();
+            entity = PAGES.getByUrl(stUrl);
+            string stLink = "";
+            var cate = CATEGORIES.getById(entity.CategoriesId);
+            if (cate != null)
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+                stLink += getLinkParentCategories("", cate.ParentId);
+                stLink += " | " + entity.Name + "";
+            }
+            else
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+                stLink += "" + entity.Name + "";
+            }
+            ViewBag.Breadcrumb = stLink;
+            ViewBag.CategoriesId = cate.Id;
+            //if (cate.ParentId != null)
+            //    ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+            //else
+            //{
+            //    ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
+            //}
+            var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
+            string output = "";
+            if (meta.Count > 0)
+            {
+                output += "<div class=\"file-upload\">";
+                foreach (var item in meta)
+                {
+                    output += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-caret-down\"></i></span> Tải tập tin</a>";
+                }
+                output += "</div>";
+            }
+            ViewBag.ListFile = output;
+            var metalienket = PAGEMETAS.ListPageMetaById(entity.Id, "LIENKET");
+            string lienket = "";
+            if (metalienket.Count > 0)
+            {
+                lienket += "<div class=\"file-upload\">";
+                foreach (var item in metalienket)
+                {
+                    lienket += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-flag-o\"></i></span> Liên kết</a>";
+                }
+                lienket += "</div>";
+            }
+            ViewBag.Year = "Năm: " + entity.ModifiedDate.Year;
+            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name + "</a>";
+            ViewBag.TacGia = "Tác giả: CHƯA CODE ";// + entity.ModifiedDate.Year;
+            ViewBag.ToChuc = "Tổ chức: CHƯA CODE ";//
+            ViewBag.ListLienKet = lienket;
+            if (cate.ParentId != null)
+            {
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+                ViewBag.CategoriesId = cate.ParentId;
+            }
+            else
+            {
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
+                ViewBag.CategoriesId = cate.Id;
+            }
+            return PartialView(entity);
+        }
+        public ActionResult PagesFixCategories_Left2(string stUrl)
+        {
+            var entity = new Page();
+            entity = PAGES.getByUrl(stUrl);
+            string stLink = "";
+            var cate = CATEGORIES.getById(entity.CategoriesId);
+            if (cate != null)
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+                stLink += getLinkParentCategories("", cate.ParentId);
+                stLink += " | " + entity.Name + "";
+            }
+            else
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+                stLink += "" + entity.Name + "";
+            }
+            ViewBag.Breadcrumb = stLink;
+         
+            var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
+            string output = "";
+            if (meta.Count > 0)
+            {
+                output += "<div class=\"file-upload\">";
+                foreach (var item in meta)
+                {
+                    output += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-caret-down\"></i></span> Tải tập tin</a>";
+                }
+                output += "</div>";
+            }
+            ViewBag.ListFile = output;
+            var metalienket = PAGEMETAS.ListPageMetaById(entity.Id, "LIENKET");
+            string lienket = "";
+            if (metalienket.Count > 0)
+            {
+                lienket += "<div class=\"file-upload\">";
+                foreach (var item in metalienket)
+                {
+                    lienket += "<a href=\"" + item.stValue +
+                              "\"><span><i class=\"fa fa-flag-o\"></i></span> Liên kết</a>";
+                }
+                lienket += "</div>";
+            }
+            ViewBag.Year = "Năm: "+ entity.ModifiedDate.Year;
+            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name+ "</a>";
+            ViewBag.TacGia = "Tác giả: CHƯA CODE ";// + entity.ModifiedDate.Year;
+            ViewBag.ToChuc = "Tổ chức: CHƯA CODE ";//
+            ViewBag.ListLienKet = lienket;
+            ViewBag.CategoriesName = CATEGORIES.GetByIdCategories(cate.Id).Name;
+            if (cate.ParentId != null)
+            {
+                ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
+                ViewBag.CategoriesId = cate.Id;
+                // nếu mà menu con có parentId !=null thì lấy theo Parent
+                var checkparent = CATEGORIES.GetParentChild(cate.Id);
+
+                //if (checkparent.ParentId != null)
+                //{
+                //    if(checkparent.ParentId==cate.Id)
+                //        ViewBag.CategoriesId = checkparent.ParentId;
+                //    else
+                //    {
+                //        ViewBag.CategoriesId = cate.Id;
+                //    }
+                //}
+            }
+            else
+            {
+                ViewBag.CategoriesId = cate.ParentId;
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
             }
             return PartialView(entity);
@@ -137,21 +309,33 @@ namespace NewNationals.Controllers
         {
             var entity = CATEGORIES.getByUrl(stUrl);
             var child = CATEGORIES.getByParentId(entity.Id);
+            if (entity != null)
+            {
+                var checkIntroPages = CATEGORIES.CategoryGetByParent(entity.Id);
+                ViewBag.GetTaxanomyCategories = entity.taxanomy;
+                ViewBag.GetTitleCategories = entity.Title;
+                ViewBag.GetParentIdCategories = "" + checkIntroPages.Count() + "";
+            }
             return PartialView(child);
         }
 
-        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key)
+        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key,long? categoriesid)
         {
+            ViewBag.SelectCategories = CATEGORIES.GetCategoriesSelectList();
             int pageNum = page ?? 1;
             var entity = CATEGORIES.getByUrl(stUrl);
             var pages = PAGES.getByCategoriesId(entity.Id);
             if (!string.IsNullOrEmpty(key))
             {
-                pages = pages.Where(x => x.Name.ToLower().Contains(key.ToLower()) || x.Title.ToLower().Contains(key.ToLower()));
+                pages = pages.Where(x => x.Name.ToLower().Contains(key.ToLower()));
             }
             if (year > 0)
             {
                 pages = pages.Where(x => x.ModifiedDate.Year == year || x.CreateDate.Year == year);
+            }
+            if (categoriesid>0)
+            {
+                pages = pages.Where(x => x.CategoriesId == categoriesid);
             }
             string stLink = "";
             if (entity != null)
@@ -169,11 +353,15 @@ namespace NewNationals.Controllers
             ViewBag.stUrl = stUrl;
             ViewBag.Keyword = key;
             ViewBag.Year = year;
-            ViewBag.CategoriesId = entity.ParentId;
+            ViewBag.BoxCategories = entity.taxanomy;
             if (entity.ParentId != null)
+            {
                 ViewBag.CategoriesName = CATEGORIES.getById(entity.ParentId).Name;
+                ViewBag.CategoriesId = entity.ParentId;
+            }
             else
             {
+                ViewBag.CategoriesId = entity.Id;
                 ViewBag.CategoriesName = CATEGORIES.getById(entity.Id).Name;
             }
             return PartialView(pages.ToPagedList(pageNum, 20));
@@ -185,15 +373,28 @@ namespace NewNationals.Controllers
             return PartialView(entity);
         }
 
+        public PartialViewResult GetBoxCategories_LEFTMENU_1(long? Id)
+        {
+            var entity = CATEGORIES.GetCategories_LEFTMENU_2("LEFTMENU_2", Id); // cho dạng bài viết khác chuyên mục TNGT
+            return PartialView(entity);
+        }
+        public PartialViewResult GetBoxCategories_LEFTMENU_2()
+        {
+            var entity = CATEGORIES.GetCategories_LEFTMENU_2("LEFTMENU_1",0); // chưa sử dụng
+            return PartialView(entity);
+        }
+
+
         public PartialViewResult getLatestNews()
         {
             var entity = PAGES.getLatest().Take(2).ToList();
             return PartialView(entity);
         }
-        public PartialViewResult NewRelated(long Id, long CateId)
+        public PartialViewResult NewRelated(long Id, long CateId,string Taxanomy)
         {
-            var entity = new List<Page>();
-            entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(5).ToList();
+            var entity = new List<Page>(); 
+            //entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(2).ToList();
+            entity = PAGES.getByCategoriesIdTaxanomy(CateId, Taxanomy).Where(x => x.Id != Id).Take(5).ToList();
             return PartialView(entity);
         }
         public PartialViewResult Comment(long PageId)
@@ -246,9 +447,27 @@ namespace NewNationals.Controllers
             return PartialView();
         }
 
-        public ActionResult Tags(string slug)
+        public ActionResult Tags(long? PageId)
         {
-            return PartialView();
+            var entity = new List<Tag>();
+            entity = TAGS.ListTagsGetByPageId(PageId);
+            return PartialView(entity);
+        }
+        public int CountTags(string nametags)
+        {
+            int count = 0;
+            try
+            {
+                if (string.IsNullOrEmpty(nametags))
+                    count = 0;
+                else
+                count= TAGS.CountTags(nametags);
+                return count;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public PartialViewResult PageInCategories(long Id)
@@ -287,6 +506,15 @@ namespace NewNationals.Controllers
             {
                 stLink += getLinkParentCategories(stLink, cate.ParentId);
                 stLink += " | <a href=\"" + cate.Url + "\">" + cate.Name + "</a>";
+            }
+            return stLink;
+        }
+        private string getLinkParentCategories_Fix(string stLink, long? Id)
+        {
+            var cate = CATEGORIES.getById(Id);
+            if (cate != null)
+            {
+                stLink += "<a href=\"" + cate.Url + "\">" + cate.Name + "</a>";
             }
             return stLink;
         }

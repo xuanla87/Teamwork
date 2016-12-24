@@ -19,9 +19,10 @@
         </div>
     }
 }
+
 <div class="main-home">
     <div class="banner">
-        <img src="~/Content/banner.jpg" />
+        <img src="~/Content/banner.jpg"/>
     </div>
 
     <div class="navbar navbar-inverse">
@@ -32,15 +33,15 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">
-                <img src="~/Content/logo.png" />
+                <img src="~/Content/logo.png"/>
             </a>
         </div>
         <div class="navbar-collapse collapse">
             @Html.Action("MenuTop")
             <div class="form-search">
                 <div class="search-body">
-                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
-                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text"/>
+                    <button class="btn-search" onclick=" Timkiem() " type="button"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
             </div>
         </div>
@@ -67,15 +68,24 @@
         <div class="container body-content">
             <div class="row">
                 @foreach (var item in Model)
-            {
+                {
                     <div class="col-md-4">
                         <div class="box">
                             <h2 class="title">@item.Name</h2>
-                            @Html.Action("PageInCategories", new { Id = item.Id })
+                            @Html.Action("PageInCategories", new {Id = item.Id})
                         </div>
                     </div>
-            }
+                }
             </div>
         </div>
     </div>
 </div>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=137239706454804";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

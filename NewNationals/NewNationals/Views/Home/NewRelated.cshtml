@@ -8,7 +8,7 @@
                 @foreach (var item in Model)
                 {
                     <li>
-                        <a href="/@item.Url" title="@item.Name"><i class="fa fa-minus"></i> @item.Name</a>
+                        <a href="/@item.Url" title="@item.Name"><i class="fa fa-minus"></i> @item.Name.ToUpper()</a>
                     </li>
                 }
             </ul>

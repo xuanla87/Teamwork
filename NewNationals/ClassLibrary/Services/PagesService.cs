@@ -258,14 +258,14 @@ namespace ClassLibrary.Services
         public IEnumerable<Page> ListAllPage()
         {
             return
-                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy == "Content")
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy != "Page")
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }
         public IEnumerable<Page> ListAllPageIntro()
         {
             return
-                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy != "Content")
+                _db.Pages.Where(x => x.Status != -1 && x.Taxanomy != "Content" && x.Taxanomy != "BaiViet_TNGT" && x.Taxanomy != "BaiViet_KHAC")
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
         }
@@ -288,8 +288,8 @@ namespace ClassLibrary.Services
         {
             var list = (from p in _db.Pages
                 join c in _db.Categories on p.CategoriesId equals c.Id
-                where c.Id == CategoriesId || c.ParentId == CategoriesId && p.Status==1
-                select p).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
+                where c.Id == CategoriesId || c.ParentId == CategoriesId
+                select p).Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
             return list;
             //_db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1)
             //    .OrderByDescending(x => x.ModifiedDate)
@@ -299,6 +299,10 @@ namespace ClassLibrary.Services
         {
             return _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1).OrderByDescending(x => x.ModifiedDate).ToList();
         }
+        public IEnumerable<Page> getByCategoriesIdTaxanomy(long CategoriesId,string taxanomy)
+        {
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1 && x.Taxanomy==taxanomy).OrderByDescending(x => x.ModifiedDate).ToList();
+        }
 
         public IEnumerable<Page> getSlideShows()
         {
@@ -307,7 +311,11 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Page> getEvents()
         {
-            return _db.Pages.Where(x => x.Home == true && x.Status == 1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return
+                _db.Pages.Where(x => x.Home == true && x.Status == 1 && x.Taxanomy != "Page")
+                    .OrderByDescending(x => x.ModifiedDate)
+                    .Take(5)
+                    .ToList();
         }
 
         public IEnumerable<Page> getLatest()

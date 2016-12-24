@@ -33,5 +33,8 @@ namespace ClassLibrary.Models
         public int Status { get; set; }
 
         public long? ParentId { get; set; }
+
+        [StringLength(50)]
+        public string taxanomy { get; set; }
     }
 }

@@ -144,7 +144,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Feature = entity.Feature;
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
-                    page.Taxanomy = "Content";
+                    page.Taxanomy = entity.Taxanomy;
                     pagService.Insert(page);
                     long getid = page.Id;
                     string geturl = page.Url + "-" + getid;
@@ -275,6 +275,7 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.CategoriesId = entity.CategoriesId;
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
+            page.Taxanomy = entity.Taxanomy;
             if (pagtemplate != null)
                 page.TemplatePage = pagtemplate.stKey;
             return View(page);

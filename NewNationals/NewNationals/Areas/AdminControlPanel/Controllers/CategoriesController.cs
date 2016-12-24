@@ -37,26 +37,44 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                 try
                 {
                     ViewBag.ParentId = cateService.GetCategoriesSelectList();
-                    if (!cateService.CategoryNameExits(CommonsHelper.FilterCharCommas(entity.Name)))
-                    {
+                    //if (!cateService.CategoryNameExits(CommonsHelper.FilterCharCommas(entity.Name)))
+                    //{
                         var cate = new Category();
                         cate.Id = 1;
                         cate.Name = entity.Name;
-                        cate.Url = CommonsHelper.FilterCharCommas(entity.Name);
+                        if (!string.IsNullOrEmpty(entity.GeTargettUrl))
+                        {
+                            cate.Url = CommonsHelper.FilterCharCommas(entity.GeTargettUrl);
+                        }
+                        else
+                        {
+                            cate.Url = CommonsHelper.FilterCharCommas(entity.Name);
+                        }
+                   
                         cate.Note = entity.Note;
-                        cate.Title = entity.Title;
+                        cate.Title = entity.Taxanomy;
                         cate.Keyword = entity.Keyword;
                         cate.Description = entity.Description;
                         cate.Status = entity.Status;
                         cate.ParentId = entity.ParentId;
+                        cate.taxanomy = entity.Taxanomy;
                         cateService.Insert(cate);
-                        return RedirectToAction("Index", "Categories");
-                    }
-                    else
+                    //-------------------------------------------------------------------------------
+                    // cập nhật lại url
+                    if (string.IsNullOrEmpty(entity.GeTargettUrl))
                     {
-                        ModelState.AddModelError("", "Lỗi: chuyên mục đã tồn tại!");
-                        return View();
+                        long getid = cate.Id;
+                        string geturl = cate.Url + "-" + getid;
+                        cateService.UpdateUrl(getid, geturl);
                     }
+                    
+                        return RedirectToAction("Index", "Categories");
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "Lỗi: chuyên mục đã tồn tại!");
+                    //    return View();
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -90,11 +108,12 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             cate.Name = entity.Name;
             cate.Url = CommonsHelper.FilterCharCommas(entity.Title);
             cate.Note = entity.Note;
-            cate.Title = entity.Title;
+            cate.Title = entity.taxanomy;
             cate.Keyword = entity.Keyword;
             cate.Description = entity.Description;
             cate.Status = entity.Status;
             cate.ParentId = entity.ParentId;
+            cate.Taxanomy = entity.taxanomy;
             return View(cate);
         }
 
@@ -110,13 +129,21 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     var cate = new Category();
                     cate.Id = entity.Id;
                     cate.Name = entity.Name;
-                    cate.Url = CommonsHelper.FilterCharCommas(entity.Name);
+                    if (!string.IsNullOrEmpty(entity.GeTargettUrl))
+                    {
+                        cate.Url = CommonsHelper.FilterCharCommas(entity.GeTargettUrl);
+                    }
+                    else
+                    {
+                        cate.Url = CommonsHelper.FilterCharCommas(entity.Name) + "-" + entity.Id;
+                    }
                     cate.Note = entity.Note;
-                    cate.Title = entity.Title;
+                    cate.Title = entity.Taxanomy;
                     cate.Keyword = entity.Keyword;
                     cate.Description = entity.Description;
                     cate.Status = entity.Status;
                     cate.ParentId = entity.ParentId;
+                    cate.taxanomy = entity.Taxanomy;
                     cateService.Update(cate);
                     return RedirectToAction("Index", "Categories");
                 }
@@ -174,5 +201,19 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
+        PagesService pageService = new PagesService();
+        [HttpPost]
+        public JsonResult GetAutoAll(string input, string gettype)
+        {
+            if (gettype == "1")
+            {
+                var listpage = pageService.GetPageAutoComplete(input);
+                return Json(listpage, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

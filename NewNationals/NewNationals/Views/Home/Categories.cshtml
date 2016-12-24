@@ -1,4 +1,27 @@
-﻿@model IEnumerable<ClassLibrary.Models.Category>
+﻿@using ClassLibrary.Commons
+@using ClassLibrary.Services
+@model IEnumerable<ClassLibrary.Models.Category>
+@{
+    if (ViewBag.GetTaxanomyCategories == null && ViewBag.GetTitleCategories == null && ViewBag.GetParentIdCategories.ToString() !="0")
+    {
+        var page = new PagesService().getPageHome();
+        if (page != null)
+        {
+            <div class="box-home">
+                <div class="header">
+                    <img src="~/Content/logo1.png" />
+                </div>
+                <div class="box-home-title">
+                    @CommonsHelper.RutGon(page.Name, 40)
+                </div>
+                <div class="box-home-content">
+                    @CommonsHelper.RutGon(page.Note, 220)
+                </div>
+                <a class="btn btn-info" href="/@page.Url">Đọc thêm</a>
+            </div>
+        }
+    }
+}
 @{
     if (Model.Count() > 0)
     {
