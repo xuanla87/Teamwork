@@ -19,7 +19,7 @@ namespace NewNationals.Controllers
         MenuService MENUS = new MenuService();
         CommentService COMMENTS = new CommentService();
         PageMetaService PAGEMETAS = new PageMetaService();
-        TagService TAGS=new TagService();
+        TagService TAGS = new TagService();
         public ActionResult Index()
         {
             var listCate = CATEGORIES.getTopCategory(42).ToList();
@@ -113,7 +113,7 @@ namespace NewNationals.Controllers
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
-           
+
             if (cate.ParentId != null)
             {
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
@@ -237,7 +237,7 @@ namespace NewNationals.Controllers
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
-         
+
             var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
             string output = "";
             if (meta.Count > 0)
@@ -263,8 +263,8 @@ namespace NewNationals.Controllers
                 }
                 lienket += "</div>";
             }
-            ViewBag.Year = "Năm: "+ entity.ModifiedDate.Year;
-            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name+ "</a>";
+            ViewBag.Year = "Năm: " + entity.ModifiedDate.Year;
+            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name + "</a>";
             ViewBag.TacGia = "Tác giả: CHƯA CODE ";// + entity.ModifiedDate.Year;
             ViewBag.ToChuc = "Tổ chức: CHƯA CODE ";//
             ViewBag.ListLienKet = lienket;
@@ -319,7 +319,7 @@ namespace NewNationals.Controllers
             return PartialView(child);
         }
 
-        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key,long? categoriesid)
+        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key, long? categoriesid)
         {
             ViewBag.SelectCategories = CATEGORIES.GetCategoriesSelectList();
             int pageNum = page ?? 1;
@@ -333,7 +333,7 @@ namespace NewNationals.Controllers
             {
                 pages = pages.Where(x => x.ModifiedDate.Year == year || x.CreateDate.Year == year);
             }
-            if (categoriesid>0)
+            if (categoriesid > 0)
             {
                 pages = pages.Where(x => x.CategoriesId == categoriesid);
             }
@@ -380,7 +380,7 @@ namespace NewNationals.Controllers
         }
         public PartialViewResult GetBoxCategories_LEFTMENU_2()
         {
-            var entity = CATEGORIES.GetCategories_LEFTMENU_2("LEFTMENU_1",0); // chưa sử dụng
+            var entity = CATEGORIES.GetCategories_LEFTMENU_2("LEFTMENU_1", 0); // chưa sử dụng
             return PartialView(entity);
         }
 
@@ -390,9 +390,9 @@ namespace NewNationals.Controllers
             var entity = PAGES.getLatest().Take(2).ToList();
             return PartialView(entity);
         }
-        public PartialViewResult NewRelated(long Id, long CateId,string Taxanomy)
+        public PartialViewResult NewRelated(long Id, long CateId, string Taxanomy)
         {
-            var entity = new List<Page>(); 
+            var entity = new List<Page>();
             //entity = PAGES.getByCategoriesId(CateId).Where(x => x.Id != Id).Take(2).ToList();
             entity = PAGES.getByCategoriesIdTaxanomy(CateId, Taxanomy).Where(x => x.Id != Id).Take(5).ToList();
             return PartialView(entity);
@@ -428,9 +428,31 @@ namespace NewNationals.Controllers
             return PartialView(input);
         }
 
-        public ActionResult SendMail()
+        public ActionResult SendMail(string stLink)
         {
-            return View();
+            if (!string.IsNullOrEmpty(stLink))
+            {
+                try
+                {
+                    var page = PAGES.getByUrl(stLink);
+                    ModelSendMails entity = new ModelSendMails();
+                    entity.PageTitle = "<a class=\"link\" href=\"" + stLink + "\">" + page.Name + "</a>";
+                    var st = "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+                    st += "Gửi Thư";
+                    ViewBag.Breadcrumb = st;
+                    return View(entity);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -440,7 +462,7 @@ namespace NewNationals.Controllers
             {
                 return View(input);
             }
-            return View(input);
+            return View();
         }
         public ActionResult PageError()
         {
@@ -461,7 +483,7 @@ namespace NewNationals.Controllers
                 if (string.IsNullOrEmpty(nametags))
                     count = 0;
                 else
-                count= TAGS.CountTags(nametags);
+                    count = TAGS.CountTags(nametags);
                 return count;
             }
             catch

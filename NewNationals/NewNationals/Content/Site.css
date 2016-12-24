@@ -777,3 +777,51 @@ h1.page-title {
     padding: 2px 6px;
     border-radius: 0px;
 }
+
+.fsendmail {
+    background: #eeeeee;
+    padding: 15px 30px;
+    border-left: 20px solid #0c5f40;
+}
+
+    .fsendmail .control-label {
+        text-align: left !important;
+    }
+
+    .fsendmail input, .fsendmail select, .fsendmail textarea {
+        max-width: 100% !important;
+    }
+
+    .fsendmail .link {
+        line-height: 34px;
+        color: #0c5f40;
+        font-weight: bold;
+    }
+
+        .fsendmail .link:hover {
+            color: #0c5f40;
+            text-decoration: none;
+        }
+
+    .fsendmail button {
+        background: #71b900;
+        color: #fff;
+        padding: 0px;
+        border: none;
+        line-height: 24px;
+        width: 100px;
+        text-align: center;
+    }
+
+        .fsendmail button i.fa {
+            background: #777;
+            width: 24px;
+            line-height: 24px;
+            float: left;
+        }
+
+h1.title {
+    margin: 0px 0px 15px 0px;
+    font-weight: bold;
+    font-size: 24px;
+}
