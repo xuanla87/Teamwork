@@ -2,6 +2,55 @@
     ViewBag.Title = "Gửi Email";
 }
 @model NewNationals.Models.ModelSendMails
+<style>
+    .fsendmail {
+    background: #eeeeee;
+    padding: 15px 30px;
+    border-left: 20px solid #0c5f40;
+}
+
+    .fsendmail .control-label {
+        text-align: left !important;
+    }
+
+    .fsendmail input, .fsendmail select, .fsendmail textarea {
+        max-width: 100% !important;
+    }
+
+    .fsendmail .link {
+        line-height: 34px;
+        color: #0c5f40;
+        font-weight: bold;
+    }
+
+        .fsendmail .link:hover {
+            color: #0c5f40;
+            text-decoration: none;
+        }
+
+    .fsendmail button {
+        background: #71b900;
+        color: #fff;
+        padding: 0px;
+        border: none;
+        line-height: 24px;
+        width: 100px;
+        text-align: center;
+    }
+
+        .fsendmail button i.fa {
+            background: #777;
+            width: 24px;
+            line-height: 24px;
+            float: left;
+        }
+
+h1.title {
+    margin: 0px 0px 15px 0px;
+    font-weight: bold;
+    font-size: 24px;
+}
+</style>
 <div class="main-page">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
@@ -69,6 +118,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.PageTitle, new { @class = "col-md-3 control-label" })
                             <div class="col-md-9">
+                                @Html.HiddenFor(m => m.PageTitle)
                                 @Html.Raw(Model.PageTitle)
                             </div>
                         </div>

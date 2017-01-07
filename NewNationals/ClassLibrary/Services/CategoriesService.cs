@@ -230,6 +230,64 @@ namespace ClassLibrary.Services
             }
             return options;
         }
+        public IEnumerable<SelectListItem> Categories_Search()
+        {
+            var categories = _db.Categories.Where(x => x.Id != -1).ToList();
+            // Initialise list and add first "All" item
+            List<SelectListItem> options = new List<SelectListItem>();
+            {
+                options.Add(new SelectListItem()
+                {
+                    Value = "0",
+                    Text = "--Chọn chuyên mục--"
+                });
+            };
+            // Get the top level parents
+            var parents = categories.Where(x => x.ParentId == null);
+            foreach (var parent in parents)
+            {
+                // Add SelectListItem for the parent
+                options.Add(new SelectListItem()
+                {
+                    Value = parent.Id.ToString(),
+                    Text = parent.Name
+                });
+                // Get the child items associated with the parent
+                var children = categories.Where(x => x.ParentId == parent.Id);
+                // Add SelectListItem for each child
+                foreach (var child in children)
+                {
+                    options.Add(new SelectListItem()
+                    {
+                        Value = child.Id.ToString(),
+                        Text = string.Format("|_..{0}", child.Name)
+                    });
+                    //-----------------------------------------------------------------------------
+                    // hien thi menu cap 3
+                    var parents3 = categories.Where(x => x.ParentId == child.Id);
+                    foreach (var parent3 in parents3)
+                    {
+                        // Add SelectListItem for the parent
+                        options.Add(new SelectListItem()
+                        {
+                            Value = parent3.Id.ToString(),
+                            Text = string.Format("|_..|_..{0}", parent3.Name)
+                        });
+                        // hien thi menu cap 4
+                        //var children3 = categories.Where(x => x.CategoryParentId == parent3.CategoryId);
+                        //foreach (var child3 in children3)
+                        //{
+                        //    options.Add(new SelectListItem()
+                        //    {
+                        //        Value = child3.CategoryId.ToString(),
+                        //        Text = string.Format("::..::..{0}", child3.CategoryName)
+                        //    });
+                        //}
+                    }
+                }
+            }
+            return options;
+        }
         /// <summary>
         /// Hàm trả về danh sách tất cả bản ghi
         /// </summary>
@@ -285,7 +343,7 @@ namespace ClassLibrary.Services
         }
         public Category GetParentChild(long? Id)
         {
-            return _db.Categories.FirstOrDefault(x => x.ParentId == Id);
+            return _db.Categories.FirstOrDefault(x => x.ParentId == Id && x.taxanomy != null);
         }
 
         public IEnumerable<Category> getTopCategory(int top)

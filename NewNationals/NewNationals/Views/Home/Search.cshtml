@@ -81,7 +81,7 @@
                     </div>
                 }
                 <div class="paging">
-                    @Html.PagedListPager(Model, page => Url.Content("/" + ViewBag.stUrl + "/?keyword=" + ViewBag.Keyword + "&&page=" + ViewBag.Year + "&&page=" + page))
+                    @Html.PagedListPager(Model, page => Url.Content("?keyword=" + ViewBag.Keyword + "&&page=" + page))
                 </div>
             </div>
             <div class="col-lg-4">

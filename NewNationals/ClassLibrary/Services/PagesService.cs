@@ -286,14 +286,16 @@ namespace ClassLibrary.Services
         }
         public Page getFistByCategoriesId(long CategoriesId)
         {
-            var list = (from p in _db.Pages
-                join c in _db.Categories on p.CategoriesId equals c.Id
-                where c.Id == CategoriesId || c.ParentId == CategoriesId
-                select p).Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
-            return list;
-            //_db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1)
-            //    .OrderByDescending(x => x.ModifiedDate)
-            //    .FirstOrDefault();
+            // sử dụng cho bài viết có thể lấy theo cha or con
+            //var list = (from p in _db.Pages
+            //    join c in _db.Categories on p.CategoriesId equals c.Id
+            //    where c.Id == CategoriesId || c.ParentId == CategoriesId
+            //    select p).Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).FirstOrDefault();
+            //return list;
+            // lấy bài viết riêng cho chuyên mục đó
+            return _db.Pages.Where(x => x.CategoriesId == CategoriesId && x.Status == 1)
+                .OrderByDescending(x => x.ModifiedDate)
+                .FirstOrDefault();
         }
         public IEnumerable<Page> getByCategoriesId(long CategoriesId)
         {
@@ -320,12 +322,20 @@ namespace ClassLibrary.Services
 
         public IEnumerable<Page> getLatest()
         {
-            return _db.Pages.Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
+            return _db.Pages.Where(x => x.Status == 1 && x.Taxanomy != "Page").OrderByDescending(x => x.ModifiedDate).Take(10).ToList();
         }
 
         public IEnumerable<Page> getAll()
         {
             return _db.Pages.Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate);
+        }
+        public IEnumerable<Page> GetSearchTags(string key)
+        {
+            var list = (from p in _db.Pages
+                        join c in _db.Tags on p.Id equals c.PageId
+                        where c.stTag == key
+                        select p).Where(x => x.Status == 1).OrderByDescending(x => x.ModifiedDate).ToList();
+            return list;
         }
 
         public List<Page> GetPageAutoComplete(string input)

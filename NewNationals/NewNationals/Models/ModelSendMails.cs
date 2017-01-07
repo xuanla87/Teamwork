@@ -8,7 +8,7 @@ namespace NewNationals.Models
 {
     public class ModelSendMails
     {
-        [Display(Name ="Tên Người Gửi")]
+        [Display(Name = "Tên Người Gửi")]
         public string FullName { get; set; }
         [Display(Name = "Email Người Gửi")]
         public string MailFrom { get; set; }

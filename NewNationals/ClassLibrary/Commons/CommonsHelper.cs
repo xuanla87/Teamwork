@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ClassLibrary.Models;
+using ClassLibrary.Services;
 
 namespace ClassLibrary.Commons
 {
@@ -63,7 +69,8 @@ namespace ClassLibrary.Commons
             var getStatus = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Mặc định", Value = "" },
-                new SelectListItem { Text = "Menu bên phải trong các bài viết KHÔNG thuộc 5 TIỂU BAN TAI NẠN GIAO THÔNG", Value = "LEFTMENU_2"}
+                new SelectListItem { Text = "Menu phải cấp cuối trong 5 TIỂU BAN TAI NẠN GIAO THÔNG", Value = "LEFTMENU_1"},
+                new SelectListItem { Text = "Menu bên phải trong các bài viết [KHÔNG] thuộc 5 TIỂU BAN TAI NẠN GIAO THÔNG", Value = "LEFTMENU_2"}
                 //new SelectListItem { Text = "Menu bên phải trong dạng bài viết thuộc TAI NẠN GIAO THÔNG ", Value = "LEFTMENU_1"},
             };
             return getStatus;
@@ -331,6 +338,73 @@ namespace ClassLibrary.Commons
             catch
             {
                 return "";
+            }
+        }
+        public string deCode(string stInput)
+        {
+            try
+            {
+                string EncryptionKey = "123456789";
+                byte[] cipherBytes = Convert.FromBase64String(stInput);
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(cipherBytes, 0, cipherBytes.Length);
+                            cs.Close();
+                        }
+                        stInput = Encoding.Unicode.GetString(ms.ToArray());
+                    }
+                }
+                return stInput;
+            }
+            catch (Exception ex)
+            {
+                string get = ex.ToString();
+                return null;
+            }
+
+        }
+        public static int SendEmailSystem(string MemberTo, string MemberFrom, string _Subject, string _body)
+        {
+            try
+            {
+                SettingService settingService = new SettingService();
+                var getemail = settingService.GetSettings("EMAIL_SEND");
+                var getpassemail = settingService.GetSettings("PASS_EMAIL_SEND");
+                string get = new CommonsHelper().deCode(getpassemail.stValue);
+                MailMessage mail = new MailMessage();
+                mail.To.Add(MemberTo);
+                mail.From = new MailAddress(MemberFrom);
+                mail.Subject = _Subject;
+                string Body = _body;
+                mail.Body = Body;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(getemail.stValue, new CommonsHelper().deCode(getpassemail.stValue));
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                LogSystemService logService = new LogSystemService();
+                var logs = new LogSystem();
+                logs.IPAddress = CommonsHelper.GetIpAddress;
+                logs.CreateDate = DateTime.Now;
+                logs.Messenger = "Tài khoản: " + HttpContext.Current.Session[CommonsHelper.SessionAdminCp] + " [Send Email Error:]" +
+                                 ex.ToString();
+                logs.Status = false;
+                logService.Insert(logs);
+                return 0;
             }
         }
     }

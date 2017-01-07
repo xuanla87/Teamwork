@@ -80,5 +80,11 @@ namespace NewNationals.Areas.AdminControlPanel.Models
 
         [Display(Name = "Chọn Template")]
         public string TemplatePage { get; set; }
+
+        [Display(Name = "Tác giả")]
+        public string TacGia { get; set; }
+
+        [Display(Name = "Tổ chức")]
+        public string ToChuc { get; set; }
     }
 }

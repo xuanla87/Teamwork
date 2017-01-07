@@ -28,12 +28,10 @@
             <div class="breadcrumb-trail breadcrumb">
                 @Html.Raw(ViewBag.Breadcrumb)
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <h1 class="page-title">
                     @ViewBag.Title
                 </h1>
-            </div>
-            <div class="col-lg-8">
                 <div class="box-search">
                     <table class="table">
                         <thead>
@@ -41,12 +39,13 @@
                             <th>Năm</th>
                             <th>Từ khóa</th>
                             <th>Đề mục</th>
-                            <th></th>
+                            <th>Tác giả</th>
+                            <th>Tổ chức</th>
                         </tr>
                         </thead>
                         <tr>
                             <td>
-                                <select id="slYear" name="slYear">
+                                <select id="slYear" title="Chọn năm cần tìm" name="slYear">
                                     <option value="">Chọn</option>
                                     @{
                                         int year = DateTime.Now.Year;
@@ -58,13 +57,19 @@
                                 </select>
                             </td>
                             <td>
-                                <input id="txtKeywords" name="txtKeywords" type="text" placeholder="Nhập từ khóa"/>
+                                <input id="txtKeywords" name="txtKeywords" title="Nhập từ khóa cần tìm" type="text" placeholder="Nhập từ khóa"/>
                             </td>
                             <td>
                                 @Html.DropDownList("CategoriesSearch", new SelectList(ViewBag.SelectCategories, "Value", "Text"), new {@class = "form-control"})
                             </td>
+                            <td>
+                                <input id="txtTacGia" name="txtTacGia" title="Nhập tên tác giả cần tìm" type="text" placeholder="Nhập tác giả"/>
+                            </td>
+                            <td>
+                                <input id="txtToChuc" name="txtToChuc" title="Nhập tên tổ chức cần tìm" type="text" placeholder="Nhập tổ chức"/>
+                            </td>
                             <td class="text-center">
-                                <button type="button" title="" class="btnsearch" onclick="SearchAdvanced()">Tìm kiếm</button>
+                                <button type="button" title="Nhấn vào đây để tìm kiếm" class="btnsearch" onclick=" SearchAdvanced() ">Tìm</button>
                                 @*<button type="button" class="btnsearch" onclick="Cancle()">Xóa</button>*@
                             </td>
                         </tr>

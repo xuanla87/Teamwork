@@ -39,7 +39,7 @@
                         </span>
                         <span>
                             <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
-                            <div style="float: right"><span style="cursor: pointer"><img onclick="Print('div_print');" src="~/Content/print.png"/></span>&nbsp;&nbsp;<span style="cursor: pointer"><img onclick="    SendEmail()" src="~/Content/email.png" /></span></div>
+                            <div style="float: right"><span style="cursor: pointer"><img onclick="Print('div_print');" src="~/Content/print.png"/></span>&nbsp;&nbsp;<span style="cursor: pointer"><img onclick="SendEmail('@ViewBag.Urls')" src="~/Content/email.png" /></span></div>
                             @*<a href="#" class="social-icon facebook">
                                 <i class="fa fa-facebook"></i>
                             </a>
@@ -111,7 +111,8 @@
         document.body.innerHTML = oldstr;
         return false;
     }
-    function SendEmail() {
-        alert('Email');
+    function SendEmail(Url) {
+        var url = "/SendMail?page=" + Url;
+        window.location = url;
     }
 </script>

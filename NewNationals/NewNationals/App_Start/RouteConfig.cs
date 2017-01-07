@@ -13,15 +13,25 @@ namespace NewNationals
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-                  name: "SendMail",
-                  url: "SendMail",
-                  defaults: new { controller = "Home", action = "SendMail", stUrl = UrlParameter.Optional }
-              );
+                name: "License/CheckLicense",
+                url: "License/CheckLicense",
+                defaults: new { controller = "License", action = "CheckLicense", stUrl = UrlParameter.Optional }
+            );
             routes.MapRoute(
                    name: "search",
                    url: "Search",
                    defaults: new { controller = "Home", action = "Search", stUrl = UrlParameter.Optional }
                );
+            routes.MapRoute(
+                  name: "SendMail",
+                  url: "SendMail",
+                  defaults: new { controller = "Home", action = "SendMail", stUrl = UrlParameter.Optional }
+              );
+            routes.MapRoute(
+                  name: "SearchTags",
+                  url: "SearchTags",
+                  defaults: new { controller = "Home", action = "SearchTags", stUrl = UrlParameter.Optional }
+              );
             routes.MapRoute(
                        name: "stUrl",
                        url: "{stUrl}",

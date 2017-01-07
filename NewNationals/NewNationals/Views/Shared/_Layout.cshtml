@@ -54,10 +54,10 @@
         var year = $("#slYear").val();
         var key = $("#txtKeywords").val();
         var categoriesid = $("#CategoriesSearch").val();
-        if (key != null || key != "") {
-            var url = "?year=" + year + "&&key=" + key + "&&categoriesid=" + categoriesid;
-            window.location.assign(url);
-        }
+        var tacgia = $("#txtTacGia").val();
+        var tochuc = $("#txtToChuc").val();
+        var url = "?year=" + year + "&&key=" + key + "&&categoriesid=" + categoriesid + "&&tacgia=" + tacgia + "&&tochuc=" + tochuc;
+        window.location.assign(url);
     };
 
     function Timkiem() {

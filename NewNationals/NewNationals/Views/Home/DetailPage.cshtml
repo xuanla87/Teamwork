@@ -9,15 +9,15 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">
-                <img src="~/Content/logo.png" />
+                <img src="~/Content/logo.png"/>
             </a>
         </div>
         <div class="navbar-collapse collapse">
             @Html.Action("MenuTop")
             <div class="form-search">
                 <div class="search-body">
-                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
-                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text"/>
+                    <button class="btn-search" onclick=" Timkiem() " type="button"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 @Html.Raw(ViewBag.Breadcrumb)
             </div>
             <div class="col-lg-12">
-                <div class="page-body">
+                <div class="page-body" id="div_print">
                     <h1 class="page-title">@CommonsHelper.VietHoaKyTuDauTien(Model.Name)</h1>
                     <div class="time-social">
                         <span class="time">
@@ -36,6 +36,7 @@
                         </span>
                         <span>
                             <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                            <div style="float: right"><span style="cursor: pointer"><img onclick=" Print('div_print'); " src="~/Content/print.png" /></span>&nbsp;&nbsp;<span style="cursor: pointer"><img onclick="SendEmail('@ViewBag.Urls') " src="~/Content/email.png" /></span></div>
                             @*<a href="#" class="social-icon facebook">
                                 <i class="fa fa-facebook"></i>
                             </a>
@@ -58,3 +59,20 @@
         </div>
     </div>
 </div>
+<script>
+
+    function Print(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+    function SendEmail(Url) {
+        var url = "/SendMail?page=" + Url;
+        window.location = url;
+    }
+</script>

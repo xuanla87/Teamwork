@@ -54,6 +54,12 @@ namespace ClassLibrary.Models
         [StringLength(50)]
         public string Taxanomy { get; set; }
 
+        [StringLength(250)]
+        public string TacGia { get; set; }
+
+        [StringLength(250)]
+        public string ToChuc { get; set; }
+
 
     }
 }

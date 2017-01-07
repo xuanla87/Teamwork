@@ -1,0 +1,13 @@
+﻿@model List<ClassLibrary.Models.Tag>
+@{
+    if (Model.Count > 0)
+    {
+        <div class="pagetag">
+            @foreach (var item in Model)
+                {
+                <a href="/SearchTags?tag=@item.stTag" title="@item.stTag">@item.stTag (@Html.Action("CountTags", new { nametags = @item.stTag }))</a>
+            }
+        </div>
+    }
+}
+

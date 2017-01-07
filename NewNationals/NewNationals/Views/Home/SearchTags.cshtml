@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Tìm kiếm theo Tags";
+}
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ClassLibrary.Models.Page>
+<div class="main-page">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <img src="~/Content/logo.png" />
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            @Html.Action("MenuTop")
+            <div class="form-search">
+                <div class="search-body">
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
+                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content page-in-category">
+        <div class="row">
+            <div class="breadcrumb-trail breadcrumb">
+                @Html.Raw(ViewBag.Breadcrumb)
+            </div>
+            <div class="col-lg-12">
+                <h1 class="page-title">
+                    @ViewBag.Title
+                </h1>
+            </div>
+            <div class="col-lg-8">
+                @foreach (var item in Model)
+            {
+                    <div class="item">
+                        <h3 class="title">
+                            <a href="/@item.Url" title="@item.Name">
+                                @item.Name.ToUpper()
+                            </a>
+                        </h3>
+                        <div class="time-social">
+                            <span class="time">
+                                @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                            </span>
+                            <span>
+                                <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                                @*<a href="#" class="social-icon facebook">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    <a href="#" class="social-icon twitter">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon google">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                    <a href="#" class="social-icon linkedin">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>*@
+                            </span>
+                        </div>
+                        <div class="thumbnail">
+                            <a href="/@item.Url" title="@item.Name">
+                                <img alt="@item.Name" src="@item.Thumbnail" />
+                            </a>
+                        </div>
+                        <div class="description">
+                            @item.Note
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <a href="/@item.Url" title="@item.Name">
+                            Đọc thêm
+                        </a>
+                    </div>
+                }
+                <div class="paging">
+                    @Html.PagedListPager(Model, page => Url.Content("?tag=" + ViewBag.Keyword + "&&page=" + page))
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box-right">
+                    <div class="header">
+                        Tin mới ra
+                    </div>
+                    <div class="box-body">
+                        @Html.Action("getLatestNews")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

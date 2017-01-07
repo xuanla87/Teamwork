@@ -34,8 +34,11 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            @Html.TextBox("SearchString", null, new { @placeholder = "Từ khóa tìm kiếm...", @autocomplete = "off", @class = "form-control" })
+                        <div class="col-lg-3 col-md-3">
+                            @Html.DropDownList("CategoriesSearch", new SelectList(ViewBag.SelectCategories, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            @Html.TextBox("SearchString", null, new { @placeholder = "Tìm theo tiêu đề..", @autocomplete = "off", @class = "form-control" })
                         </div>
                         <div class="col-lg-2 col-md-2">
                             @Html.TextBox("FromDate", null, new { @placeholder = "Từ ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "FromDate" })
@@ -45,8 +48,8 @@
                             @Html.TextBox("ToDate", null, new { @placeholder = "Đến ngày...", @autocomplete = "off", @class = "form-control", @dataprovide = "datepicker", id = "ToDate" })
                             <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
                         </div>
-                        <div class="col-lg-4 col-md-4">
-                            <button class="btn btn-primary btn-info" onclick=" fSearch() "><i class="fa fa-filter"></i> Lọc dữ liệu</button>
+                        <div class="col-lg-2 col-md-2">
+                            <button class="btn btn-primary btn-info" onclick=" fSearch() "><i class="fa fa-filter"></i> Lọc</button>
                             <button class="btn btn-primary btn-danger" onclick=" endSearch() "><i class="fa fa-close"></i> Bỏ lọc</button>
                         </div>
                     </div>
@@ -181,7 +184,22 @@
                         </tbody>
                     </table>
                     <div class="pull-right">
-                        @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page + "&SearchString=" + ViewBag.SearchString + "&FromDate=" + ViewBag.FromDate + "&ToDate=" + ViewBag.ToDate))
+                        @{
+                            string strsearch = "";
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.CategoriesSearch))
+                        {
+                            strsearch += "&&CategoriesSearch=" + ViewBag.CategoriesSearch;
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.SearchString))
+                        {
+                            strsearch += "&&SearchString=" + ViewBag.SearchString;
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.FromDate) && !string.IsNullOrEmpty(ViewBag.ToDate))
+                        {
+                            strsearch += "&&FromDate=" + ViewBag.FromDate + "&&ToDate=" + ViewBag.ToDate;
+                        }
+                        @Html.PagedListPager(Model, page => Url.Content("Index?page=" + page + strsearch))
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -291,7 +309,7 @@
         });
     }
     function fSearch() {
-        var url = "Index?page=1&SearchString=" + $("#SearchString").val() + "&FromDate=" + $("#FromDate").val() + "&ToDate=" + $("#ToDate").val();
+        var url = "/AdminControlPanel/Page/Index?page=1&CategoriesSearch=" + $("#CategoriesSearch").val() + "&SearchString=" + $("#SearchString").val() + "&FromDate=" + $("#FromDate").val() + "&ToDate=" + $("#ToDate").val();
         window.location.assign(url);
     }
     function endSearch() {

@@ -21,8 +21,9 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
         TagService tagService=new TagService();
         PageMetaService pageMetaService=new PageMetaService();
         // GET: AdminControlPanel/Page
-        public ActionResult Index(int? page, string SearchString, string FromDate, string ToDate)
+        public ActionResult Index(int? page, string CategoriesSearch, string SearchString, string FromDate, string ToDate)
         {
+            ViewBag.SelectCategories = catesService.Categories_Search();
             int pageNum = page ?? 1;
             var showlist = pagService.ListAllPage();
             var listpage = new List<Page>();
@@ -52,7 +53,11 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             }
             if (!string.IsNullOrEmpty(SearchString))
             {
-                showlist = showlist.Where(x => x.Name.Contains(SearchString) || x.Title.Contains(SearchString) || x.Keywords.Contains(SearchString) || x.Description.Contains(SearchString) || x.Content.Contains(SearchString) || x.Note.Contains(SearchString));
+                showlist = showlist.Where(x => x.Name.Contains(SearchString));
+            }
+            if (CategoriesSearch != "0" && !string.IsNullOrEmpty(CategoriesSearch))
+            {
+                showlist = showlist.Where(x => x.CategoriesId == long.Parse(CategoriesSearch));
             }
             try
             {
@@ -80,10 +85,13 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             catch
             {
             }
+            if (CategoriesSearch != "0")
+                ViewBag.CategoriesSearch = CategoriesSearch;
             ViewBag.page = page;
             ViewBag.SearchString = SearchString;
             ViewBag.FromDate = FromDate;
             ViewBag.ToDate = ToDate;
+            ViewBag.Link = "/AdminControlPanel/Page/Index";
             return View(showlist.ToPagedList(pageNum, 20));
         }
 
@@ -145,6 +153,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = entity.Taxanomy;
+                    page.TacGia = entity.TacGia;
+                    page.ToChuc = entity.ToChuc;
                     pagService.Insert(page);
                     long getid = page.Id;
                     string geturl = page.Url + "-" + getid;
@@ -276,6 +286,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
             page.Taxanomy = entity.Taxanomy;
             page.Tag = gettag; // hiển thị tags ra bên view
             page.Taxanomy = entity.Taxanomy;
+            page.TacGia = entity.TacGia;
+            page.ToChuc = entity.ToChuc;
             if (pagtemplate != null)
                 page.TemplatePage = pagtemplate.stKey;
             return View(page);
@@ -311,6 +323,8 @@ namespace NewNationals.Areas.AdminControlPanel.Controllers
                     page.Home = entity.Home;
                     page.CategoriesId = entity.CategoriesId;
                     page.Taxanomy = entity.Taxanomy;
+                    page.TacGia = entity.TacGia;
+                    page.ToChuc = entity.ToChuc;
                     pagService.Update(page);
                     //---------------------------------------------------------
                     // xóa toàn bộ tag của bài viết

