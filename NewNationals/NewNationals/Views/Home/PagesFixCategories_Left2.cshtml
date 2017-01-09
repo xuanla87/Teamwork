@@ -54,6 +54,7 @@
                     </div>
                     <div class="page-content">
                         @Html.Raw(Model.Content)
+                        <input type="hidden" id="CateUrl" value="@ViewBag.CateUrl" />
                     </div>
                     @Html.Raw(ViewBag.ListFile)
                     @Html.Raw(ViewBag.ListLienKet)
@@ -122,4 +123,5 @@
         var url = "/SendMail?page=" + Url;
         window.location = url;
     }
+ 
 </script>

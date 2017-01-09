@@ -241,6 +241,7 @@ namespace NewNationals.Controllers
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
                 ViewBag.CategoriesId = cate.Id;
             }
+            ViewBag.CateUrl = "/" + cate.Url;
             return PartialView(entity);
         }
         /// <summary>
@@ -316,6 +317,7 @@ namespace NewNationals.Controllers
                 ViewBag.CategoriesId = cate.ParentId;
                 ViewBag.CategoriesName = CATEGORIES.getById(cate.Id).Name;
             }
+            ViewBag.CateUrl = "/" + cate.Url;
             return PartialView(entity);
         }
 
@@ -337,9 +339,11 @@ namespace NewNationals.Controllers
                 stLink += "" + entity.Name + "";
             }
             ViewBag.Breadcrumb = stLink;
+            ViewBag.CateUrl = cate.Url;
             //stLink += "<a class=\"page-home\" href=\"/\">Safevietnam</a> | ";
             //stLink += "" + entity.Name + "";
             //ViewBag.Breadcrumb = stLink;
+            ViewBag.CateUrl = "/" + cate.Url;
             return PartialView(entity);
         }
 
@@ -357,7 +361,7 @@ namespace NewNationals.Controllers
             return PartialView(child);
         }
 
-        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key, long? categoriesid,string tacgia,string tochuc)
+        public PartialViewResult PageByCategories(string stUrl, int? page, int? year, string key, long? categoriesid, string tacgia, string tochuc)
         {
             ViewBag.SelectCategories = CATEGORIES.GetCategoriesSelectList();
             int pageNum = page ?? 1;
@@ -626,7 +630,7 @@ namespace NewNationals.Controllers
                         logs.Status = false;
                         logService.Insert(logs);
                     }
-                    catch 
+                    catch
                     {
                     }
                     ModelState.AddModelError("", "Gửi thông tin thành công!");

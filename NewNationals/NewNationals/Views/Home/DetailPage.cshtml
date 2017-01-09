@@ -9,15 +9,15 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/" class="navbar-brand">
-                <img src="~/Content/logo.png"/>
+                <img src="~/Content/logo.png" />
             </a>
         </div>
         <div class="navbar-collapse collapse">
             @Html.Action("MenuTop")
             <div class="form-search">
                 <div class="search-body">
-                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text"/>
-                    <button class="btn-search" onclick=" Timkiem() " type="button"><i class="glyphicon glyphicon-search"></i></button>
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
+                    <button class="btn-search" onclick="Timkiem()" type="button"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
             </div>
         </div>
@@ -38,21 +38,22 @@
                             <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
                             <div style="float: right"><span style="cursor: pointer"><img onclick=" Print('div_print'); " src="~/Content/print.png" /></span>&nbsp;&nbsp;<span style="cursor: pointer"><img onclick="SendEmail('@ViewBag.Urls') " src="~/Content/email.png" /></span></div>
                             @*<a href="#" class="social-icon facebook">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                            <a href="#" class="social-icon twitter">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-icon google">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                            <a href="#" class="social-icon linkedin">
-                                <i class="fa fa-linkedin"></i>
-                            </a>*@
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="#" class="social-icon twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                                <a href="#" class="social-icon google">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                                <a href="#" class="social-icon linkedin">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>*@
                         </span>
                     </div>
                     <div class="page-content">
                         @Html.Raw(Model.Content)
+                        <input type="hidden" id="CateUrl" value="@ViewBag.CateUrl" />
                     </div>
                 </div>
             </div>
@@ -60,7 +61,6 @@
     </div>
 </div>
 <script>
-
     function Print(printpage) {
         var headstr = "<html><head><title></title></head><body>";
         var footstr = "</body>";
